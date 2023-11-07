@@ -23,4 +23,22 @@ jobs:
         pip install -r requirements.txt  
 
     - name: Run Python script
+      run: python Code.py
+  build1:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt  
+
+    - name: Run Python script
       run: python Code.py  
