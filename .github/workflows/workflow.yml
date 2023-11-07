@@ -6,26 +6,20 @@ on:
       - main  # Adjust the branch name as needed
 
 jobs:
-  setup:
-    runs-on: ubuntu-latest  # You can choose a different runner if needed
+  build:
+    runs-on: ubuntu-latest 
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.8  # You can specify the Python version you need
+        python-version: 3.8  
 
     - name: Install dependencies
-      run: pip install -r requirements.txt  # Modify this to match your requirements file
+      run: pip install -r requirements.txt  
 
-  run:
-    needs: setup  # This stage depends on the 'setup' stage
-
-    runs-on: ubuntu-latest  # You can choose a different runner if needed
-
-    steps:
     - name: Run Python script
-      run: python Code.py  # Replace 'your_script.py' with your script name
+      run: python Code.py  
