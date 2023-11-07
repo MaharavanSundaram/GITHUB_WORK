@@ -1,34 +1,31 @@
-name: Python Script
+name: Python CI
 
 on:
   push:
     branches:
-      - main  # Change this to your repository's default branch
+      - main  # Adjust the branch name as needed
 
 jobs:
-  build:
-    runs-on: ubuntu-20.04
+  setup:
+    runs-on: ubuntu-latest  # You can choose a different runner if needed
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v2
       with:
-        python-version: 3.9
+        python-version: 3.8  # You can specify the Python version you need
 
     - name: Install dependencies
-      run: |
-        pip install -r requirements.txt  
+      run: pip install -r requirements.txt  # Modify this to match your requirements file
 
-  deploy:
-    needs: [build]
-    runs-on: ubuntu-20.04
+  run:
+    needs: setup  # This stage depends on the 'setup' stage
+
+    runs-on: ubuntu-latest  # You can choose a different runner if needed
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
     - name: Run Python script
-      run: python Code.py  
+      run: python Code.py  # Replace 'your_script.py' with your script name
