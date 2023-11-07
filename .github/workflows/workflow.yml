@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -26,5 +27,8 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Run Python script
       run: python Code.py  
