@@ -1,0 +1,204 @@
+%%=============================================================================
+% Universal template for LaTeX document in Bosch Corporate Design (English)
+% for Bosch LaTeX Style v3.4
+% Author:       Stephan.Simon@de.bosch.com                           2017-01-08
+%%-----------------------------------------------------------------------------
+% Copyright (c) 2001-2018 Robert Bosch GmbH and its subsidiaries.
+% These LaTeX styles and templates and the accompanying materials are made
+% available under the terms of the Bosch Internal Open Source License v4 which
+% accompanies this distribution, and is available at
+% http://bios.intranet.bosch.com/bioslv4.txt
+%%=============================================================================
+
+\usepackage{hyperref}
+
+\usepackage[english]{babel} % for English text only
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype} % improves font spacing, needs pdfTEX >= 1.20
+%\usepackage{tabu} % easy-to-use tables
+%\usepackage[table,dvipsnames]{xcolor} % colored tables
+%\usepackage{amsmath}
+
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+
+% Bosch style and its primary options, COMMA-SEPARATED, NO EMPTY LINES!
+\usepackage[
+	Language = English,
+	Format = A4portrait,
+	isSerif = false,
+	BaseColor = Gray,
+	SgColor = Multi,
+	SgPlace = Top,
+	HeaderBg = Gray,
+	isShallowTitle = true,
+	TopWS = 0,
+	BottomWS = 1,
+	isLeftWS = false,
+	isRightWS = false,
+	EyeCatcherMode = Small,
+	NumOfHinDiag = 98,
+	SuperStripeHeightPercentOfH = 100,
+	HeadHeightPortrait = 2,
+	HeadHeightLandscape = 5,
+	HorzSpacePortrait = 4.5,
+	HorzSpaceLandscape = 1,
+	VertSpacePortrait = 1,
+	VertSpaceLandscape = 1.5,
+	isGrid = false,
+	]{bosch}
+% Invoke the universal Bosch report pagestyle.
+\pagestyle{boschrep}
+
+%%-----------------------------------------------------------------------------
+% Customization of bosch style.
+% Any customization lines can be deleted if not needed!
+% Leaving the arguments empty yields the same result except page numbering
+% with \RBpage{} which is disabled by empty argument.
+%%-----------------------------------------------------------------------------
+% confidentiality class from -1 (no footer) to 3 (strictly confidential)
+\RBconfidentiality{0}
+\RBpage{Simple}% { | Simple | Last | LinkLast }
+
+\newcommand{\BSTdocumentNumber}[1]{\def\@BSTdocumentNumber{#1}}
+\newcommand{\@BSTdocumentNumber}{}
+\newcommand{\BSTdocumentRevision}[1]{\def\@BSTdocumentRevision{#1}}
+\newcommand{\@BSTdocumentRevision}{}
+\newcommand{\BSTdocumentReleaseDate}[1]{\def\@BSTdocumentReleaseDate{#1}}
+\newcommand{\@BSTdocumentReleaseDate}{}
+\newcommand{\BSTtechnicalReferenceCodes}[1]{\def\@BSTtechnicalReferenceCodes{#1}}
+\newcommand{\@BSTtechnicalReferenceCodes}{}
+\newcommand{\BSTdocumentType}[1]{\def\@BSTdocumentType{#1}}
+\newcommand{\@BSTdocumentType}{}
+
+\RBdepartmentA{\@BSTdocumentNumber}
+\RBversion{\@BSTdocumentRevision}
+\RBnodate{}
+\RBextraFooterField{\@BSTdocumentReleaseDate}
+%%-----------------------------------------------------------------------------
+% Other customization - taste-dependent ...
+%%-----------------------------------------------------------------------------
+% numbering depth for headings and table of contents
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+% Formatting (see Klöckl, p.77)
+\setcounter{topnumber}{5}           % max num. of floats at head
+\setcounter{bottomnumber}{5}        % max num. of floats at foot
+\setcounter{totalnumber}{10}        % max num. of floats
+\renewcommand{\topfraction}{1.0}    % max. part of floats at head
+\renewcommand{\bottomfraction}{1.0} % max. part of floats at foot
+\renewcommand{\textfraction}{0.0}   % min. part of text
+\renewcommand{\dbltopfraction}{1.0} % for wide floats in twocolumn
+\renewcommand{\floatpagefraction}{1.0} % must be filled before new floats page
+\renewcommand{\dblfloatpagefraction}{1.0} % for wide floats in twocolumn
+
+% Naming of figures
+\addto\extrasenglish{\renewcommand{\figurename}{Fig.}}
+\addto\extrasngerman{\renewcommand{\figurename}{Fig.}}
+\newcommand{\Fig}{Fig.\xspace}
+\newcommand{\Abb}{Abb.\xspace}
+
+%%-----------------------------------------------------------------------------
+% Your own shortcuts and commands
+%%-----------------------------------------------------------------------------
+
+% Trennregeln
+\hyphenation{}
+% Avoid that tables float around, add this: \begin{table}[H]
+\usepackage{float}
+\restylefloat{table}
+
+%%-----------------------------------------------------------------------------
+% Add support for Python syntax highlighting
+%%-----------------------------------------------------------------------------
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+\newcommand{\paragraphnl}[1]{\paragraph{#1}\mbox{}\\}
+
+\lstset{frame=tb,
+	language=Python,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{BoschDarkGray100},
+	keywordstyle=\color{BoschDarkBlue100},
+	commentstyle=\color{BoschDarkGreen100},
+	stringstyle=\color{BoschFuchsia100},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=3
+}
+% Add syntax highlighting for C code
+\lstset{
+	morekeywords={uint16\_t,int16\_t,uint8\_t,char,const,default,double,%
+		else,enum,extern,float,for,goto,if,int,long,register,return,%
+		short,signed,sizeof,static,struct,switch,typedef,union,unsigned,%
+		void,volatile,while}
+}
+
+
+%%-----------------------------------------------------------------------------
+% \newcommand{\bstfirstpage}
+%%-----------------------------------------------------------------------------
+\newcommand{\bstfirstpage}{
+	\RBchangeOption{isShallowTitle}{false}
+	\RBchangeOption{NumOfHinDiag}{54}
+	\RBchangeOption{HeadHeightPortrait}{4}
+	%\RBchangeOption{SgColor}{LightGray}	
+	\RBchangeOption{HeaderBg}{Empty}
+	\RBmyBackPic{Bosch-SupergraphicUp-Gray-Medium}
+	%\RBmyBackPicZoomAngleRelxRely{}{}{}{.5}{.958}
+	
+	\vspace*{450px}
+	\renewcommand{\arraystretch}{1.5} % Space between rows
+	\begin{center}
+		\begin{tabular}{l p{12cm}}	
+			\multicolumn{2}{l}{\textbf{\Large \@BSTdocumentType}} \\
+			Document revision	& \@BSTdocumentRevision \\
+			Document release date	& \@BSTdocumentReleaseDate \\
+			Document number	& \@BSTdocumentNumber \\
+			Technical reference code(s)	& \@BSTtechnicalReferenceCodes  \\
+			Notes &	Data and descriptions in this document are subject to change without notice. Product photos and pictures are for illustration purposes only and may differ from the real product appearance.  \\
+		\end{tabular}
+	\end{center}
+	
+	\newpage
+	\RBmyBackPic{}
+	\RBchangeOption{isShallowTitle}{true}
+	\RBchangeOption{NumOfHinDiag}{98}
+	\RBchangeOption{HeadHeightPortrait}{2}
+	\setlength{\unitlength}{1pt}
+	}
+
+%%-----------------------------------------------------------------------------
+% \newcommand{\bstlastpage}
+%%-----------------------------------------------------------------------------
+\newcommand{\bstlastpage}{
+	\newpage
+	\thispagestyle{empty}
+	\setlength{\headheight}{0pt}
+	\setlength{\headsep}{0pt}
+	\setlength{\topmargin}{0pt}
+	\setlength{\evensidemargin}{0pt}
+	\setlength{\oddsidemargin}{0pt}
+	
+	\begin{center}
+		\makebox[\textwidth]{\includegraphics[width=\paperwidth, trim={0 25cm 0 0}, clip]{Bosch-SupergraphicUp-Gray-Medium}}
+	\end{center}
+	
+	Bosch Sensortec GmbH \\
+	Gerhard-Kindler-Straße 9 \\
+	72770 Reutlingen / Germany
+	
+	www.bosch-sensortec.com
+	
+	Modifications reserved | Printed in Germany \\
+	Preliminary - specifications subject to change without notice \\
+	Document number: \@BSTdocumentNumber \\
+	Revision \@BSTdocumentRevision
+}

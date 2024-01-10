@@ -1,0 +1,579 @@
+\subsection{COINES Python functions}
+
+As coinespy is only a wrapper on top of coinesAPI, the following API documentation is limited to the wrapper only. Details about meaning of variables and functionality can be found in the corresponding coinesAPI documentation in the chapter above.
+\vspace{12pt}
+The following function calls are defined within the class \texttt{CoinesBoard}. Thus in order to access the functions, the user has to create an object of that class first.
+
+\begin{lstlisting}[language=python]
+	import coinespy as cpy
+	coinesboard = cpy.CoinesBoard()
+\end{lstlisting}
+
+\subsubsection{coinespy API calls: Interface and board information}
+
+\paragraph{open\_comm\_interface}
+Sets the communication interface between board and PC to USB, Serial or BLE.
+
+\begin{lstlisting}[language=python]
+coinesboard.open_comm_interface(interface=CommInterface.USB, serial_com_config: SerialComConfig = None,
+ble_com_config: BleComConfig = None) -> ErrorCodes
+\end{lstlisting}
+
+For the definition of \texttt{CommInterface}, refer to \ref{CommInterface}.
+
+\paragraph{close\_comm\_interface}
+Disposes the resources used by the USB/serial/BLE communication.
+
+\begin{lstlisting}[language=python]
+coinesboard.close_comm_interface(arg=None) -> ErrorCodes
+\end{lstlisting}
+
+\paragraph{get\_board\_info}
+Obtains board specific information.
+
+\begin{lstlisting}[language=python]
+BoardInfo = coinesboard.get_board_info()
+
+# Return:
+BoardInfo.HardwareId    # Hardware ID
+BoardInfo.SoftwareId    # Firmware version information
+BoardInfo.Board         # Board type
+BoardInfo.ShuttleID     # ID of shuttle, in case a shuttle is detected
+\end{lstlisting}
+
+\paragraph{scan\_ble\_devices}
+This API is used to connect to BLE Adapter and return list of BLE peripherals found during BLE scan.
+
+\begin{lstlisting}
+ble_info, peripheral_count  = coinesboard.scan_ble_devices(scan_timeout_ms=0) -> Tuple[list, int]
+\end{lstlisting}
+
+For the definition of parameters, refer to \ref{coinesScanBleDevices}.
+
+\paragraph{echo\_test}
+This API is used to test the communication.
+
+\begin{lstlisting}
+coinesboard.echo_test(data: List[int]) -> ErrorCodes
+\end{lstlisting}
+
+Arguments:
+\begin{itemize}
+	\item \texttt{data}: Data to be sent for testing.
+\end{itemize}
+
+\subsubsection{coinespy API calls: GPIO oriented calls}
+
+\paragraph{set\_pin\_config}
+Configures the state, level and direction of a GPIO pin
+
+\begin{lstlisting}[language=python]
+coinesboard.set_pin_config(pin_number: MultiIOPin, direction: PinDirection, output_state: PinValue) -> ErrorCodes
+\end{lstlisting}
+
+For the definition of \texttt{MultiIOPin}, refer to \ref{MultiIOPin}. For the definition of \texttt{PinDirection}, refer to \ref{PinDirection}.
+For \texttt{PinValue}, refer to \ref{PinValue}.
+
+\paragraph{get\_pin\_config}
+Obtains information regarding the Pin's state, level and direction.
+
+\begin{lstlisting}[language=python]
+PinConfigInfo = coinesboard.get_pin_config(pin_number: MultiIOPin)
+
+# Return:
+PinConfigInfo.direction         # 0: INPUT, 1: OUTPUT
+PinConfigInfo.switch_state       # 0: OFF, 1: ON
+PinConfigInfo.level             # 1: HIGH, 0: LOW
+\end{lstlisting}
+
+\paragraph{set\_shuttleboard\_vdd\_vddio\_config}
+
+Set the VDD and VDDIO voltage level.
+
+\begin{lstlisting}
+coinesboard.set_shuttleboard_vdd_vddio_config(vdd_val: float = None, vddio_val: float = None) -> ErrorCodes
+
+# Example: coinesboard.set_shuttleboard_vdd_vddio_config(3.3, 3.3)
+\end{lstlisting}
+
+\paragraph{set\_vdd}
+
+Set the VDD voltage level.
+
+\begin{lstlisting}
+coinesboard.set_vdd(vdd_val: float = None) -> ErrorCodes
+
+# Example: coinesboard.set_vdd(3.3)
+\end{lstlisting}
+
+\paragraph{set\_vddio}
+
+Set the VDDIO voltage level.
+
+\begin{lstlisting}
+coinesboard.set_vddio(vdd_val: float = None) -> ErrorCodes
+
+# Example: coinesboard.set_vddio(3.3)
+\end{lstlisting}
+
+\subsubsection{coinespy API calls: Sensor communication}
+
+For the definition of \texttt{SPIBus}, refer to \ref{SPIBus}. For the definition of \texttt{I2CBus}, refer to \ref{I2CBus}.
+
+\paragraph{config\_i2c\_bus}
+Configures the I\textsuperscript{2}C bus.
+
+\begin{lstlisting}
+coinesboard.config_i2c_bus(bus: I2CBus, i2c_address: int, i2c_mode: I2CMode) -> ErrorCodes
+\end{lstlisting}
+
+For the definition of \texttt{I2CMode}, refer to \ref{I2CMode}.
+
+\paragraph{config\_spi\_bus}
+Configures the SPI bus of the board.
+\begin{lstlisting}
+coinesboard.config_spi_bus(bus: SPIBus, cs_pin: MultiIOPin, spi_speed=SPISpeed, spi_mode=SPIMode) -> ErrorCodes
+\end{lstlisting}
+
+For the definition of \texttt{MultiIOPin}, refer to \ref{MultiIOPin}. For the definition of \texttt{SPISpeed}, refer to \ref{SPISpeed}. For the definition of \texttt{SPIMode}, refer to \ref{SPIMode}.
+
+\paragraph{deconfig\_i2c\_bus}
+This API is used to de-configure the I\textsuperscript{2}C bus
+
+\begin{lstlisting}
+coinesboard.deconfig_i2c_bus(bus: I2CBus) -> ErrorCodes
+\end{lstlisting}
+
+\paragraph{deconfig\_spi\_bus}
+This API is used to de-configure the SPI bus
+
+\begin{lstlisting}
+coinesboard.deconfig_spi_bus(bus: SPIBus) -> ErrorCodes
+\end{lstlisting}
+
+\paragraph{write\_i2c}
+Writes 8-bit register data to the I\textsuperscript{2}C
+
+\begin{lstlisting}
+coinesboard.write_i2c(bus: I2CBus, register_address: int, register_value: int, sensor_interface_detail: int = None) -> ErrorCodes
+\end{lstlisting}
+
+For the definition of parameters, refer to \ref{CoinesWriteI2c}.
+
+\paragraph{read\_i2c}
+Reads 8-bit register data from the I\textsuperscript{2}C
+
+\begin{lstlisting}
+register_data = coinesboard.read_i2c(bus: I2CBus, register_address: int, number_of_reads=1, sensor_interface_detail: int = None)
+\end{lstlisting}
+
+For the definition of parameters, refer to \ref{CoinesReadI2c}.
+
+\paragraph{write\_spi}
+Writes 8-bit register data to the SPI device
+
+\begin{lstlisting}
+coinesboard.write_spi(bus: SPIBus, register_address: int, register_value: int, sensor_interface_detail: int = None) -> ErrorCodes
+\end{lstlisting}
+
+
+For the definition of parameters, refer to \ref{CoinesWriteSpi}.
+
+\paragraph{read\_spi}
+Reads 8-bit register data from the SPI device.
+
+\begin{lstlisting}
+register_data = coinesboard.read_spi(bus: SPIBus, register_address: int, number_of_reads=1, sensor_interface_detail: int = None)
+\end{lstlisting}
+
+For the definition of parameters, refer to \ref{CoinesReadSpi}.
+
+\paragraph{delay\_milli\_sec}
+Introduces delay in millisecond.
+
+\begin{lstlisting}
+coinesboard.delay_milli_sec(time_in_milli_sec=100)
+\end{lstlisting}
+
+\paragraph{delay\_micro\_sec}
+Introduces delay in microsecond.
+
+\begin{lstlisting}
+coinesboard.delay_micro_sec(time_in_micro_sec=1)
+\end{lstlisting}
+
+\subsubsection{coinespy API calls: Streaming feature}
+
+\paragraph{config\_streaming}
+
+Sets the configuration for streaming sensor data.
+
+\begin{lstlisting}[language=python]
+coinesboard.config_streaming(sensor_id: int,
+	stream_config: StreamingConfig, data_blocks: StreamingBlocks) -> ErrorCodes
+\end{lstlisting}
+
+Arguments:
+\begin{itemize}
+	\item \texttt{sensor\_id}: An integer number that can be used as identifier/index to the sensor data that will be streamed for this setting
+
+	\item \texttt{stream\_config}: Contains information regarding interface settings and streaming configuration.
+	\item  \texttt{data\_blocks}: Contains information regarding numbers of blocks to read, register address and size for each block.
+\end{itemize}
+Note:\newline
+The below parameters should always be set:
+\begin{itemize}
+	\item \texttt{data\_blocks.NoOfBlocks}: number of blocks to stream (must at least be one)
+	\item For each block b:
+	      \begin{itemize}
+		      \item \texttt{data\_blocks.RegStartAddr[b]}: start address of the block in the register map
+		      \item \texttt{data\_blocks.NoOfDataBytes[b]}: number of bytes to read, starting from the start address
+	      \end{itemize}
+\end{itemize}
+\vspace{12pt}
+For reading data from I\textsuperscript{2}C bus,then set the below parameters:
+\begin{itemize}
+	\item \texttt{stream\_config.Intf = cpy.SensorInterface.I2C.value}
+	\item \texttt{stream\_config.I2CBus}: I\textsuperscript{2}C bus (in case of APP2.0 and APP3.x, this is always\\
+	      \texttt{cpy.I2CBus.BUS\_I2C\_0.value})
+	\item \texttt{stream\_config.DevAddr}: I\textsuperscript{2}C address of the sensor
+\end{itemize}
+\vspace{12pt}
+For reading data from SPI bus, then set the below parameters:
+\begin{itemize}
+	\item \texttt{stream\_config.Intf = cpy.SensorInterface.SPI.value;}
+	\item \texttt{stream\_config.SPIBus}: SPI bus (in case of APP2.0 and APP3.x, this is always\\
+	      \texttt{cpy.SPIBus.BUS\_SPI\_0.value})
+	\item \texttt{stream\_config.CSPin}: CS pin of the sensor, information can be obtained from the shuttle board documentation for the sensor.
+	\item \texttt{stream\_config.SPIType}: 0 : 8-bit SPI; 1 : 16-bit SPI
+\end{itemize}
+\vspace{12pt}
+When polling mode is requested, set the below parameters:
+\begin{itemize}
+	\item \texttt{stream\_config.SamplingUnits}: either milliseconds or microseconds. Refer to \ref{SamplingUnits}.
+	\item \texttt{stream\_config.SamplingTime}: sampling period in the unit as defined in \\ \texttt{stream\_config.SamplingUnits}
+\end{itemize}
+\vspace{12pt}
+When interrupt mode is requested, set the below parameters:
+\begin{itemize}
+	\item \texttt{stream\_config.IntPin}: pin of the interrupt which shall trigger the sensor read-out. If the interrupt output of the sensor is used, the required information about the pin number can be obtained from the shuttle board documentation for the sensor.
+	\item \texttt{stream\_config.IntTimeStamp}:  it can be configured if the sensor data is tagged with a timestamp - 1 or not - 0.
+	\item \texttt{stream\_config.HwPinState}: State of the hardware pin connected to the interrupt line - 0/1 : Low/high
+\end{itemize}
+\vspace{12pt}
+Below parameters are common for both streaming types:
+\begin{itemize}
+	\item \texttt{stream\_config.IntlineCount}: Number of interrupt lines to be used for monitoring interrupts.
+	\item \texttt{stream\_config.IntlineInfo}: List of pin numbers that correspond to interrupt lines being used for interrupt monitoring.
+	\item \texttt{stream\_config.ClearOnWrite}: 0/1 : Disable/enable "clear on write" feature
+\end{itemize}
+\vspace{12pt}
+The below parameters should be set only when stream\_config.ClearOnWrite = 1:
+\begin{itemize}
+	\item \texttt{stream\_config.ClearOnWriteConfig.StartAddress}: Address of the sensor register at which the process of clearOnWrite should initiate.
+	\item \texttt{stream\_config.ClearOnWriteConfig.DummyByte}: Number of padding bytes that must be added before clearing the bytes starting from the designated address.
+	\item \texttt{stream\_config.ClearOnWriteConfig.NumBytesToClear}: Number of bytes that need to be cleared.
+\end{itemize}
+\vspace{12pt}
+Below is the Python code snippet for interrupt streaming
+\begin{lstlisting}[language=Python]
+# Store streaming settings in local variables
+accel_stream_settings = dict(
+	I2C_ADDR_PRIMARY=0x18,
+	NO_OF_BLOCKS = 2,
+	REG_X_LSB= [0x12, 0x00],
+	NO_OF_DATA_BYTES= [6, 1],
+	CHANNEL_ID=1,
+	CS_PIN=cpy.MultiIOPin.SHUTTLE_PIN_8.value,
+	INT_PIN=cpy.MultiIOPin.SHUTTLE_PIN_21.value,
+	INT_TIME_STAMP=1,
+)
+gyro_stream_settings = dict(
+	I2C_ADDR_PRIMARY=0x68,
+	NO_OF_BLOCKS = 2,
+	REG_X_LSB= [0x02,0x00],
+	NO_OF_DATA_BYTES = [6, 1],
+	CHANNEL_ID=2,
+	CS_PIN=cpy.MultiIOPin.SHUTTLE_PIN_14.value,
+	INT_PIN=cpy.MultiIOPin.SHUTTLE_PIN_22.value,
+	INT_TIME_STAMP=1,
+)
+
+
+# set the config_streaming parameters
+stream_config = cpy.StreamingConfig()
+data_blocks = cpy.StreamingBlocks()
+if self.interface == cpy.SensorInterface.I2C:
+	stream_config.Intf = cpy.SensorInterface.I2C.value
+	stream_config.I2CBus = cpy.I2CBus.BUS_I2C_0.value
+	stream_config.DevAddr = sensor["I2C_ADDR_PRIMARY"]
+
+elif self.interface == cpy.SensorInterface.SPI:
+	stream_config.Intf = cpy.SensorInterface.SPI.value
+	stream_config.SPIBus = cpy.SPIBus.BUS_SPI_0.value
+	stream_config.CSPin = sensor["CS_PIN"]
+
+if sensor_type == bmi08x.SensorType.ACCEL and self.interface == cpy.SensorInterface.SPI:
+	# extra dummy byte for SPI
+	dummy_byte_offset = 1
+else:
+	dummy_byte_offset = 0
+
+data_blocks.NoOfBlocks = sensor["NO_OF_BLOCKS"]
+for i in range(0, data_blocks.NoOfBlocks):
+	data_blocks.RegStartAddr[i] = sensor["REG_X_LSB"][i]
+	data_blocks.NoOfDataBytes[i] = sensor["NO_OF_DATA_BYTES"][i] + dummy_byte_offset
+
+stream_config.IntTimeStamp = sensor["INT_TIME_STAMP"]
+stream_config.IntPin = sensor["INT_PIN"]
+
+# call config_streaming API for each sensor to configure the streaming settings
+ret = coinesboard.config_streaming(
+	accel_sensor_id, self.accel_stream_config, self.accel_data_blocks)
+ret = coinesboard.config_streaming(
+	gyro_sensor_id, self.accel_stream_config, self.accel_data_blocks)
+
+\end{lstlisting}
+
+
+
+\paragraph{start\_stop\_streaming}
+
+Starts or stops sensor data streaming.
+
+\begin{lstlisting}[language=python]
+coinesboard.start_stop_streaming(stream_mode: StreamingMode, start_stop: StreamingState) -> ErrorCodes
+\end{lstlisting}
+
+For the definition of \texttt{StreamingMode}, refer to \ref{StreamingMode}. For the definition of \texttt{StreamingState}, refer to \ref{StreamingState}.
+
+\paragraph{read\_stream\_sensor\_data}
+
+Reads the data streamed from the sensor.
+
+\begin{lstlisting}[language=python]
+coinesboard.read_stream_sensor_data(sensor_id: int, number_of_samples: int,
+	buffer_size=STREAM_RSP_BUF_SIZE) -> Tuple[ErrorCodes, list, int]
+\end{lstlisting}
+
+Return:\\
+Tuple of ErrorCodes, data and valid\_samples\_count\newline
+For the detailed definition of parameters, refer to \ref{coinesReadStreamSensorData}.
+
+\subsubsection{coinespy API calls: Other useful APIs}
+
+\paragraph{flush\_interface}
+Flush the write buffer.
+
+\begin{lstlisting}
+coinesboard.flush_interface()
+\end{lstlisting}
+
+\paragraph{soft\_reset}
+Resets the device.
+
+\begin{lstlisting}
+coinesboard.soft_reset()
+\end{lstlisting}
+
+\subsubsection{Definition of constants}
+
+\paragraph{PinDirection}\label{PinDirection}
+
+Pin mode definitions
+
+\begin{lstlisting}
+class PinDirection:
+    INPUT = 0  # COINES_PIN_DIRECTION_IN = 0
+    OUTPUT = 1
+\end{lstlisting}
+
+\paragraph{PinValue}\label{PinValue}
+
+Pin level definitions
+
+\begin{lstlisting}
+class PinValue:
+    LOW = 0  # COINES_PIN_VALUE_LOW = 0
+    HIGH = 1
+\end{lstlisting}
+
+\paragraph{CommInterface}\label{CommInterface}
+
+Definition of Communication interface
+
+\begin{lstlisting}
+class CommInterface:
+    USB = 0
+    SERIAL = 1
+    BLE = 2
+\end{lstlisting}
+
+\paragraph{I2CMode}\label{I2CMode}
+
+Definition of the speed of I2C bus.
+
+\begin{lstlisting}
+class I2CMode:
+	STANDARD_MODE = 0 # Standard mode - 100kHz
+	FAST_MODE = 1 # Fast mode - 400kHz
+	SPEED_3_4_MHZ = 2 # High Speed mode - 3.4 MHz
+	SPEED_1_7_MHZ = 3 # High Speed mode 2 - 1.7 MHz
+\end{lstlisting}
+
+\paragraph{SPISpeed}\label{SPISpeed}
+
+Definition of the speed of SPI bus.
+
+\begin{lstlisting}
+class SPISpeed:
+	SPI_10_MHZ = 6
+	SPI_7_5_MHZ = 8
+	SPI_6_MHZ = 10
+	SPI_5_MHZ = 12
+	SPI_3_75_MHZ = 16
+	SPI_3_MHZ = 20
+	SPI_2_5_MHZ = 24
+	SPI_2_MHZ = 30
+	SPI_1_5_MHZ = 40
+	SPI_1_25_MHZ = 48
+	SPI_1_2_MHZ = 50
+	SPI_1_MHZ = 60
+	SPI_750_KHZ = 80
+	SPI_600_KHZ = 100
+	SPI_500_KHZ = 120
+	SPI_400_KHZ = 150
+	SPI_300_KHZ = 200
+	SPI_250_KHZ = 240
+\end{lstlisting}
+
+\paragraph{SPITransferBits}\label{SPITransferBits}
+
+Definition of the SPI bits.
+
+\begin{lstlisting}
+class SPITransferBits:
+	SPI8BIT = 8 # 8 bit register read/write
+	SPI16BIT = 16 # 16 bit register read/write
+\end{lstlisting}
+
+\paragraph{SPIMode}\label{SPIMode}
+
+Definition of the SPI mode.
+
+\begin{lstlisting}
+class SPIMode:
+	MODE0 = 0x00 # SPI Mode 0: CPOL=0; CPHA=0
+	MODE1 = 0x01 # SPI Mode 1: CPOL=0; CPHA=1
+	MODE2 = 0x02 # SPI Mode 2: CPOL=1; CPHA=0
+	MODE3 = 0x03 # SPI Mode 3: CPOL=1; CPHA=1
+\end{lstlisting}
+
+\paragraph{MultiIOPin}\label{MultiIOPin}
+
+Definition of the shuttle board pin(s)
+
+\begin{lstlisting}
+class MultiIOPin(Enum):
+	SHUTTLE_PIN_7 = 0x09 # CS pin
+	SHUTTLE_PIN_8 = 0x05 # Multi-IO 5
+	SHUTTLE_PIN_9 = 0x00 # Multi-IO 0
+	SHUTTLE_PIN_14 = 0x01 # Multi-IO 1
+	SHUTTLE_PIN_15 = 0x02 # Multi-IO 2
+	SHUTTLE_PIN_16 = 0x03 # Multi-IO 3
+	SHUTTLE_PIN_19 = 0x08 # Multi-IO 8
+	SHUTTLE_PIN_20 = 0x06 # Multi-IO 6
+	SHUTTLE_PIN_21 = 0x07 # Multi-IO 7
+	SHUTTLE_PIN_22 = 0x04 # Multi-IO 4
+	SHUTTLE_PIN_SDO = 0x1F
+
+	# APP3.x pins
+	MINI_SHUTTLE_PIN_1_4 = 0x10  # GPIO0
+	MINI_SHUTTLE_PIN_1_5 = 0x11  # GPIO1
+	MINI_SHUTTLE_PIN_1_6 = 0x12  # GPIO2/INT1
+	MINI_SHUTTLE_PIN_1_7 = 0x13  # GPIO3/INT2
+	MINI_SHUTTLE_PIN_2_5 = 0x14  # GPIO4
+	MINI_SHUTTLE_PIN_2_6 = 0x15  # GPIO5
+	MINI_SHUTTLE_PIN_2_1 = 0x16  # CS
+	MINI_SHUTTLE_PIN_2_3 = 0x17  # SDO
+	MINI_SHUTTLE_PIN_2_7 = 0x1D  # GPIO6
+	MINI_SHUTTLE_PIN_2_8 = 0x1E  # GPIO7
+\end{lstlisting}
+
+\paragraph{SensorInterface}\label{SensorInterface}
+
+To define Sensor interface.
+
+\begin{lstlisting}
+class SensorInterface(Enum):
+	SPI = 0
+	I2C = 1
+\end{lstlisting}
+
+\paragraph{I2CBus}\label{I2CBus}
+
+Used to define the I2C type.
+
+\begin{lstlisting}
+	class I2CBus(Enum):
+	BUS_I2C_0 = 0
+	BUS_I2C_1 = 1
+	BUS_I2C_MAX = 2
+\end{lstlisting}
+
+\paragraph{SPIBus}\label{SPIBus}
+
+Used to define the SPI type.
+
+\begin{lstlisting}
+	class SPIBus(Enum):
+	BUS_SPI_0 = 0
+	BUS_SPI_1 = 1
+	BUS_SPI_MAX = 2
+\end{lstlisting}
+
+\paragraph{PinInterruptMode}\label{PinInterruptMode}
+
+Defines Pin interrupt modes.
+
+\begin{lstlisting}
+class PinInterruptMode(Enum):
+	# Trigger interrupt on pin state change
+	PIN_INTERRUPT_CHANGE = 0
+	# Trigger interrupt when pin changes from low to high
+	PIN_INTERRUPT_RISING_EDGE = 1
+	# Trigger interrupt when pin changes from high to low
+	PIN_INTERRUPT_FALLING_EDGE = 2
+	PIN_INTERRUPT_MODE_MAXIMUM = 4
+\end{lstlisting}
+
+\paragraph{StreamingMode}\label{StreamingMode}
+
+Streaming mode definitions
+
+\begin{lstlisting}
+class StreamingMode:
+    STREAMING_MODE_POLLING = 0    # Polling mode streaming
+    STREAMING_MODE_INTERRUPT = 1  # Interrupt mode streaming
+\end{lstlisting}
+
+\paragraph{StreamingState}\label{StreamingState}
+
+Streaming state definitions
+
+\begin{lstlisting}
+class StreamingState:
+	STREAMING_START = 1
+	STREAMING_STOP = 0
+\end{lstlisting}
+
+\paragraph{SamplingUnits}\label{SamplingUnits}
+
+Sampling Unit definitions
+
+\begin{lstlisting}
+class SamplingUnits:
+    SAMPLING_TIME_IN_MICRO_SEC = 0x01  # sampling unit in micro second
+    SAMPLING_TIME_IN_MILLI_SEC = 0x02  # sampling unit in milli second
+\end{lstlisting}
+
