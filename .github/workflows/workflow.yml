@@ -27,10 +27,10 @@ jobs:
         cd doc/latex
 
         # Run pdflatex to compile the TeX document
-        pdflatex BST-DHW-AN013-00.tex
+        latexmk -pdf -pv  BST-DHW-AN013-00.tex
 
     - name: Store PDF artifact
       uses: actions/upload-artifact@v2
       with:
         name: compiled-pdf
-        path: path/to/your/tex/files/your_document.pdf
+        path: doc/latex/*.pdf
