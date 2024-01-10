@@ -1,4 +1,4 @@
-nname: Compile and Store LaTeX document as PDF Artifact
+name: Compile and Store LaTeX document as PDF Artifact
 
 on:
   push:
