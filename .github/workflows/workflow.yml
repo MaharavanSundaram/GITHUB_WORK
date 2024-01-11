@@ -1,36 +1,37 @@
-name: Compile and Store LaTeX document as PDF Artifact
+name: Build LaTeX document
 
 on:
   push:
     branches:
-      - main # You can change this to match your branch name
-  pull_request:
-    branches:
-      - main # You can change this to match your branch name
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-    - name: Install TeX Live and dependencies
+    - name: Set up MiKTeX
       run: |
-        sudo apt-get update
-        sudo apt-get install -y texify
+        choco install miktex
+        refreshenv
+        miktexsetup --quiet --shared=yes --repository=https://ftp.fau.de/ctan/systems/win32/miktex/setup/distrib
+        mpm --install=collection-basic --yes
+        mpm --install=collection-latex --yes
+        mpm --install=collection-fontsrecommended --yes
 
     - name: Compile LaTeX document
       run: |
-        # Navigate to the directory containing your TeX files
+        # Change to the directory where your LaTeX document is located
         cd doc/latex
 
-        # Run pdflatex to compile the TeX document
-        texifyB  BST-DHW-AN013-00.tex
+        # Run texify to compile the document (replace 'your-document.tex' with the actual file name)
+        texify --pdf --synctex --clean your-document.tex
 
-    - name: Store PDF artifact
+    - name: Upload PDF artifact
       uses: actions/upload-artifact@v2
       with:
-        name: compiled-pdf
+        name: output
         path: doc/latex/*.pdf
