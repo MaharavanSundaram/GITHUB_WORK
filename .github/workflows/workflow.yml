@@ -16,10 +16,6 @@ jobs:
     - name: Set up MiKTeX
       run: |
         choco install miktex
-        refreshenv
-        npm --install=collection-basic --yes
-        npm --install=collection-latex --yes
-        npm --install=collection-fontsrecommended --yes
 
     - name: Compile LaTeX document
       run: |
