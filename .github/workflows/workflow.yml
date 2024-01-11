@@ -27,7 +27,7 @@ jobs:
         cd doc/latex
 
         # Run pdflatex to compile the TeX document
-        texify  BST-DHW-AN013-00.tex
+        texifyB  BST-DHW-AN013-00.tex
 
     - name: Store PDF artifact
       uses: actions/upload-artifact@v2
