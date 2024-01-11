@@ -27,7 +27,7 @@ jobs:
         cd doc/latex
 
         # Run texify to compile the document (replace 'your-document.tex' with the actual file name)
-        texify --pdf --synctex --clean your-document.tex
+        texify --pdf --synctex --clean BST-DHW-AN013-00.tex
 
     - name: Upload PDF artifact
       uses: actions/upload-artifact@v2
