@@ -17,7 +17,6 @@ jobs:
       run: |
         choco install miktex
         refreshenv
-        miktexsetup --quiet --shared=yes --repository=https://ftp.fau.de/ctan/systems/win32/miktex/setup/distrib
         mpm --install=collection-basic --yes
         mpm --install=collection-latex --yes
         mpm --install=collection-fontsrecommended --yes
