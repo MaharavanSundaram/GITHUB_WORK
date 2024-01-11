@@ -17,9 +17,9 @@ jobs:
       run: |
         choco install miktex
         refreshenv
-        mpm --install=collection-basic --yes
-        mpm --install=collection-latex --yes
-        mpm --install=collection-fontsrecommended --yes
+        npm --install=collection-basic --yes
+        npm --install=collection-latex --yes
+        npm --install=collection-fontsrecommended --yes
 
     - name: Compile LaTeX document
       run: |
