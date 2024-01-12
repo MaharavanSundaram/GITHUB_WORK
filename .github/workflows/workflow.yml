@@ -1,32 +1,36 @@
-name: Build LaTeX document
+name: LaTeX to HTML Conversion
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up MiKTeX
+    - name: Install TeX Live
       run: |
-        choco install miktex
+        sudo apt-get install -y texlive
 
-    - name: Compile LaTeX document
+    - name: Install Pandoc
       run: |
-        # Change to the directory where your LaTeX document is located
-        cd doc/latex
+        sudo apt-get install -y pandoc
 
-        # Run texify to compile the document (replace 'your-document.tex' with the actual file name)
-        texify --pdf --synctex --clean BST-DHW-AN013-00.tex
+    - name: Compile LaTeX to HTML
+      run: |
+        pandoc -s -o output.html doc/latex/BST-DHW-AN013-00.tex
+      working-directory: ${{ github.workspace }}
 
-    - name: Upload PDF artifact
+    - name: Upload HTML artifact
       uses: actions/upload-artifact@v2
       with:
-        name: output
-        path: doc/latex/*.pdf
+        name: latex-to-html-artifact
+        path: output.html
