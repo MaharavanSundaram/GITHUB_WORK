@@ -23,11 +23,12 @@ jobs:
 
       - name: Convert LaTeX to HTML
         run: |
-          pandoc -s doc/latex/BST-DHW-AN013-00.tex -o output.html --include-in-header=doc/latex/boschsensortec.sty
+          cd doc/latex
+          pandoc -s BST-DHW-AN013-00.tex -o output.html
         working-directory: ${{ github.workspace }}
 
       - name: Upload HTML artifact
         uses: actions/upload-artifact@v2
         with:
           name: latex-to-html-artifact
-          path: output.html
+          path: doc/latex/output.html
