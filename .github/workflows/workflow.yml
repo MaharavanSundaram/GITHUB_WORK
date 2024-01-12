@@ -13,24 +13,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Install TeX Live
-      run: |
-        sudo apt-get install -y texlive
+      - name: Install TeX Live and Pandoc
+        run: |
+          sudo apt-get install -y texlive pandoc
+        shell: bash
 
-    - name: Install Pandoc
-      run: |
-        sudo apt-get install -y pandoc
+      - name: Convert LaTeX to HTML
+        run: |
+          pandoc -s -o output.html --include-in-header=boschsensortec.sty doc/latex/BST-DHW-AN013-00.tex
+        working-directory: ${{ github.workspace }}
 
-    - name: Compile LaTeX to HTML
-      run: |
-        pandoc -s -o output.html doc/latex/BST-DHW-AN013-00.tex doc/latex/boschsensortec.sty
-      working-directory: ${{ github.workspace }}
-
-    - name: Upload HTML artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: latex-to-html-artifact
-        path: output.html
+      - name: Upload HTML artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: latex-to-html-artifact
+          path: output.html
