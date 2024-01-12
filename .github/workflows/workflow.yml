@@ -23,7 +23,7 @@ jobs:
 
       - name: Convert LaTeX to HTML
         run: |
-          pandoc -s -o output.html --include-in-header=doc/latex/boschsensortec.sty doc/latex/BST-DHW-AN013-00.tex
+          pandoc -s doc/latex/BST-DHW-AN013-00.tex -o output.html --include-in-header=doc/latex/boschsensortec.sty
         working-directory: ${{ github.workspace }}
 
       - name: Upload HTML artifact
