@@ -24,11 +24,11 @@ jobs:
       - name: Convert LaTeX to HTML
         run: |
           cd doc/latex
-          pandoc -s output_section/*.tex -o output.html --include-in-header=boschsensortec.sty
+          find output_sections -name '*.tex' -print0 | xargs -0 pandoc -s -o output.html --include-in-header=boschsensortec.sty
         working-directory: ${{ github.workspace }}
 
       - name: Upload HTML artifact
         uses: actions/upload-artifact@v2
         with:
           name: latex-to-html-artifact
-          path: doc/latex/*.html
+          path: doc/latex/output.html

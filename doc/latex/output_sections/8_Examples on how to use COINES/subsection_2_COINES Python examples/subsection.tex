@@ -1,0 +1,149 @@
+\documentclass{article}
+\begin{document}
+\subsection{COINES Python examples}
+
+\subsubsection{Getting board info}\label{GettingBoardInfo}
+The following code snippet shows how to get board information.
+\begin{lstlisting}[language=python]
+	import coinespy as cpy
+	from coinespy import ErrorCodes
+	
+	COM_INTF = cpy.CommInterface.USB
+	
+	if __name__ == "__main__":
+		board = cpy.CoinesBoard()
+		print('coinespy version - %s' % cpy.__version__)
+		board.open_comm_interface(COM_INTF)
+		if board.error_code != ErrorCodes.COINES_SUCCESS:
+			print(f'Could not connect to board: {board.error_code}')
+		else:
+			b_info = board.get_board_info()
+			print(f"coines lib version: {board.lib_version}")
+			print(
+				f'BoardInfo: HW/SW ID: {hex(b_info.HardwareId)}/{hex(b_info.SoftwareId)}')
+			board.close_comm_interface()
+\end{lstlisting}
+
+\subsubsection{I2C config and read}
+This basic program shows how to configure and perform I2C read.
+\newline Sensor: BMI085
+\begin{lstlisting}[language=python]
+	import sys
+	import time
+	import coinespy as cpy
+	from coinespy import ErrorCodes
+
+	COM_INTF = cpy.CommInterface.USB
+	
+	if __name__ == "__main__":
+		BOARD = cpy.CoinesBoard()
+
+		BOARD.open_comm_interface(COM_INTF)
+		if BOARD.error_code != ErrorCodes.COINES_SUCCESS:
+			print(f"Open Communication interface: {BOARD.error_code}")
+			sys.exit()
+	
+		BMI085_I2C_ADDRESS_ACCEL = 0x18
+		BMI085_I2C_ADDRESS_GYRO  = 0x68
+		BMI08_REG_ACCEL_CHIP_ID = 0x00
+	
+		BOARD.set_shuttleboard_vdd_vddio_config(vdd_val=0, vddio_val=0)
+	
+		#  Config I2C pins
+		BOARD.set_pin_config(
+			cpy.MultiIOPin.SHUTTLE_PIN_8, cpy.PinDirection.OUTPUT, cpy.PinValue.LOW)
+		BOARD.set_pin_config(
+			cpy.MultiIOPin.SHUTTLE_PIN_SDO, cpy.PinDirection.OUTPUT, cpy.PinValue.LOW)
+		# Set PS pin of gyro to HIGH for proper protocol selection
+		BOARD.set_pin_config(
+			cpy.MultiIOPin.SHUTTLE_PIN_9, cpy.PinDirection.OUTPUT, cpy.PinValue.HIGH)
+	
+		# I2C config
+		BOARD.config_i2c_bus(
+			cpy.I2CBus.BUS_I2C_0, BMI085_I2C_ADDRESS_ACCEL, cpy.I2CMode.STANDARD_MODE)
+	
+		BOARD.set_shuttleboard_vdd_vddio_config(vdd_val=3.3, vddio_val=3.3)
+		time.sleep(0.2)
+	
+		# I2C read
+		accel_chip_id = BOARD.read_i2c(
+			cpy.I2CBus.BUS_I2C_0, BMI08_REG_ACCEL_CHIP_ID, 1, BMI085_I2C_ADDRESS_ACCEL)
+		gyro_chip_id = BOARD.read_i2c(
+			cpy.I2CBus.BUS_I2C_0, BMI08_REG_ACCEL_CHIP_ID, 1, BMI085_I2C_ADDRESS_GYRO)
+	
+		print(f"Accel chip id: {hex(accel_chip_id[0])}")
+		print(f"Gyro chip id: {hex(gyro_chip_id[0])}")
+	
+		# Deinit board
+		BOARD.set_shuttleboard_vdd_vddio_config(vdd_val=0, vddio_val=0)
+		BOARD.soft_reset()
+	
+		BOARD.close_comm_interface()	
+\end{lstlisting}
+The user shall pass GPIO pin numbers, read register address and I2C device address for sensors based on the selected sensor shuttle board. I2C communication require the proper setting of VDD and VDDIO using \texttt{set\_shuttleboard\_vdd\_vddio\_config}.
+
+\subsubsection{SPI config and read}
+This basic program shows how to configure and perform SPI read.
+\newline Sensor: BMI085
+\begin{lstlisting}[language=python]
+	import sys
+	import time
+	import coinespy as cpy
+	from coinespy import ErrorCodes
+	
+	COM_INTF = cpy.CommInterface.USB
+	
+	if __name__ == "__main__":
+		BOARD = cpy.CoinesBoard()
+
+		BOARD.open_comm_interface(COM_INTF)
+		if BOARD.error_code != ErrorCodes.COINES_SUCCESS:
+			print(f"Open Communication interface: {BOARD.error_code}")
+			sys.exit()
+	
+		BMI085_ACCEL_CS_PIN = cpy.MultiIOPin.SHUTTLE_PIN_8
+		BMI085_GYRO_CS_PIN = cpy.MultiIOPin.SHUTTLE_PIN_14
+		BMI08_REG_ACCEL_CHIP_ID = 0x00
+		accel_dummy_byte_len = 1
+	
+		BOARD.set_shuttleboard_vdd_vddio_config(vdd_val=0, vddio_val=0)
+	
+		# Config CS pin
+		BOARD.set_pin_config(
+			BMI085_ACCEL_CS_PIN, cpy.PinDirection.OUTPUT, cpy.PinValue.HIGH)
+		BOARD.set_pin_config(
+			BMI085_GYRO_CS_PIN, cpy.PinDirection.OUTPUT, cpy.PinValue.HIGH)
+		# Set PS pin of gyro to LOW for proper protocol selection
+		BOARD.set_pin_config(
+			cpy.MultiIOPin.SHUTTLE_PIN_9, cpy.PinDirection.OUTPUT, cpy.PinValue.LOW)
+	
+		#  SPI config
+		BOARD.config_spi_bus(cpy.SPIBus.BUS_SPI_0, BMI085_ACCEL_CS_PIN,
+							 cpy.SPISpeed.SPI_1_MHZ, cpy.SPIMode.MODE0)
+	
+		BOARD.set_shuttleboard_vdd_vddio_config(vdd_val=3.3, vddio_val=3.3)
+		time.sleep(0.2)
+	
+		# Initialize SPI by dummy read
+		reg_data = BOARD.read_spi(cpy.SPIBus.BUS_SPI_0, BMI08_REG_ACCEL_CHIP_ID, 1)
+	
+		# SPI read
+		accel_chip_id = BOARD.read_spi(
+			cpy.SPIBus.BUS_SPI_0, BMI08_REG_ACCEL_CHIP_ID, 1 + accel_dummy_byte_len, BMI085_ACCEL_CS_PIN)
+		gyro_chip_id = BOARD.read_spi(
+			cpy.SPIBus.BUS_SPI_0, BMI08_REG_ACCEL_CHIP_ID, 1, BMI085_GYRO_CS_PIN)
+	
+		print(f"Accel chip id: {hex(accel_chip_id[accel_dummy_byte_len])}")
+		print(f"Gyro chip id: {hex(gyro_chip_id[0])}")
+	
+		# Deinit board
+		BOARD.set_shuttleboard_vdd_vddio_config(vdd_val=0, vddio_val=0)
+		BOARD.soft_reset()
+	
+		BOARD.close_comm_interface()
+\end{lstlisting}
+The user shall pass GPIO pin numbers, read register address and SPI CS pins for sensors based on the selected sensor shuttle board. SPI communication require the proper setting of VDD and VDDIO using \texttt{set\_shuttleboard\_vdd\_vddio\_config}.
+
+\newpage
+
+\end{document}

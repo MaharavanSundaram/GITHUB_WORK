@@ -1,0 +1,100 @@
+\documentclass{article}
+\begin{document}
+\subsection{Error Codes}
+
+Error codes are not (always) returned by the different function calls. Internally, a \texttt{error\_code} variable is maintained which is updated after the function call. It can be read out and checked by the user afterwards.
+
+C Example
+\begin{lstlisting}[language=c]
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "coines.h"
+
+int main(void)
+{
+    int16_t error_code = coines_open_comm_intf(COINES_COMM_INTF_USB, NULL);
+    if (error_code != COINES_SUCCESS)
+    {
+        const char *err_str = get_coines_error_str(error_code);
+        printf("\n%s", err_str);
+        exit(error_code);
+    }
+
+    coines_close_comm_intf(COINES_COMM_INTF_USB, NULL);
+    return 0;
+}
+\end{lstlisting}
+
+Python Example
+\begin{lstlisting}[language=python]
+import coinespy as cpy
+board = cpy.CoinesBoard()
+try:
+	board.open_comm_interface(cpy.CommInterface.USB)
+	board.close_comm_interface()
+except:
+	print(f'Could not connect to board: {board.error_code}')
+	exit(board.error_code)
+\end{lstlisting}
+
+Error code definitions
+\begin{lstlisting}
+    COINES_SUCCESS = 0
+    COINES_E_FAILURE = -1
+    COINES_E_COMM_IO_ERROR = -2
+    COINES_E_COMM_INIT_FAILED = -3
+    COINES_E_UNABLE_OPEN_DEVICE = -4
+    COINES_E_DEVICE_NOT_FOUND = -5
+    COINES_E_UNABLE_CLAIM_INTERFACE = -6
+    COINES_E_MEMORY_ALLOCATION = -7
+    COINES_E_NOT_SUPPORTED = -8
+    COINES_E_NULL_PTR = -9
+    COINES_E_COMM_WRONG_RESPONSE = -10
+    COINES_E_SPI16BIT_NOT_CONFIGURED = -11
+    COINES_E_SPI_INVALID_BUS_INTERFACE = -12
+    COINES_E_SPI_CONFIG_EXIST = -13
+    COINES_E_SPI_BUS_NOT_ENABLED = -14
+    COINES_E_SPI_CONFIG_FAILED = -15
+    COINES_E_I2C_INVALID_BUS_INTERFACE = -16
+    COINES_E_I2C_BUS_NOT_ENABLED = -17
+    COINES_E_I2C_CONFIG_FAILED = -18
+    COINES_E_I2C_CONFIG_EXIST = -19
+    COINES_E_TIMER_INIT_FAILED = -20
+    COINES_E_TIMER_INVALID_INSTANCE = -21
+    COINES_E_TIMER_CC_CHANNEL_NOT_AVAILABLE = -22
+    COINES_E_EEPROM_RESET_FAILED = -23
+    COINES_E_EEPROM_READ_FAILED = -24
+    COINES_E_INIT_FAILED = -25
+    COINES_E_STREAM_NOT_CONFIGURED = -26
+    COINES_E_STREAM_INVALID_BLOCK_SIZE = -27
+    COINES_E_STREAM_SENSOR_ALREADY_CONFIGURED = -28
+    COINES_E_STREAM_CONFIG_MEMORY_FULL = -29
+    COINES_E_INVALID_PAYLOAD_LEN = -30
+    COINES_E_CHANNEL_ALLOCATION_FAILED = -31
+    COINES_E_CHANNEL_DE_ALLOCATION_FAILED = -32
+    COINES_E_CHANNEL_ASSIGN_FAILED = -33
+    COINES_E_CHANNEL_ENABLE_FAILED = -34
+    COINES_E_CHANNEL_DISABLE_FAILED = -35
+    COINES_E_INVALID_PIN_NUMBER = -36
+    COINES_E_MAX_SENSOR_COUNT_REACHED = -37
+    COINES_E_EEPROM_WRITE_FAILED = -38
+    COINES_E_INVALID_EEPROM_RW_LENGTH = -39
+    COINES_E_INVALID_SCOM_CONFIG = -40
+    COINES_E_INVALID_BLE_CONFIG = -41
+    COINES_E_SCOM_PORT_IN_USE = -42
+    COINES_E_UART_INIT_FAILED = -43
+    COINES_E_UART_WRITE_FAILED = -44
+    COINES_E_UART_INSTANCE_NOT_SUPPORT = -45
+    COINES_E_BLE_ADAPTOR_NOT_FOUND = -46
+    COINES_E_ADAPTER_BLUETOOTH_NOT_ENABLED = -47
+    COINES_E_BLE_PERIPHERAL_NOT_FOUND = -48
+    COINES_E_BLE_LIBRARY_NOT_LOADED = -49
+    COINES_E_APP_BOARD_BLE_NOT_FOUND = -50
+    COINES_E_BLE_COMM_FAILED = -51
+    COINES_E_INCOMPATIBLE_FIRMWARE = -52
+    COINES_E_UNDEFINED_CODE = -100
+\end{lstlisting}
+
+
+\end{document}
