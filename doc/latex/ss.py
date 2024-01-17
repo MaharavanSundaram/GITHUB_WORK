@@ -1,44 +1,29 @@
-from latex2mathml.converter import convert
+import os
 
-def latex_to_mathml(latex_code):
-    mathml_code = convert(latex_code)
-    return mathml_code
+def split_tex_sections(input_tex_file, output_folder):
+    # Create the output folder if it doesn't exist
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder)
 
-def generate_html_with_mathml(mathml_code):
-    html_template = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>LaTeX to HTML</title>
-        <script type="text/javascript" async
-            src="https://www.w3.org/Math/scripts/MathML3/mathml.js">
-        </script>
-    </head>
-    <body>
-        <h1>LaTeX to HTML</h1>
-        <div id="mathml-content">
-            {mathml_code}
-        </div>
-    </body>
-    </html>
-    """
+    with open(input_tex_file, 'r',encoding='utf-8') as f:
+        content = f.read()
 
-    return html_template.format(mathml_code=mathml_code)
+        # Split the content based on '\section'
+        sections = content.split('\\section')
 
-def main():
-    # Read LaTeX content from file
-    with open('BST-DHW-AN013-00.tex', 'r',encoding='utf-8') as file:
-        latex_code = file.read()
+        for i, section in enumerate(sections[1:]):  # Skipping the first element as it is empty
+            # Create a new TeX file for each section
+            section_file_path = os.path.join(output_folder, f'section_{i + 1}.tex')
 
-    # Convert LaTeX to MathML
-    mathml_code = latex_to_mathml(latex_code)
-
-    # Generate HTML with embedded MathML
-    html_code = generate_html_with_mathml(mathml_code)
-
-    # Write HTML content to a file
-    with open('output.html', 'w') as file:
-        file.write(html_code)
+            with open(section_file_path, 'w',encoding='utf-8') as section_file:
+                # Write the section content to the new file
+                section_file.write('\\documentclass{article}\n')
+                section_file.write('\\begin{document}\n')
+                section_file.write(f'\\section{section}\n')
+                section_file.write('\\end{document}')
 
 if __name__ == "__main__":
-    main()
+    input_tex_file = 'BST-DHW-AN013-00.tex'  # Replace with your input LaTeX file
+    output_folder = 'output_sections'  # Replace with your desired output folder
+
+    split_tex_sections(input_tex_file, output_folder)

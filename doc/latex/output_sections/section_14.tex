@@ -1,0 +1,200 @@
+\documentclass{article}
+\begin{document}
+\section{Annexure}
+\subsection{GPIO mapping}
+
+\subsubsection{GPIO mapping of APP2.0 shuttle board pins}
+
+The APP2.0 shuttle board has total of 28 pins, of which some have a predefined functionality and some can be used as GPIO by the user.
+
+The shuttle board connector details are given in the table below.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textbf{Pin number on} & \textbf{Name /} & \textbf{Pin number on} & \textbf{Name /} \\
+		\textbf{shuttle board} & \textbf{function} & \textbf{shuttle board} & \textbf{function} \\
+		\hline\hline
+		1 & VDD (3.3V) & 28 & SHTLE\_COD \#4 \\ \hline
+		2 & VDDIO (3.3V) & 27 & SHTLE\_COD \#3 \\ \hline
+		3 & GND & 26 & SHTLE\_COD \#2 \\ \hline
+		4 & SPI MISO & 25 & SHTLE\_COD \#1 \\ \hline
+		5 & SPI: MOSI / I\textsuperscript{2}C: SDA & 24 & SHTLE\_COD \#0 \\ \hline
+		6 & SPI: SCK / I\textsuperscript{2}C: SCL & 23 & SHTLE\_COD\_GND \\ \hline
+		7 & SPI: CS & 22 & IO\_4 ( GPIO \#4 ) \\ \hline
+		8 & IO\_5 ( GPIO \#5 ) & 21 & IO\_7 ( GPIO \#7 ) \\ \hline
+		9 & IO\_0 ( GPIO \#0 ) & 20 & IO\_6 ( GPIO \#6 ) \\ \hline 
+		10 & SHTLE\_COD \#5 & 19 & IO\_8 ( GPIO \#8 ) \\ \hline 
+		11 & SHTLE\_COD \#6 & 18 & SCL (see note) \\ \hline 
+		12 & SHTLE\_COD \#7 & 17 & SDA (see note)\\ \hline 
+		13 & SHTLE\_COD \#8 & 16 & IO\_3 ( GPIO \#3 ) \\ \hline
+		14 & IO\_1 ( GPIO \#1 ) & 15 & IO\_2 ( GPIO \#2 ) \\ \hline
+	\end{tabular}
+	\caption{Overview of shuttle board pins and their function}
+	\label{tab:shtbrdpins}
+\end{table}
+
+Note:
+\begin{itemize}
+	\item In COINES functions, the pins are addressed using the same numbers as on the shuttle board. For example, the GPIO \#5 has the pin number 8.
+	\item In some cases (depending on the sensor), the I\textsuperscript{2}C lines are shuttle board pin 6 for the clock signal SCL and shuttle board pin 5 for the data line SDA. In such cases pins 17 and 18 may not be connected. Please carefully read the shuttle board documentation.
+\end{itemize}
+
+\subsubsection{GPIO mapping of APP3.x shuttle board pins}
+
+The APP3.x shuttle board has a total of 16 pins, 7 on the left and 9 on the right. (with shuttle board pins facing downwards)
+
+Note:
+\begin{itemize}
+	\item In COINES functions, the pins are addressed as on the APP3.x shuttle board. For example, the GPIO \#5 is addressed as \texttt{COINES\_MINI\_SHUTTLE\_PIN\_2\_6}.
+	\item Supported VDD voltages on APP3.x are 0, 1.8V and 2.8V.
+	\item Supported VDDIO voltage on APP3.x is 1.8V.
+\end{itemize}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textbf{Pin number on} & \textbf{Name /} & \textbf{Pin number on} & \textbf{Name /} \\
+		\textbf{shuttle board} & \textbf{function} & \textbf{shuttle board} & \textbf{function} \\
+		\hline\hline
+		1\_1 & VDD (1.8/2.8V) & 2\_1 & SPI\_CS \\ \hline
+		1\_2 & VDDIO (1.8) & 2\_2 & SPI: SCK / I\textsuperscript{2}C: SCL \\ \hline
+		1\_3 & GND & 2\_3 & SPI: MISO \\ \hline
+		1\_4 & GPIO0 & 2\_4 & SPI: MOSI /  I\textsuperscript{2}C: SDA \\ \hline
+		1\_5 & GPIO1 & 2\_5 & GPIO4\textsuperscript{*} \\ \hline
+		1\_6 & GPIO2 & 2\_6 & GPIO5\textsuperscript{*} \\ \hline
+		1\_7 & GPIO3 & 2\_7 & IOXP\_INT\textsuperscript{*}\\ \hline
+		     &       & 2\_8 & PlugDet\textsuperscript{*} \\ \hline
+		     &       & 2\_9 & EEPROM\_RW \\ \hline
+	\end{tabular}
+	\caption{Overview of APP3.x shuttle board pins and their function}
+	\label{tab:shtbrdpins}
+	\textsuperscript{*}SPI pins for secondary interface - CS:GPIO4, SCK:GPIO5, MISO:IOXP\_INT, MOSI:PlugDet
+\end{table}
+
+\newpage
+\input{coinesAPI}
+
+\newpage
+\input{coinesPyAPI}
+
+\newpage
+\subsection{Error Codes}
+
+Error codes are not (always) returned by the different function calls. Internally, a \texttt{error\_code} variable is maintained which is updated after the function call. It can be read out and checked by the user afterwards.
+
+C Example
+\begin{lstlisting}[language=c]
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "coines.h"
+
+int main(void)
+{
+    int16_t error_code = coines_open_comm_intf(COINES_COMM_INTF_USB, NULL);
+    if (error_code != COINES_SUCCESS)
+    {
+        const char *err_str = get_coines_error_str(error_code);
+        printf("\n%s", err_str);
+        exit(error_code);
+    }
+
+    coines_close_comm_intf(COINES_COMM_INTF_USB, NULL);
+    return 0;
+}
+\end{lstlisting}
+
+Python Example
+\begin{lstlisting}[language=python]
+import coinespy as cpy
+board = cpy.CoinesBoard()
+try:
+	board.open_comm_interface(cpy.CommInterface.USB)
+	board.close_comm_interface()
+except:
+	print(f'Could not connect to board: {board.error_code}')
+	exit(board.error_code)
+\end{lstlisting}
+
+Error code definitions
+\begin{lstlisting}
+    COINES_SUCCESS = 0
+    COINES_E_FAILURE = -1
+    COINES_E_COMM_IO_ERROR = -2
+    COINES_E_COMM_INIT_FAILED = -3
+    COINES_E_UNABLE_OPEN_DEVICE = -4
+    COINES_E_DEVICE_NOT_FOUND = -5
+    COINES_E_UNABLE_CLAIM_INTERFACE = -6
+    COINES_E_MEMORY_ALLOCATION = -7
+    COINES_E_NOT_SUPPORTED = -8
+    COINES_E_NULL_PTR = -9
+    COINES_E_COMM_WRONG_RESPONSE = -10
+    COINES_E_SPI16BIT_NOT_CONFIGURED = -11
+    COINES_E_SPI_INVALID_BUS_INTERFACE = -12
+    COINES_E_SPI_CONFIG_EXIST = -13
+    COINES_E_SPI_BUS_NOT_ENABLED = -14
+    COINES_E_SPI_CONFIG_FAILED = -15
+    COINES_E_I2C_INVALID_BUS_INTERFACE = -16
+    COINES_E_I2C_BUS_NOT_ENABLED = -17
+    COINES_E_I2C_CONFIG_FAILED = -18
+    COINES_E_I2C_CONFIG_EXIST = -19
+    COINES_E_TIMER_INIT_FAILED = -20
+    COINES_E_TIMER_INVALID_INSTANCE = -21
+    COINES_E_TIMER_CC_CHANNEL_NOT_AVAILABLE = -22
+    COINES_E_EEPROM_RESET_FAILED = -23
+    COINES_E_EEPROM_READ_FAILED = -24
+    COINES_E_INIT_FAILED = -25
+    COINES_E_STREAM_NOT_CONFIGURED = -26
+    COINES_E_STREAM_INVALID_BLOCK_SIZE = -27
+    COINES_E_STREAM_SENSOR_ALREADY_CONFIGURED = -28
+    COINES_E_STREAM_CONFIG_MEMORY_FULL = -29
+    COINES_E_INVALID_PAYLOAD_LEN = -30
+    COINES_E_CHANNEL_ALLOCATION_FAILED = -31
+    COINES_E_CHANNEL_DE_ALLOCATION_FAILED = -32
+    COINES_E_CHANNEL_ASSIGN_FAILED = -33
+    COINES_E_CHANNEL_ENABLE_FAILED = -34
+    COINES_E_CHANNEL_DISABLE_FAILED = -35
+    COINES_E_INVALID_PIN_NUMBER = -36
+    COINES_E_MAX_SENSOR_COUNT_REACHED = -37
+    COINES_E_EEPROM_WRITE_FAILED = -38
+    COINES_E_INVALID_EEPROM_RW_LENGTH = -39
+    COINES_E_INVALID_SCOM_CONFIG = -40
+    COINES_E_INVALID_BLE_CONFIG = -41
+    COINES_E_SCOM_PORT_IN_USE = -42
+    COINES_E_UART_INIT_FAILED = -43
+    COINES_E_UART_WRITE_FAILED = -44
+    COINES_E_UART_INSTANCE_NOT_SUPPORT = -45
+    COINES_E_BLE_ADAPTOR_NOT_FOUND = -46
+    COINES_E_ADAPTER_BLUETOOTH_NOT_ENABLED = -47
+    COINES_E_BLE_PERIPHERAL_NOT_FOUND = -48
+    COINES_E_BLE_LIBRARY_NOT_LOADED = -49
+    COINES_E_APP_BOARD_BLE_NOT_FOUND = -50
+    COINES_E_BLE_COMM_FAILED = -51
+    COINES_E_INCOMPATIBLE_FIRMWARE = -52
+    COINES_E_UNDEFINED_CODE = -100
+\end{lstlisting}
+
+\subsection{COINES SDK structure}
+\begin{itemize}
+	\item coines-api - Contains source code for low-level interface to Bosch Sensortec’s Engineering boards
+	\item doc - Contains COINES SDK user manual
+	\item driver - Contains USB driver for Application boards
+	\item examples - Contains C and python examples 
+	\item installer\_scripts - Contains Windows batch files that are used internally for install and uninstall functionalities
+	\item libraries and thirdparty - Contains libraries and SDKs used for communication APIs
+	\item tools - Contains tools for Application switch, Firmware update and BLE connect
+\end{itemize}
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=0.4\textwidth]{coinesAPI_images/COINES_file_structure.png}
+		\caption{COINES SDK file structure}
+	\end{center}
+\end{figure}
+\bstlastpage
+
+\end{document}
+
+\end{document}

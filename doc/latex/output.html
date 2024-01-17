@@ -1,0 +1,2524 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>BST-DHW-AN013-00</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  %%=============================================================================
+  % Universal template for LaTeX document in Bosch Corporate Design (English)
+  % for Bosch LaTeX Style v3.4
+  % Author:       Stephan.Simon@de.bosch.com                           2017-01-08
+  %%-----------------------------------------------------------------------------
+  % Copyright (c) 2001-2018 Robert Bosch GmbH and its subsidiaries.
+  % These LaTeX styles and templates and the accompanying materials are made
+  % available under the terms of the Bosch Internal Open Source License v4 which
+  % accompanies this distribution, and is available at
+  % http://bios.intranet.bosch.com/bioslv4.txt
+  %%=============================================================================
+
+  \usepackage{hyperref}
+
+  \usepackage[english]{babel} % for English text only
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{microtype} % improves font spacing, needs pdfTEX >= 1.20
+  %\usepackage{tabu} % easy-to-use tables
+  %\usepackage[table,dvipsnames]{xcolor} % colored tables
+  %\usepackage{amsmath}
+
+  \PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
+
+  % Bosch style and its primary options, COMMA-SEPARATED, NO EMPTY LINES!
+  \usepackage[
+  	Language = English,
+  	Format = A4portrait,
+  	isSerif = false,
+  	BaseColor = Gray,
+  	SgColor = Multi,
+  	SgPlace = Top,
+  	HeaderBg = Gray,
+  	isShallowTitle = true,
+  	TopWS = 0,
+  	BottomWS = 1,
+  	isLeftWS = false,
+  	isRightWS = false,
+  	EyeCatcherMode = Small,
+  	NumOfHinDiag = 98,
+  	SuperStripeHeightPercentOfH = 100,
+  	HeadHeightPortrait = 2,
+  	HeadHeightLandscape = 5,
+  	HorzSpacePortrait = 4.5,
+  	HorzSpaceLandscape = 1,
+  	VertSpacePortrait = 1,
+  	VertSpaceLandscape = 1.5,
+  	isGrid = false,
+  	]{bosch}
+  % Invoke the universal Bosch report pagestyle.
+  \pagestyle{boschrep}
+
+  %%-----------------------------------------------------------------------------
+  % Customization of bosch style.
+  % Any customization lines can be deleted if not needed!
+  % Leaving the arguments empty yields the same result except page numbering
+  % with \RBpage{} which is disabled by empty argument.
+  %%-----------------------------------------------------------------------------
+  % confidentiality class from -1 (no footer) to 3 (strictly confidential)
+  \RBconfidentiality{0}
+  \RBpage{Simple}% { | Simple | Last | LinkLast }
+
+  \newcommand{\BSTdocumentNumber}[1]{\def\@BSTdocumentNumber{#1}}
+  \newcommand{\@BSTdocumentNumber}{}
+  \newcommand{\BSTdocumentRevision}[1]{\def\@BSTdocumentRevision{#1}}
+  \newcommand{\@BSTdocumentRevision}{}
+  \newcommand{\BSTdocumentReleaseDate}[1]{\def\@BSTdocumentReleaseDate{#1}}
+  \newcommand{\@BSTdocumentReleaseDate}{}
+  \newcommand{\BSTtechnicalReferenceCodes}[1]{\def\@BSTtechnicalReferenceCodes{#1}}
+  \newcommand{\@BSTtechnicalReferenceCodes}{}
+  \newcommand{\BSTdocumentType}[1]{\def\@BSTdocumentType{#1}}
+  \newcommand{\@BSTdocumentType}{}
+
+  \RBdepartmentA{\@BSTdocumentNumber}
+  \RBversion{\@BSTdocumentRevision}
+  \RBnodate{}
+  \RBextraFooterField{\@BSTdocumentReleaseDate}
+  %%-----------------------------------------------------------------------------
+  % Other customization - taste-dependent ...
+  %%-----------------------------------------------------------------------------
+  % numbering depth for headings and table of contents
+  \setcounter{secnumdepth}{3}
+  \setcounter{tocdepth}{3}
+
+  % Formatting (see Klöckl, p.77)
+  \setcounter{topnumber}{5}           % max num. of floats at head
+  \setcounter{bottomnumber}{5}        % max num. of floats at foot
+  \setcounter{totalnumber}{10}        % max num. of floats
+  \renewcommand{\topfraction}{1.0}    % max. part of floats at head
+  \renewcommand{\bottomfraction}{1.0} % max. part of floats at foot
+  \renewcommand{\textfraction}{0.0}   % min. part of text
+  \renewcommand{\dbltopfraction}{1.0} % for wide floats in twocolumn
+  \renewcommand{\floatpagefraction}{1.0} % must be filled before new floats page
+  \renewcommand{\dblfloatpagefraction}{1.0} % for wide floats in twocolumn
+
+  % Naming of figures
+  \addto\extrasenglish{\renewcommand{\figurename}{Fig.}}
+  \addto\extrasngerman{\renewcommand{\figurename}{Fig.}}
+  \newcommand{\Fig}{Fig.\xspace}
+  \newcommand{\Abb}{Abb.\xspace}
+
+  %%-----------------------------------------------------------------------------
+  % Your own shortcuts and commands
+  %%-----------------------------------------------------------------------------
+
+  % Trennregeln
+  \hyphenation{}
+  % Avoid that tables float around, add this: \begin{table}[H]
+  \usepackage{float}
+  \restylefloat{table}
+
+  %%-----------------------------------------------------------------------------
+  % Add support for Python syntax highlighting
+  %%-----------------------------------------------------------------------------
+  \usepackage{listings}
+  \usepackage{color}
+  \usepackage{graphicx}
+  \newcommand{\paragraphnl}[1]{\paragraph{#1}\mbox{}\\}
+
+  \lstset{frame=tb,
+  	language=Python,
+  	aboveskip=3mm,
+  	belowskip=3mm,
+  	showstringspaces=false,
+  	columns=flexible,
+  	basicstyle={\small\ttfamily},
+  	numbers=none,
+  	numberstyle=\tiny\color{BoschDarkGray100},
+  	keywordstyle=\color{BoschDarkBlue100},
+  	commentstyle=\color{BoschDarkGreen100},
+  	stringstyle=\color{BoschFuchsia100},
+  	breaklines=true,
+  	breakatwhitespace=true,
+  	tabsize=3
+  }
+  % Add syntax highlighting for C code
+  \lstset{
+  	morekeywords={uint16\_t,int16\_t,uint8\_t,char,const,default,double,%
+  		else,enum,extern,float,for,goto,if,int,long,register,return,%
+  		short,signed,sizeof,static,struct,switch,typedef,union,unsigned,%
+  		void,volatile,while}
+  }
+
+
+  %%-----------------------------------------------------------------------------
+  % \newcommand{\bstfirstpage}
+  %%-----------------------------------------------------------------------------
+  \newcommand{\bstfirstpage}{
+  	\RBchangeOption{isShallowTitle}{false}
+  	\RBchangeOption{NumOfHinDiag}{54}
+  	\RBchangeOption{HeadHeightPortrait}{4}
+  	%\RBchangeOption{SgColor}{LightGray}	
+  	\RBchangeOption{HeaderBg}{Empty}
+  	\RBmyBackPic{Bosch-SupergraphicUp-Gray-Medium}
+  	%\RBmyBackPicZoomAngleRelxRely{}{}{}{.5}{.958}
+  	
+  	\vspace*{450px}
+  	\renewcommand{\arraystretch}{1.5} % Space between rows
+  	\begin{center}
+  		\begin{tabular}{l p{12cm}}	
+  			\multicolumn{2}{l}{\textbf{\Large \@BSTdocumentType}} \\
+  			Document revision	& \@BSTdocumentRevision \\
+  			Document release date	& \@BSTdocumentReleaseDate \\
+  			Document number	& \@BSTdocumentNumber \\
+  			Technical reference code(s)	& \@BSTtechnicalReferenceCodes  \\
+  			Notes &	Data and descriptions in this document are subject to change without notice. Product photos and pictures are for illustration purposes only and may differ from the real product appearance.  \\
+  		\end{tabular}
+  	\end{center}
+  	
+  	\newpage
+  	\RBmyBackPic{}
+  	\RBchangeOption{isShallowTitle}{true}
+  	\RBchangeOption{NumOfHinDiag}{98}
+  	\RBchangeOption{HeadHeightPortrait}{2}
+  	\setlength{\unitlength}{1pt}
+  	}
+
+  %%-----------------------------------------------------------------------------
+  % \newcommand{\bstlastpage}
+  %%-----------------------------------------------------------------------------
+  \newcommand{\bstlastpage}{
+  	\newpage
+  	\thispagestyle{empty}
+  	\setlength{\headheight}{0pt}
+  	\setlength{\headsep}{0pt}
+  	\setlength{\topmargin}{0pt}
+  	\setlength{\evensidemargin}{0pt}
+  	\setlength{\oddsidemargin}{0pt}
+  	
+  	\begin{center}
+  		\makebox[\textwidth]{\includegraphics[width=\paperwidth, trim={0 25cm 0 0}, clip]{Bosch-SupergraphicUp-Gray-Medium}}
+  	\end{center}
+  	
+  	Bosch Sensortec GmbH \\
+  	Gerhard-Kindler-Straße 9 \\
+  	72770 Reutlingen / Germany
+  	
+  	www.bosch-sensortec.com
+  	
+  	Modifications reserved | Printed in Germany \\
+  	Preliminary - specifications subject to change without notice \\
+  	Document number: \@BSTdocumentNumber \\
+  	Revision \@BSTdocumentRevision
+  }
+</head>
+<body>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Document revision</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Document release date</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Document number</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Technical reference code(s)</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Notes</td>
+<td style="text-align: left;">Data and descriptions in this document are subject to change without notice. Product photos and pictures are for illustration purposes only and may differ from the real product appearance.</td>
+</tr>
+</tbody>
+</table>
+<p>Application Board 2.0</p>
+<p>Application Board 3.0 and Application Board 3.1</p>
+<p>Bluetooth Low Energy</p>
+<p>Communication with Inertial and Environmental Sensors</p>
+<p>Device Firmware Upgrade</p>
+<p>Data Terminal Ready</p>
+<p>Microcontroller Unit</p>
+<p>Micro-Electro-Mechanical Systems</p>
+<p>Software Development Kit</p>
+<p>Universal Serial Bus</p>
+<h1 id="introduction">Introduction</h1>
+<p>Bosch Sensortec offers a toolkit for evaluation of it’s sensor products.The toolkit consists of 3 elements:</p>
+<ol>
+<li><p><strong>Engineering board</strong>: <a href="https://www.bosch-sensortec.com/bst/support_tools/application_boards/overview_application_boards">Application Board</a> named APP2.0 and APP3.x in this document, serves as interface translator from the sensor interface (I<sup>2</sup>C or SPI) to a USB interface, allowing PC software to communicate with the sensor on the shuttle board. <a href="https://store.arduino.cc/products/nicla-sense-me">Nicla Sense ME</a> board combines four state-of-the-art sensors from Bosch Sensortec (BHI260AP, BMP390, BMM150 and BME688) in the Arduino ecosystem.</p>
+<p><img src="coinesAPI_images/APP20-APP20.png" title="fig:" style="width:50.0%" alt="Application Board 2.0/3.0/3.1/Nicla Sense ME" /> <img src="coinesAPI_images/APP30.png" title="fig:" style="width:40.0%" alt="Application Board 2.0/3.0/3.1/Nicla Sense ME" /> <img src="coinesAPI_images/APP31.png" title="fig:" style="width:40.0%" alt="Application Board 2.0/3.0/3.1/Nicla Sense ME" /> <img src="coinesAPI_images/NiclaSenseME.jpg" title="fig:" style="width:40.0%" alt="Application Board 2.0/3.0/3.1/Nicla Sense ME" /></p></li>
+<li><p><strong>Sensor Shuttle board</strong>: A sensor specific shuttle board also known as breakout board is a PCB with the sensor mounted on it. The shuttle board allows easy access to the sensor pins via a simple socket and can be directly plugged into the Bosch Sensortec’s Application boards. APP3.x shuttle boards also known as mini shuttle boards has smaller form factor when compared with APP2.0 shuttle board.</p>
+<p><img src="coinesAPI_images/BMA222E_1.png" title="fig:" style="width:35.0%" alt="APP2.0/3.x sensor shuttle board" /> <img src="coinesAPI_images/BMA423.png" title="fig:" style="width:45.0%" alt="APP2.0/3.x sensor shuttle board" /></p></li>
+<li><p><strong>COINES</strong>: COINES provides a low-level interface for communication with Bosch Sensortec’s Engineering boards enabling access to their MEMS sensors through sample applications and SensorAPI. For detailed description, refer to sections below.</p></li>
+</ol>
+<h1 id="introduction-to-coines">Introduction to COINES</h1>
+<p>COINES ("<strong>CO</strong>mmunication with <strong>IN</strong>ertial and <strong>E</strong>nvironmental <strong>S</strong>ensors") is an SDK (Software Development Kit), implemented in C as a programming language that provides a low-level interface to Bosch Sensortec’s Engineering Boards. The user can access Bosch Sensortec’s MEMS sensors through this C interface. COINES can be used with the SensorAPI of the sensor which is available at <a href="https://github.com/BoschSensortec">https://github.com/BoschSensortec</a>. The user can modify, compile and run the sample applications in COINES SDK and SensorAPI.</p>
+<p>The full working environment consists of:</p>
+<ul>
+<li><p>A Bosch Sensortec MEMS sensor on a shuttle board mounted on the socket of Bosch Sensortec’s Application board APP2.0/APP3.x</p></li>
+<li><p>Windows, Linux or Mac PC to which the Engineering Board is connected via USB or BLE.</p></li>
+<li><p>The release of the COINES software is available at <a href="https://www.bosch-sensortec.com/software-tools/tools/coines/">https://www.bosch-sensortec.com/software-tools/tools/coines/</a></p></li>
+<li><p>C compiler is also required (for details, see sections below)</p></li>
+</ul>
+<h1 id="coines-usage">COINES usage</h1>
+<p>The following diagram represents COINES usage.</p>
+<figure>
+<img src="coinesAPI_images/COINES_block_diagram.png" style="width:110.0%" alt="" /><figcaption>COINES usage with APP3.1</figcaption>
+</figure>
+<h1 id="installation">Installation</h1>
+<p>COINES should be usable on any recent PC or laptop system which has at least a performance as an “office PC”. The hardware should provide a USB interface.</p>
+<p>COINES runs on recent versions of Windows, Linux and Mac Operating systems.</p>
+<h2 id="installation-windows">Installation (Windows)</h2>
+<h3 id="system-requirements">System requirements</h3>
+<p>The supported OS versions are Windows 10 and 11.</p>
+<h3 id="installation-of-coines">Installation of COINES</h3>
+<p>The steps below need to be followed in order to install COINES SDK:</p>
+<ol>
+<li><p>Download the latest version of COINES from <a href="https://www.bosch-sensortec.com/software-tools/tools/coines/">Bosch Sensortec website</a></p></li>
+<li><p>Run the Installer</p></li>
+<li><p>Accept the End User License Agreement and click Next</p>
+<figure>
+<img src="coinesAPI_images/Windows_installation_user_agreement.png" style="width:70.0%" alt="" /><figcaption>Windows installer end user agreement dialog</figcaption>
+</figure></li>
+<li><p>Click Install to start Installation</p>
+<figure>
+<img src="coinesAPI_images/Windows_install_dialog.png" style="width:70.0%" alt="" /><figcaption>Windows install dialog</figcaption>
+</figure></li>
+</ol>
+<h3 id="installation-of-compiler-environment">Installation of compiler environment</h3>
+<p>COINES examples can be built using GNU C compiler (GCC). There are various distributions of GCC. TDM-GCC is easy to install and hence preferred for COINES. TDM GCC is based on MinGW GCC.</p>
+<p>If you have already installed GCC (MinGW/Cygwin/MSYS2 GCC) and added to ’PATH’ environmental variable, you can skip compiler installation.</p>
+<p>The steps to install compiler environment are as follows:</p>
+<ol>
+<li><p>Download the TDM32/TDM64 bundle (<a href="http://tdm-gcc.tdragon.net/">link</a>). <strong>Use TDM32 bundle if your Windows OS is 32-bit and TDM64 bundle if 64-bit.</strong></p></li>
+<li><p>Start the Installer. Ensure that the option Check for updated files on the TDM GCC server is unchecked. Click Create and proceed with the installation</p></li>
+<li><p>If you intend to do run the COINES example on Application Board’s microcontroller, install the latest version of <a href="https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads">GNU Embedded Toolchain for ARM</a> for Windows. Make sure you have checked ’Add to PATH’.</p></li>
+</ol>
+<p><img src="coinesAPI_images/COINES_tdm-gcc-InstallationDialog.png" style="width:70.0%" alt="image" /></p>
+<figure>
+<img src="coinesAPI_images/COINES_tdm-gcc-InstallationDialog_1.png" style="width:70.0%" alt="" /><figcaption>TDM-GCC installation dialog</figcaption>
+</figure>
+<figure>
+<img src="coinesAPI_images/gnu_arm_toolchain_installation.png" style="width:70.0%" alt="" /><figcaption>GNU ARM Toolchain installation</figcaption>
+</figure>
+<h2 id="installation-linuxmacos">Installation (Linux/MacOS)</h2>
+<h3 id="system-requirements-1">System requirements</h3>
+<ul>
+<li><p>The supported Linux OS versions are Debian based - Ubuntu 18.04 and 22.04.</p></li>
+<li><p>The supported macOS versions are MacOS Ventura 13.4.1 and 13.5.2.</p></li>
+</ul>
+<h3 id="installation-of-coines-1">Installation of COINES</h3>
+<p>The steps below need to be followed in order to install COINES SDK:</p>
+<ol>
+<li><p>Download the installer.</p></li>
+<li><p>Use the command <code>cd</code> to go to the directory where the installer is located and make the installer executable:</p>
+<ul>
+<li><p><code>chmod +x coines_vX.Y.sh</code></p></li>
+</ul></li>
+<li><p>Ensure that you are connected to the Internet before running the installer, which is executed like this:</p>
+<ul>
+<li><p><code>./coines_vX.Y.sh</code></p></li>
+</ul></li>
+<li><p>Accept the End User License agreement</p>
+<p><img src="coinesAPI_images/Linux_installation_user_agreement.png" style="width:70.0%" alt="image" /></p>
+<figure>
+<img src="coinesAPI_images/Linux_installation_user_agreement_1.png" style="width:70.0%" alt="" /><figcaption>Linux installer end user agreement</figcaption>
+</figure></li>
+<li><p>The installer will prompt you if the required dependencies/packages are not installed. (This step requires root privileges.)</p></li>
+</ol>
+<h3 id="installation-of-compiler-environment-1">Installation of compiler environment</h3>
+<p>On a Debian or Redhat based Linux distro, the installer prompts for installation of missing dependencies, <code>gcc</code>, <code>make</code> and <code>libusb-dev</code> packages.If due to some reason installation fails, the user can manually install the dependencies.</p>
+<ul>
+<li><p>Debian based distros - <code>gcc</code>, <code>make</code>, <code>libusb-1.0-0-dev</code>, <code>dfu-util</code> , <code>libdbus-1-dev</code></p></li>
+<li><p>Redhat based distros - <code>gcc</code>, <code>make</code>, <code>libusbx-devel</code>, <code>dfu-util</code>, <code>dbus-devel</code></p></li>
+<li><p>MacOS - <code>libusb</code>, <code>dfu-util</code></p></li>
+</ul>
+<p>If you intend to run the COINES example on Application Board’s microcontroller, download the latest version of <a href="https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads">GNU Embedded Toolchain for ARM</a> for Linux and extract the package. Add the compiler to PATH variable by editing <code>$HOME/.bashrc</code> or similar file like <code>/etc/profile or /etc/environment</code>.</p>
+<h1 id="coines">Using COINES to access the sensor on Engineering Board</h1>
+<h2 id="ExampleOnMCU">Running examples on the MCU of the Application board</h2>
+<h3 id="working-principle">Working principle</h3>
+<p>The COINES SDK can be cross-compiled on PC side and downloaded into the memory of the Application board and executed there. The user can choose to download the created binary into the flash memory or into the RAM (if the binary is within the RAM memory capacity e.g., APP3.x’s RAM is 256 KB).</p>
+<p>Downloading COINES SDK example to APP3.x Flash memory will overwrite default firmware. To update the firmware again, refer to section <a href="#firmwareUpdate" data-reference-type="ref" data-reference="firmwareUpdate">13</a>.</p>
+<p>In this configuration, the COINES layer provides a simple abstraction on top of the MCU BSP (i.e. board level support layer of the microcontroller). Any <code>printf</code> command will now not output to the console, but rather to the USB connection, which appears as virtual COM port on PC side.</p>
+<p>This mode facilitates the execution of many time-critical operations on the sensor, such as fast reading of FIFO content at high data rates.</p>
+<figure>
+<img src="coinesAPI_images/COINES_workingPrinciple_runOnMCU.png" style="width:90.0%" alt="" /><figcaption>Working principle: Running example on the MCU of the Application board</figcaption>
+</figure>
+<h3 id="getting-started">Getting started</h3>
+<p>To get started with example execution, follow these steps:</p>
+<ol>
+<li><p>Make sure that <a href="https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads">GNU Embedded Toolchain for ARM</a> is installed on your PC and added to environmental variable <code>PATH</code>.</p></li>
+<li><p>Connect the Application board via USB, with the sensor shuttle board mounted.</p></li>
+<li><p>Open the command prompt or the terminal.</p></li>
+<li><p>Use the command <code>cd</code> to go to the directory where the example that is to be built is located.</p></li>
+</ol>
+<h3 id="interfacing-via-ble">Interfacing via BLE</h3>
+<p>The procedure to interface via BLE involves these steps:</p>
+<ol>
+<li><p>Open the script to be executed (in case of SensorAPI - common.c file in the selected example folder) in your IDE</p></li>
+<li><p>Change COINES_COMM_INTF_USB to COINES_COMM_INTF_BLE</p></li>
+<li><p>Change all print statments</p>
+<pre><code>    printf(...) to fprintf(bt_w,...)</code></pre></li>
+<li><p>Now follow the steps from 1 - 4 in the above section</p></li>
+</ol>
+<h3 id="cross-compiling">Cross compiling</h3>
+<p>To compile and download an example to Engineering Board’s microcontroller, type any of the build commands below based on available Engineering board type and target memory location. Use ’<code>mingw32-make</code>’ (TDM-GCC/MinGW) or ’<code>make</code>’ (Linux/Cygwin/MSYS2/MacOS) for compilation.</p>
+<p>Note: Nicla board programs can only be executed as PC target at this moment.</p>
+<h3 id="viewing-the-results">Viewing the results</h3>
+<p>The ways to view the execution results are outlined as follows:</p>
+<ol>
+<li><p>Use a Serial Terminal application to view output.</p>
+<ul>
+<li><p>Windows - PuTTY, HTerm,etc.,</p></li>
+<li><p>Linux - <code>cat</code> command. Eg: <code>cat /dev/ttyACM0</code></p></li>
+<li><p>macOS - <code>screen</code> command. Eg: <code>screen /dev/tty.usbmodem9F31</code></p></li>
+</ul>
+<p>Note: The binary on the MCU will be executed once the serial port is opened. The port must be opened including DTR signal set, otherwise the binary will not be executed. Some terminal programs such as HTerm allow explicit setting of the DTR signal.</p></li>
+<li><p>For bluetooth communication, connect the Application board to another power source and keep it within the BLE range. And use any of the below tools to view the output.</p>
+<ul>
+<li><p>Android app - <a href="https://play.google.com/store/apps/details?id=de.kai_morich.serial_bluetooth_terminal">Serial Bluetooth terminal</a></p></li>
+<li><p>Website - <a href="https://wiki.makerdiary.com/web-device-cli/">Web Device CLI</a></p></li>
+<li><p>Python script -</p></li>
+</ul></li>
+</ol>
+<h3 id="data-logging">Data logging</h3>
+<p>The user can use any serial terminal program to access and store the data provided via virtual COM port e.g HTerm has "Save output" option to store log.</p>
+<h2 id="running-examples-on-pc-side">Running examples on PC side</h2>
+<h3 id="working-principle-1">Working principle</h3>
+<p>When compiling the COINES SDK for PC side, the COINES layer provides an abstraction of the embedded environment on the host side. COINES library provides read and write functions for I<sup>2</sup>C and SPI on PC side. These functions receive the arguments of the user input (i.e. what register address to read from) and tunnel them through the USB connection to the Application Board, where they are fed into the embedded I<sup>2</sup>C and SPI functions and are executed to access the sensor. Any result or response from those functions is tunneled back to the PC side and provided to the example application.</p>
+<p>This approach allows easy and flexible programming and offers the possibility to integrate the example code into other applications or add advanced logging options. The drawback is that in this mode the code is not executed in real time, as it runs on a multi-tasking operating system. To overcome this drawback, the examples can also be run on the MCU side (see section <a href="#ExampleOnMCU" data-reference-type="ref" data-reference="ExampleOnMCU">5.1</a>).</p>
+<figure>
+<img src="coinesAPI_images/COINES_workingPrinciple_runOnPC.png" style="width:90.0%" alt="" /><figcaption>Working principle: Running example on PC side</figcaption>
+</figure>
+<h3 id="pc-side-implementation">PC side implementation</h3>
+<p>This setup has the challenge of lacking the real-time capabilities known from a pure microcontroller environment. To overcome this, the coinesAPI offers streaming functions, which allow the user to schedule data readout directly on the microcontroller, either based on a data interrupt coming from the sensors or based on the timer of the microcontroller. The scheduler waits for the configured interrupt (sensor interrupt or timer interrupt) and reads out areas of the register map, which can be configured by the user.</p>
+<p>As an example, the user could choose to read out the 6 bytes from the register map of a certain inertial sensor, containing the sensor data of three axis (2 bytes per axis). If the user would configure e.g a readout once per milliseconds, the result would be a data stream of three-axis sensor data at a rate of 1 kHz.</p>
+<h3 id="getting-started-1">Getting started</h3>
+<p>To get started with example execution, follow these steps:</p>
+<ol>
+<li><p>Connect the Application board via USB, with the sensor shuttle board mounted.</p></li>
+<li><p>Refer to section <a href="#firmwareUpdate" data-reference-type="ref" data-reference="firmwareUpdate">13</a> and update the Coines Bridge firmware to the board.</p></li>
+<li><p>Open the command prompt or the terminal.</p></li>
+<li><p>Use the command <code>cd</code> to go to the directory where the example that is to be built is located.</p></li>
+</ol>
+<p>Note: Some examples may not compile for both PC and MCU target. Please refer to the example documentation or simply the example name (e.g. examples that can only be compiled for the PC are named with a following ’_pc’).</p>
+<h3 id="interfacing-via-ble-1">Interfacing via BLE</h3>
+<p>The procedure to interface via BLE involves these steps:</p>
+<ol>
+<li><p>Open the script to be executed (in case of SensorAPI - common.c file in the selected example folder) in your IDE</p></li>
+<li><p>Change COINES_COMM_INTF_USB to COINES_COMM_INTF_BLE</p></li>
+<li><p>Now follow the steps from 1 - 4 in the above section</p></li>
+</ol>
+<h3 id="compiling">Compiling</h3>
+<p>To run an example in PC side, execute below command "mingw32-make TARGET=PC". Use ’<code>mingw32-make</code>’ (TDM-GCC/MinGW) or ’<code>make</code>’ (Linux/Cygwin/MSYS2/MacOS) for compilation.</p>
+<h3 id="viewing-the-results-1">Viewing the results</h3>
+<p>Running the output executable in the command prompt of the PC will display the results. To view ouput via BLE, connect the Application board to another power source and keep it within the BLE range and run the executable in the PC.</p>
+<h3 id="data-logging-1">Data logging</h3>
+<p>The user can utilize the terminal’s output redirection command to store the result of a command/executable in a file, as demonstrated below.</p>
+<p><img src="coinesAPI_images/PC_data_logging.png" style="width:90.0%" alt="image" /></p>
+<h2 id="project-cleanup">Project Cleanup</h2>
+<p>The commands to clean build files are listed below:</p>
+<ul>
+<li><p><code>mingw32-make clean</code> - Use this command to remove the object files and other intermediate files created during the compilation process.</p></li>
+<li><p><code>mingw32-make clean-all</code> - Use this command to remove all build artifacts, including the final executable or library, and start the build process from scratch</p></li>
+</ul>
+<h1 id="using-coinespy-to-access-the-sensor-on-engineering-board">Using COINESPY to access the sensor on Engineering Board</h1>
+<h2 id="introduction-to-coinespy-library">Introduction to <code>COINESPY</code> library</h2>
+<p>The <code>COINESPY</code> library provides a Python interface for interacting with the Bosch Sensortec’s Engineering Boards. The library offers the following range of functionalities:</p>
+<ul>
+<li><p>Control VDD and VDDIO of sensor</p></li>
+<li><p>Configure SPI and I<sup>2</sup>C bus parameters</p></li>
+<li><p>Read and write into registers of sensors from Bosch Sensortec via SPI and I<sup>2</sup>C</p></li>
+<li><p>Read and write digital pins of the Application Board</p></li>
+</ul>
+<h2 id="installation-1">Installation</h2>
+<p>The <code>COINESPY</code> module can be installed using pip:</p>
+<pre><code>pip install coinespy</code></pre>
+<p>The module can be found on <a href="https://pypi.org/project/coinespy/">https://pypi.org/project/coinespy/</a>. It is highly recommended to test the following script <code>examples\python\coinespy_test.py</code> in the COINES installation or Refer to <a href="#GettingBoardInfo" data-reference-type="ref" data-reference="GettingBoardInfo">8.2.1</a> to check if the installation was successful.</p>
+<h1 id="using-sensor-api-with-coines">Using Sensor API with COINES</h1>
+<h2 id="sensorapi">SensorAPI</h2>
+<p>Bosch Sensortec recommends using the SensorAPI in order to communicate with the sensors. The SensorAPI, an abstraction layer written in C makes it much more convenient for the user to access the register map of the sensor, in order to configure certain functionality and obtain certain information from it.</p>
+<p>For making use of the SensorAPI, some function pointers must be set to the appropriate read/write functions of the selected bus on the system (either I<sup>2</sup>C or SPI), as well as one function pointer to a system’s function causing delays in milliseconds.</p>
+<p>In order to execute C code using SensorAPI, the COINES API provides the mentioned read, write, delay functions. These functions are wrapper functions, embedding the actual SensorAPI payloads into a transport package, sending this via USB or BLE to the Engineering board, where the payload is translated into corresponding SPI or I<sup>2</sup>C messages and sent to the sensor on the shuttle board.The mapping would look similar to the one below.</p>
+<pre><code>#include &quot;coines.h&quot;
+#include &quot;bst_sensor.h&quot;
+
+struct bst_sensor_dev sensordev;
+....
+....
+sensordev.intf = BST_SENSOR_I2C_INTF;  // SPI - BST_SENSOR_SPI_INTF
+sensordev.read = coines_read_i2c;   // coines_read_spi
+sensordev.write = coines_write_i2c; // coines_write_spi
+sensordev.delay_ms = coines_delay_usec;
+</code></pre>
+<p>For the description of COINES functions used, refer to <a href="#CoinesCFunctions" data-reference-type="ref" data-reference="CoinesCFunctions">15.2</a>.</p>
+<h2 id="downloading-sensor-api">Downloading Sensor API</h2>
+<p>In order to download SensorAPI, the steps below need to be followed:</p>
+<ul>
+<li><p>Download SensorAPI repo using Download zip option for selected sensors from boschsensortec github <a href="https://github.com/BoschSensortec">https://github.com/BoschSensortec</a>.</p></li>
+<li><p>Unzip the downloaded SensorAPI repo to .</p></li>
+<li><p>Rename the unzipped folder to sensor name e.g and change directory to an example folder to execute it.</p></li>
+</ul>
+<h2 id="running-example-on-mcu-side">Running example on MCU side</h2>
+<p>Here are the step-by-step instructions to run examples on MCU side:</p>
+<ul>
+<li><p>Selected Platform: Windows</p></li>
+<li><p>Board: APP3.1</p></li>
+<li><p>Sensor shuttle: BMI270</p></li>
+<li><p>Example:</p></li>
+</ul>
+<ol>
+<li><p>Connect the Application Board board via USB, with the sensor shuttle board mounted.</p></li>
+<li><p>Open the command prompt or the terminal.</p></li>
+<li><p>Use the command <code>cd</code> to go to the directory where the example that is to be built is located.</p>
+<p><img src="coinesAPI_images/Mcu_example_cd.png" style="width:90.0%" alt="image" /></p></li>
+<li><p>Execute command "mingw32-make TARGET=MCU_APP31 download"</p>
+<p><img src="coinesAPI_images/Mcu_example_compile.png" style="width:90.0%" alt="image" /></p>
+<p><img src="coinesAPI_images/Mcu_example_download.png" style="width:90.0%" alt="image" /></p></li>
+<li><p>View the output in a serial terminal application like HTerm</p>
+<p><img src="coinesAPI_images/Mcu_example_output.png" style="width:90.0%" alt="image" /></p>
+<p><img src="coinesAPI_images/Mcu_example_log.png" style="width:90.0%" alt="image" /></p></li>
+</ol>
+<h2 id="running-example-on-mcu-side-via-ble">Running example on MCU side via BLE</h2>
+<p>The sequence of actions required for interfacing via BLE includes the steps below:</p>
+<ol>
+<li><p>Go to the folder in file explorer</p></li>
+<li><p>Open the common.c file in the selected example folder in your IDE</p></li>
+<li><p>Change COINES_COMM_INTF_USB to COINES_COMM_INTF_BLE</p>
+<p><img src="coinesAPI_images/Mcu_example_ble_intf.png" style="width:90.0%" alt="image" /></p></li>
+<li><p>Open example script and change the</p>
+<pre><code>    printf(...) to fprintf(bt_w,...)</code></pre>
+<p><img src="coinesAPI_images/Mcu_example_ble_print.png" style="width:90.0%" alt="image" /></p></li>
+<li><p>Now follow the same steps from 1 - 4 in the above section.</p></li>
+<li><p>Connect the Application board to another power source and keep it within the BLE range.</p></li>
+<li><p>View the output in the <a href="https://wiki.makerdiary.com/web-device-cli/">Web Device CLI</a> site in your browser by connecting to board via BLE.</p>
+<p><img src="coinesAPI_images/Mcu_example_ble_pair.png" style="width:70.0%" alt="image" /></p>
+<p><img src="coinesAPI_images/Mcu_example_ble_output.png" style="width:90.0%" alt="image" /></p></li>
+</ol>
+<h2 id="running-example-on-pc-side">Running example on PC side</h2>
+<p>Here are the step-by-step instructions to run examples on PC side:</p>
+<ul>
+<li><p>Selected Platform: Windows</p></li>
+<li><p>Board: APP3.1</p></li>
+<li><p>Sensor shuttle: BMI270</p></li>
+<li><p>Example:</p></li>
+</ul>
+<ol>
+<li><p>Connect the Application Board board via USB, with the sensor shuttle board mounted.</p></li>
+<li><p>Refer to section <a href="#firmwareUpdate" data-reference-type="ref" data-reference="firmwareUpdate">13</a> and update the Coines Bridge firmware to the board.</p></li>
+<li><p>Open the command prompt or the terminal.</p></li>
+<li><p>Use the command <code>cd</code> to go to the directory where the example that is to be built is located.</p>
+<p><img src="coinesAPI_images/Pc_example_cd.png" style="width:90.0%" alt="image" /></p></li>
+<li><p>Execute command "mingw32-make TARGET=PC COINES_BACKEND=COINES_BRIDGE"</p>
+<p><img src="coinesAPI_images/Pc_example_compile.png" style="width:90.0%" alt="image" /></p></li>
+<li><p>View the output in the command prompt by running the example executable.</p>
+<p><img src="coinesAPI_images/Pc_example_output.png" style="width:90.0%" alt="image" /></p></li>
+</ol>
+<h2 id="running-example-on-pc-side-via-ble">Running example on PC side via BLE</h2>
+<p>The sequence of actions required for interfacing via BLE includes the steps below:</p>
+<ol>
+<li><p>Go to the examples folder in file explorer.</p></li>
+<li><p>Open the common.c file in the selected example folder in your IDE.</p></li>
+<li><p>Change COINES_COMM_INTF_USB to COINES_COMM_INTF_BLE.</p></li>
+<li><p>Connect the Application board to another power source and keep it within the BLE range.</p></li>
+<li><p>Now follow the same steps from 3 - 6 in the above section.</p>
+<p><img src="coinesAPI_images/Pc_example_ble_output.png" style="width:90.0%" alt="image" /></p></li>
+</ol>
+<h1 id="examples-on-how-to-use-coines">Examples on how to use COINES</h1>
+<h2 id="coines-c-examples">COINES C examples</h2>
+<h3 id="establishing-communication">Establishing communication</h3>
+<p>The following code snippet shows how to set up a connection with the board.</p>
+<div class="sourceCode" id="cb5" data-language="c"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>    </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&quot;coines.h&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>    </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>    <span class="dt">int</span> main(<span class="dt">void</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a>    {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a>        <span class="dt">int8_t</span> error_code;</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a>        <span class="kw">enum</span> coines_comm_intf comm_intf = COINES_COMM_INTF_USB;</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true"></a>        error_code = coines_open_comm_intf(comm_intf, NULL);</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true"></a>        <span class="cf">if</span> (error_code == COINES_SUCCESS)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true"></a>        {</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Successfully connected to board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true"></a>        }</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true"></a>        <span class="cf">else</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true"></a>        {</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Unable to connect with board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true"></a>            exit(error_code);</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true"></a>        }</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true"></a>    </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true"></a>        coines_close_comm_intf(comm_intf, NULL);</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true"></a>    </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true"></a>        <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>The APIs below can be used for board interface.</p>
+<ul>
+<li><p><code>coines_open_comm_intf</code></p></li>
+<li><p><code>coines_close_comm_intf</code></p></li>
+</ul>
+<h3 id="getting-board-info">Getting board info</h3>
+<p>The following code snippet shows how to get board information.</p>
+<div class="sourceCode" id="cb6" data-language="c"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a>    </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&quot;coines.h&quot;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>    </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>    <span class="dt">int</span> main(<span class="dt">void</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a>    {</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a>        <span class="dt">int8_t</span> error_code;</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a>        <span class="kw">struct</span> coines_board_info board_info;</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a>        <span class="kw">enum</span> coines_comm_intf comm_intf = COINES_COMM_INTF_USB;</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a>    </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a>        error_code = coines_open_comm_intf(comm_intf, NULL);</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a>        <span class="cf">if</span> (error_code &lt; COINES_SUCCESS)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a>        {</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Unable to connect with board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a>            exit(error_code);</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a>        }</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a>    </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a>        error_code = coines_get_board_info(&amp;board_info);</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true"></a>        <span class="cf">if</span> (error_code == COINES_SUCCESS)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true"></a>        {</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Board Info:&quot;</span>);</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n\t</span><span class="st">board_info.board:0x%02X&quot;</span>, board_info.board);</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n\t</span><span class="st">board_info.hardware_id:0x%02X&quot;</span>, board_info.hardware_id);</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n\t</span><span class="st">board_info.shuttle_id:0x%02X&quot;</span>, board_info.shuttle_id);</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n\t</span><span class="st">board_info.software_id:0x%02X&quot;</span>, board_info.software_id);</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true"></a>        }</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true"></a>    </span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true"></a>        coines_close_comm_intf(comm_intf, NULL);</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true"></a>    </span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true"></a>        <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true"></a>    }</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true"></a>    </span></code></pre></div>
+<h3 id="i2c-config-and-read">I2C config and read</h3>
+<p>This basic program shows how to configure and perform I2C read. Sensor: BMI270</p>
+<div class="sourceCode" id="cb7" data-language="c"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>    </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&quot;coines.h&quot;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>    </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>    <span class="pp">#define BMI2_I2C_PRIM_ADDR  0x68</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>    </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>    <span class="dt">int</span> main(<span class="dt">void</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>    {</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>        <span class="dt">int8_t</span> error_code;</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>        <span class="dt">uint8_t</span> chip_id;</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>        <span class="dt">uint8_t</span> reg_addr = <span class="bn">0x0</span>;</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>        <span class="kw">enum</span> coines_comm_intf comm_intf = COINES_COMM_INTF_USB;</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>    </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a>        error_code = coines_open_comm_intf(comm_intf, NULL);</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a>        <span class="cf">if</span> (error_code == COINES_SUCCESS)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a>        {</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Successfully connected to board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true"></a>        }</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true"></a>        <span class="cf">else</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true"></a>        {</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Unable to connect with board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a>            exit(error_code);</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a>        }</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a>    </span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true"></a>        <span class="co">/* Power up the board */</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true"></a>        (<span class="dt">void</span>)coines_set_shuttleboard_vdd_vddio_config(<span class="dv">3300</span>, <span class="dv">3300</span>);</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true"></a>        coines_delay_usec(<span class="dv">200</span>);</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true"></a>    </span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true"></a>        <span class="co">/* SDO to Ground */</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true"></a>        coines_set_pin_config(COINES_SHUTTLE_PIN_22, COINES_PIN_DIRECTION_OUT, COINES_PIN_VALUE_LOW);</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true"></a>    </span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true"></a>        <span class="co">/* Make CSB pin HIGH */</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true"></a>        coines_set_pin_config(COINES_SHUTTLE_PIN_21, COINES_PIN_DIRECTION_OUT, COINES_PIN_VALUE_HIGH);</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true"></a>        coines_delay_msec(<span class="dv">100</span>);</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true"></a>    </span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true"></a>        <span class="co">/* SDO pin is made low */</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true"></a>        coines_set_pin_config(COINES_SHUTTLE_PIN_SDO, COINES_PIN_DIRECTION_OUT, COINES_PIN_VALUE_LOW);</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true"></a>    </span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true"></a>        <span class="co">/* I2C config */</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true"></a>        coines_config_i2c_bus(COINES_I2C_BUS_0, COINES_I2C_STANDARD_MODE);</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true"></a>    </span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true"></a>        <span class="co">/* I2C read */</span></span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true"></a>        (<span class="dt">void</span>)coines_read_i2c(COINES_I2C_BUS_0, BMI2_I2C_PRIM_ADDR, reg_addr, &amp;chip_id, <span class="dv">1</span>);</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true"></a>    </span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true"></a>        printf(<span class="st">&quot;I2C read: Sensor chip ID - 0x%x</span><span class="sc">\n</span><span class="st">&quot;</span>, chip_id);</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true"></a>    </span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true"></a>        (<span class="dt">void</span>)coines_set_shuttleboard_vdd_vddio_config(<span class="dv">0</span>, <span class="dv">0</span>);</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true"></a>        coines_delay_msec(<span class="dv">100</span>);</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true"></a>    </span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true"></a>        <span class="co">/* Coines interface reset */</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true"></a>        coines_soft_reset();</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true"></a>        coines_delay_msec(<span class="dv">100</span>);</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true"></a>    </span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true"></a>        coines_close_comm_intf(comm_intf, NULL);</span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true"></a>    </span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true"></a>        <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>The user shall pass GPIO pin numbers, read register address and I2C device address for sensors based on the selected sensor shuttle board. I2C communication require the proper setting of VDD and VDDIO using <code>coines_set_shuttleboard_vdd_vddio_config</code>. The APIs below can be used for I2C configure/read/write.</p>
+<ul>
+<li><p><code>coines_config_i2c_bus</code></p></li>
+<li><p><code>coines_read_i2c</code></p></li>
+<li><p><code>coines_write_i2c</code></p></li>
+</ul>
+<h3 id="spi-config-and-read">SPI config and read</h3>
+<p>This basic program shows how to configure and perform SPI read. Sensor: BMI270</p>
+<div class="sourceCode" id="cb8" data-language="c"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>    </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&quot;coines.h&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a>    </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a>    <span class="pp">#define BMI2_SPI_RD_MASK  0x80</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a>    </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a>    <span class="dt">int</span> main(<span class="dt">void</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true"></a>    {</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true"></a>        <span class="dt">int8_t</span> error_code;</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true"></a>        <span class="dt">uint8_t</span> chip_id[<span class="dv">2</span>], dummy_byte;</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true"></a>    </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true"></a>        <span class="co">/* An extra dummy byte is read during SPI read */</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true"></a>        <span class="dt">uint8_t</span> dummy_byte_len = <span class="dv">1</span>;</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true"></a>        <span class="dt">uint8_t</span> reg_addr = <span class="bn">0x0</span>;</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true"></a>        <span class="kw">enum</span> coines_comm_intf comm_intf = COINES_COMM_INTF_USB;</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true"></a>    </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true"></a>        error_code = coines_open_comm_intf(comm_intf, NULL);</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true"></a>        <span class="cf">if</span> (error_code == COINES_SUCCESS)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true"></a>        {</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Successfully connected to board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true"></a>        }</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true"></a>        <span class="cf">else</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true"></a>        {</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Unable to connect with board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true"></a>            exit(error_code);</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true"></a>        }</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true"></a>    </span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true"></a>        <span class="co">/* Power up the board */</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true"></a>        coines_set_shuttleboard_vdd_vddio_config(<span class="dv">3300</span>, <span class="dv">3300</span>);</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true"></a>        coines_delay_msec(<span class="dv">200</span>);</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true"></a>    </span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true"></a>        <span class="co">/* SPI config */</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true"></a>        (<span class="dt">void</span>)coines_config_spi_bus(COINES_SPI_BUS_0, COINES_SPI_SPEED_5_MHZ, COINES_SPI_MODE3);</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true"></a>    </span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true"></a>        <span class="co">/* Pin config */</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true"></a>        coines_set_pin_config(COINES_SHUTTLE_PIN_21, COINES_PIN_DIRECTION_OUT, COINES_PIN_VALUE_HIGH);</span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true"></a>    </span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true"></a>        <span class="co">/* Mask read register address for SPI */</span></span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true"></a>        reg_addr = (reg_addr | BMI2_SPI_RD_MASK);</span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true"></a>    </span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true"></a>        <span class="co">/* Dummy read for SPI init*/</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true"></a>        (<span class="dt">void</span>)coines_read_spi(COINES_SPI_BUS_0, COINES_MINI_SHUTTLE_PIN_2_1, reg_addr, &amp;dummy_byte, <span class="dv">1</span>);</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true"></a>        coines_delay_usec(<span class="dv">450</span>);</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true"></a>    </span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true"></a>        <span class="co">/* SPI read */</span></span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true"></a>        (<span class="dt">void</span>)coines_read_spi(COINES_SPI_BUS_0, COINES_MINI_SHUTTLE_PIN_2_1, reg_addr, chip_id, <span class="dv">1</span> + dummy_byte_len);</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true"></a>        coines_delay_usec(<span class="dv">450</span>);</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true"></a>    </span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true"></a>        printf(<span class="st">&quot;SPI read: Sensor chip ID - 0x%x</span><span class="sc">\n</span><span class="st">&quot;</span>, chip_id[dummy_byte_len]);</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true"></a>    </span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true"></a>        (<span class="dt">void</span>)coines_set_shuttleboard_vdd_vddio_config(<span class="dv">0</span>, <span class="dv">0</span>);</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true"></a>        coines_delay_msec(<span class="dv">100</span>);</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true"></a>    </span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true"></a>        <span class="co">/* Coines interface reset */</span></span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true"></a>        coines_soft_reset();</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true"></a>        coines_delay_msec(<span class="dv">100</span>);</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true"></a>    </span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true"></a>        coines_close_comm_intf(comm_intf, NULL);</span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true"></a>    </span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true"></a>        <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true"></a>    }</span></code></pre></div>
+<p>The user shall pass GPIO pin numbers, read register address and SPI CS pins for sensors based on the selected sensor shuttle board. SPI communication require the proper setting of VDD and VDDIO using <code>coines_set_shuttleboard_vdd_vddio_config</code>. The APIs below can be used for SPI configure/read/write.</p>
+<ul>
+<li><p><code>coines_config_spi_bus</code></p></li>
+<li><p><code>coines_read_spi</code></p></li>
+<li><p><code>coines_write_spi</code></p></li>
+</ul>
+<h3 id="led-and-button-control">Led and button control</h3>
+<p>The example program below is to control LEDs and buttons on the board. Target: MCU</p>
+<div class="sourceCode" id="cb9" data-language="c"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&lt;stdbool.h&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&quot;coines.h&quot;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>    </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a>    <span class="co">/* Callback for button 1 interrupt */</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a>    <span class="dt">static</span> <span class="dt">void</span> button1CB(<span class="dt">uint32_t</span> param1, <span class="dt">uint32_t</span> param2);</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a>    </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a>    <span class="co">/*Callback for button 1 event */</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a>    <span class="dt">void</span> button1CB(<span class="dt">uint32_t</span> param1, <span class="dt">uint32_t</span> param2)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true"></a>    {</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true"></a>        (<span class="dt">void</span>)param1;</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true"></a>        (<span class="dt">void</span>)param2;</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true"></a>    </span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true"></a>        coines_set_led(COINES_LED_RED, COINES_LED_STATE_ON);</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true"></a>        coines_set_led(COINES_LED_GREEN, COINES_LED_STATE_OFF);</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true"></a>        coines_set_led(COINES_LED_BLUE, COINES_LED_STATE_ON);</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true"></a>    }</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true"></a>    </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true"></a>    <span class="dt">int</span> main(<span class="dt">void</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true"></a>    {</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true"></a>        coines_open_comm_intf(COINES_COMM_INTF_USB, NULL);</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true"></a>    </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true"></a>        coines_set_pin_config(COINES_APP30_BUTTON_1, COINES_PIN_DIRECTION_IN, COINES_PIN_VALUE_HIGH);</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true"></a>        coines_attach_interrupt(COINES_APP30_BUTTON_1, button1CB, COINES_PIN_INTERRUPT_FALLING_EDGE);</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true"></a>    </span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true"></a>        coines_close_comm_intf(COINES_COMM_INTF_USB, NULL);</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true"></a>    </span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true"></a>        <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true"></a>    }</span></code></pre></div>
+<h3 id="file-listing-in-external-memory">File listing in External memory</h3>
+<p>To list the files in the external memory, below snippet can be used. Target: MCU</p>
+<div class="sourceCode" id="cb10" data-language="c"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&quot;coines.h&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>    </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>    <span class="dt">int</span> main(<span class="dt">void</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>    {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a>        coines_open_comm_intf(COINES_COMM_INTF_USB, NULL);</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a>        DIR *directory;</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a>        <span class="kw">struct</span> dirent *dir;</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>        directory = opendir(<span class="st">&quot;.&quot;</span>);</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a>        <span class="cf">if</span> (directory)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a>        {</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a>            <span class="cf">while</span> ((dir = readdir(directory)) != NULL)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true"></a>            {</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true"></a>                printf(<span class="st">&quot;%s</span><span class="sc">\n</span><span class="st">&quot;</span>, dir-&gt;d_name);</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true"></a>            }</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true"></a>    </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true"></a>            closedir(directory);</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true"></a>        }</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true"></a>    </span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true"></a>        coines_close_comm_intf(COINES_COMM_INTF_USB, NULL);</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true"></a>    </span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true"></a>        <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true"></a>    }</span></code></pre></div>
+<h3 id="temperature-measurement">Temperature measurement</h3>
+<p>This simple program demonstrates how to measure temperature of the board. Target: MCU</p>
+<div class="sourceCode" id="cb11" data-language="c"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&quot;coines.h&quot;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true"></a>    <span class="dt">int</span> main(<span class="dt">void</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true"></a>    {</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true"></a>        <span class="dt">int8_t</span> error_code;</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true"></a>        <span class="dt">float</span> temp_data = <span class="dv">0</span>;</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true"></a>        <span class="kw">enum</span> coines_comm_intf comm_intf = COINES_COMM_INTF_USB;</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true"></a>        error_code = coines_open_comm_intf(comm_intf, NULL);</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true"></a>        <span class="cf">if</span> (error_code == COINES_SUCCESS)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true"></a>        {</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Successfully connected to board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true"></a>        }</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true"></a>        <span class="cf">else</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true"></a>        {</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Unable to connect with board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true"></a>            exit(error_code);</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true"></a>        }</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true"></a>        <span class="co">/* Power up the board */</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true"></a>        coines_set_shuttleboard_vdd_vddio_config(<span class="dv">1800</span>, <span class="dv">1800</span>);</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true"></a>        coines_delay_msec(<span class="dv">200</span>);</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true"></a></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true"></a>        <span class="co">/* Read temperature data */</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true"></a>        coines_read_temp_data(&amp;temp_data);</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true"></a>        printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Temperature data = %f in degC&quot;</span>, temp_data);</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true"></a></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true"></a>        coines_set_shuttleboard_vdd_vddio_config(<span class="dv">0</span>, <span class="dv">0</span>);</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true"></a>        coines_delay_msec(<span class="dv">100</span>);</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true"></a></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true"></a>        coines_close_comm_intf(comm_intf, NULL);</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true"></a></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true"></a>        <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true"></a>    }</span></code></pre></div>
+<h3 id="battery-level-measurement">Battery level measurement</h3>
+<p>This simple program demonstrates how to measure battery level when a battery is connected to the board. Target: MCU</p>
+<div class="sourceCode" id="cb12" data-language="c"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&quot;coines.h&quot;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a>    </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a>    <span class="dt">int</span> main(<span class="dt">void</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a>    {</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a>        <span class="dt">int8_t</span> error_code;</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a>        <span class="dt">uint8_t</span> batt_status_percentage = <span class="dv">0</span>;</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true"></a>        <span class="dt">uint16_t</span> batt_status_in_milli_volts = <span class="dv">0</span>;</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true"></a>        <span class="kw">enum</span> coines_comm_intf comm_intf = COINES_COMM_INTF_BLE;</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true"></a>    </span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true"></a>        error_code = coines_open_comm_intf(comm_intf, NULL);</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true"></a>        <span class="cf">if</span> (error_code == COINES_SUCCESS)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true"></a>        {</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Successfully connected to board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true"></a>        }</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true"></a>        <span class="cf">else</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true"></a>        {</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Unable to connect with board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true"></a>            exit(error_code);</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true"></a>        }</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true"></a>    </span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true"></a>        <span class="co">/* Read battery level */</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true"></a>        coines_read_bat_status(&amp;batt_status_in_milli_volts, &amp;batt_status_percentage);</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true"></a>        fprintf(bt_w, <span class="st">&quot;Battery level in percentage = %d %% </span><span class="sc">\r\n</span><span class="st">&quot;</span>, batt_status_percentage);</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true"></a>        fprintf(bt_w, <span class="st">&quot;Battery level in millivolts = %d mV </span><span class="sc">\r\n</span><span class="st">&quot;</span>, batt_status_in_milli_volts);</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true"></a>    </span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true"></a>        coines_close_comm_intf(comm_intf, NULL);</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true"></a>    </span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true"></a>        <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true"></a>    }</span></code></pre></div>
+<h3 id="bleComConfig">Configure BLE communication</h3>
+<p>This example shows how to configure BLE connection. Target: PC</p>
+<div class="sourceCode" id="cb13" data-language="c"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a>    </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&quot;coines.h&quot;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a>    </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a>    <span class="co">/*! Macros to hold the BLE peripheral name and address to be connected */</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a>    <span class="co">/*! Please change the name and address with BLE name of the Application board under test */</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true"></a>    <span class="pp">#define BLE_NAME  &quot;APP Board 3.0(B6-E5)&quot;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true"></a>    <span class="pp">#define BLE_ADDR  &quot;dd:fc:ab:af:b6:e5&quot;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true"></a>    </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true"></a>    <span class="co">/*! Variable to hold the communication interface type */</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true"></a>    <span class="dt">const</span> <span class="kw">enum</span> coines_comm_intf comm_intf = COINES_COMM_INTF_BLE;</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true"></a>    </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true"></a>    <span class="dt">int</span> main(<span class="dt">void</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true"></a>    {</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true"></a>        <span class="kw">struct</span> ble_peripheral_info ble_config = { BLE_ADDR, <span class="st">&quot;&quot;</span> };</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true"></a>        <span class="kw">struct</span> ble_peripheral_info ble_info[<span class="dv">40</span>];</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true"></a>        <span class="dt">uint8_t</span> peripheral_count, i;</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true"></a>        <span class="dt">int8_t</span> result;</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true"></a>    </span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true"></a>        <span class="co">/* Get the BLE peripheral list */</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true"></a>        result = coines_scan_ble_devices(ble_info, &amp;peripheral_count, <span class="dv">7000</span>);</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true"></a>        <span class="cf">if</span> (result != COINES_SUCCESS)</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true"></a>        {</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true"></a>            <span class="dt">const</span> <span class="dt">char</span> *err_str = get_coines_error_str(result);</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">%s&quot;</span>, err_str);</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true"></a>            exit(result);</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true"></a>        }</span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true"></a>    </span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true"></a>        <span class="co">/* Print the BLE peripheral list */</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true"></a>        printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">BLE devices found:&quot;</span>);</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true"></a>        <span class="cf">for</span> (i = <span class="dv">0</span>; i &lt; peripheral_count; i++)</span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true"></a>        {</span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">[%d] %s [%s]&quot;</span>, i, ble_info[i].ble_identifier, ble_info[i].ble_address);</span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true"></a>        }</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true"></a>    </span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true"></a>        <span class="co">/* Open BLE connection */</span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true"></a>        result = coines_open_comm_intf(comm_intf, &amp;ble_config);</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true"></a>        <span class="cf">if</span> (result == COINES_SUCCESS)</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true"></a>        {</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Successfully connected to board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true"></a>        }</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true"></a>        <span class="cf">else</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true"></a>        {</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Unable to connect with board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true"></a>            exit(result);</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true"></a>        }</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true"></a>    </span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true"></a>        <span class="co">/* Close BLE connection */</span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true"></a>        coines_soft_reset();</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true"></a>        coines_delay_msec(<span class="dv">100</span>);</span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true"></a>    </span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true"></a>        coines_close_comm_intf(comm_intf, NULL);</span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true"></a>    </span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true"></a>        <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true"></a>    }   </span></code></pre></div>
+<p>The user shall modify BLE settings like address and name before executing this example.</p>
+<h3 id="serialComConfig">Configure Serial communication</h3>
+<p>This example shows how to configure Serial COM connection. Target: PC</p>
+<div class="sourceCode" id="cb14" data-language="c"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&lt;string.h&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>    </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true"></a>    <span class="pp">#include </span><span class="im">&quot;coines.h&quot;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true"></a>    </span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true"></a>    <span class="pp">#define ROBERT_BOSCH_USB_VID   (0x108C)</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true"></a>    <span class="pp">#define ARDUINO_USB_VID        (0x2341)</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true"></a>    <span class="pp">#define BST_APP30_CDC_USB_PID  (0xAB3C)</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true"></a>    <span class="pp">#define BST_APP20_CDC_USB_PID  (0xAB2C)</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true"></a>    <span class="pp">#define ARDUINO_NICLA_USB_PID  (0x0060)</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true"></a>    </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true"></a>    <span class="co">/*! Variable to hold the communication interface type */</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true"></a>    <span class="dt">const</span> <span class="kw">enum</span> coines_comm_intf comm_intf = COINES_COMM_INTF_USB;</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true"></a>    </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true"></a>    <span class="dt">int</span> main(<span class="dt">void</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true"></a>    {</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true"></a>        <span class="dt">int16_t</span> result;</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true"></a>        <span class="kw">struct</span> coines_serial_com_config scom_config;</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true"></a>    </span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true"></a>        scom_config.baud_rate = <span class="dv">38400</span>;</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true"></a>        scom_config.vendor_id = ROBERT_BOSCH_USB_VID;</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true"></a>        scom_config.product_id = BST_APP30_CDC_USB_PID;</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true"></a>        scom_config.com_port_name = <span class="st">&quot;COM4&quot;</span>;</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true"></a>        scom_config.rx_buffer_size = <span class="dv">2048</span>;</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true"></a>    </span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true"></a>        <span class="co">/* Open serial connection */</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true"></a>        result = coines_open_comm_intf(comm_intf, &amp;scom_config);</span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true"></a>        <span class="cf">if</span> (result == COINES_SUCCESS)</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true"></a>        {</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Successfully connected to board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true"></a>        }</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true"></a>        <span class="cf">else</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true"></a>        {</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true"></a>            printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">Unable to connect with board!</span><span class="sc">\n</span><span class="st">&quot;</span>);</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true"></a>            exit(result);</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true"></a>        }</span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true"></a>    </span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true"></a>        <span class="co">/* Close serial connection */</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true"></a>        coines_soft_reset();</span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true"></a>        coines_delay_msec(<span class="dv">100</span>);</span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true"></a>    </span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true"></a>        coines_close_comm_intf(comm_intf, NULL);</span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true"></a>    </span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true"></a>        <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true"></a>    }</span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true"></a>    </span></code></pre></div>
+<p>The user shall modify Serial COM settings like vendor ID, product ID and COM port name before executing this example.</p>
+<h2 id="coines-python-examples">COINES Python examples</h2>
+<h3 id="GettingBoardInfo">Getting board info</h3>
+<p>The following code snippet shows how to get board information.</p>
+<div class="sourceCode" id="cb15" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="im">import</span> coinespy <span class="im">as</span> cpy</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a>    <span class="im">from</span> coinespy <span class="im">import</span> ErrorCodes</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a>    </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a>    COM_INTF <span class="op">=</span> cpy.CommInterface.USB</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a>    </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a>    <span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true"></a>        board <span class="op">=</span> cpy.CoinesBoard()</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true"></a>        <span class="bu">print</span>(<span class="st">&#39;coinespy version - </span><span class="sc">%s</span><span class="st">&#39;</span> <span class="op">%</span> cpy.__version__)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true"></a>        board.open_comm_interface(COM_INTF)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true"></a>        <span class="cf">if</span> board.error_code <span class="op">!=</span> ErrorCodes.COINES_SUCCESS:</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="ss">f&#39;Could not connect to board: </span><span class="sc">{</span>board<span class="sc">.</span>error_code<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true"></a>        <span class="cf">else</span>:</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true"></a>            b_info <span class="op">=</span> board.get_board_info()</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="ss">f&quot;coines lib version: </span><span class="sc">{</span>board<span class="sc">.</span>lib_version<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true"></a>            <span class="bu">print</span>(</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true"></a>                <span class="ss">f&#39;BoardInfo: HW/SW ID: </span><span class="sc">{</span><span class="bu">hex</span>(b_info.HardwareId)<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span><span class="bu">hex</span>(b_info.SoftwareId)<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true"></a>            board.close_comm_interface()</span></code></pre></div>
+<h3 id="i2c-config-and-read-1">I2C config and read</h3>
+<p>This basic program shows how to configure and perform I2C read. Sensor: BMI085</p>
+<div class="sourceCode" id="cb16" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="im">import</span> sys</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>    <span class="im">import</span> time</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a>    <span class="im">import</span> coinespy <span class="im">as</span> cpy</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a>    <span class="im">from</span> coinespy <span class="im">import</span> ErrorCodes</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true"></a>    COM_INTF <span class="op">=</span> cpy.CommInterface.USB</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true"></a>    </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true"></a>    <span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true"></a>        BOARD <span class="op">=</span> cpy.CoinesBoard()</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true"></a>        BOARD.open_comm_interface(COM_INTF)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true"></a>        <span class="cf">if</span> BOARD.error_code <span class="op">!=</span> ErrorCodes.COINES_SUCCESS:</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="ss">f&quot;Open Communication interface: </span><span class="sc">{</span>BOARD<span class="sc">.</span>error_code<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true"></a>            sys.exit()</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true"></a>    </span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true"></a>        BMI085_I2C_ADDRESS_ACCEL <span class="op">=</span> <span class="bn">0x18</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true"></a>        BMI085_I2C_ADDRESS_GYRO  <span class="op">=</span> <span class="bn">0x68</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true"></a>        BMI08_REG_ACCEL_CHIP_ID <span class="op">=</span> <span class="bn">0x00</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true"></a>    </span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true"></a>        BOARD.set_shuttleboard_vdd_vddio_config(vdd_val<span class="op">=</span><span class="dv">0</span>, vddio_val<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true"></a>    </span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true"></a>        <span class="co">#  Config I2C pins</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true"></a>        BOARD.set_pin_config(</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true"></a>            cpy.MultiIOPin.SHUTTLE_PIN_8, cpy.PinDirection.OUTPUT, cpy.PinValue.LOW)</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true"></a>        BOARD.set_pin_config(</span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true"></a>            cpy.MultiIOPin.SHUTTLE_PIN_SDO, cpy.PinDirection.OUTPUT, cpy.PinValue.LOW)</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true"></a>        <span class="co"># Set PS pin of gyro to HIGH for proper protocol selection</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true"></a>        BOARD.set_pin_config(</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true"></a>            cpy.MultiIOPin.SHUTTLE_PIN_9, cpy.PinDirection.OUTPUT, cpy.PinValue.HIGH)</span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true"></a>    </span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true"></a>        <span class="co"># I2C config</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true"></a>        BOARD.config_i2c_bus(</span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true"></a>            cpy.I2CBus.BUS_I2C_0, BMI085_I2C_ADDRESS_ACCEL, cpy.I2CMode.STANDARD_MODE)</span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true"></a>    </span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true"></a>        BOARD.set_shuttleboard_vdd_vddio_config(vdd_val<span class="op">=</span><span class="fl">3.3</span>, vddio_val<span class="op">=</span><span class="fl">3.3</span>)</span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true"></a>        time.sleep(<span class="fl">0.2</span>)</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true"></a>    </span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true"></a>        <span class="co"># I2C read</span></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true"></a>        accel_chip_id <span class="op">=</span> BOARD.read_i2c(</span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true"></a>            cpy.I2CBus.BUS_I2C_0, BMI08_REG_ACCEL_CHIP_ID, <span class="dv">1</span>, BMI085_I2C_ADDRESS_ACCEL)</span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true"></a>        gyro_chip_id <span class="op">=</span> BOARD.read_i2c(</span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true"></a>            cpy.I2CBus.BUS_I2C_0, BMI08_REG_ACCEL_CHIP_ID, <span class="dv">1</span>, BMI085_I2C_ADDRESS_GYRO)</span>
+<span id="cb16-43"><a href="#cb16-43" aria-hidden="true"></a>    </span>
+<span id="cb16-44"><a href="#cb16-44" aria-hidden="true"></a>        <span class="bu">print</span>(<span class="ss">f&quot;Accel chip id: </span><span class="sc">{</span><span class="bu">hex</span>(accel_chip_id[<span class="dv">0</span>])<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb16-45"><a href="#cb16-45" aria-hidden="true"></a>        <span class="bu">print</span>(<span class="ss">f&quot;Gyro chip id: </span><span class="sc">{</span><span class="bu">hex</span>(gyro_chip_id[<span class="dv">0</span>])<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb16-46"><a href="#cb16-46" aria-hidden="true"></a>    </span>
+<span id="cb16-47"><a href="#cb16-47" aria-hidden="true"></a>        <span class="co"># Deinit board</span></span>
+<span id="cb16-48"><a href="#cb16-48" aria-hidden="true"></a>        BOARD.set_shuttleboard_vdd_vddio_config(vdd_val<span class="op">=</span><span class="dv">0</span>, vddio_val<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb16-49"><a href="#cb16-49" aria-hidden="true"></a>        BOARD.soft_reset()</span>
+<span id="cb16-50"><a href="#cb16-50" aria-hidden="true"></a>    </span>
+<span id="cb16-51"><a href="#cb16-51" aria-hidden="true"></a>        BOARD.close_comm_interface()    </span></code></pre></div>
+<p>The user shall pass GPIO pin numbers, read register address and I2C device address for sensors based on the selected sensor shuttle board. I2C communication require the proper setting of VDD and VDDIO using <code>set_shuttleboard_vdd_vddio_config</code>.</p>
+<h3 id="spi-config-and-read-1">SPI config and read</h3>
+<p>This basic program shows how to configure and perform SPI read. Sensor: BMI085</p>
+<div class="sourceCode" id="cb17" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="im">import</span> sys</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a>    <span class="im">import</span> time</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a>    <span class="im">import</span> coinespy <span class="im">as</span> cpy</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true"></a>    <span class="im">from</span> coinespy <span class="im">import</span> ErrorCodes</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true"></a>    </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true"></a>    COM_INTF <span class="op">=</span> cpy.CommInterface.USB</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true"></a>    </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true"></a>    <span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true"></a>        BOARD <span class="op">=</span> cpy.CoinesBoard()</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true"></a>        BOARD.open_comm_interface(COM_INTF)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true"></a>        <span class="cf">if</span> BOARD.error_code <span class="op">!=</span> ErrorCodes.COINES_SUCCESS:</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true"></a>            <span class="bu">print</span>(<span class="ss">f&quot;Open Communication interface: </span><span class="sc">{</span>BOARD<span class="sc">.</span>error_code<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true"></a>            sys.exit()</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true"></a>    </span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true"></a>        BMI085_ACCEL_CS_PIN <span class="op">=</span> cpy.MultiIOPin.SHUTTLE_PIN_8</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true"></a>        BMI085_GYRO_CS_PIN <span class="op">=</span> cpy.MultiIOPin.SHUTTLE_PIN_14</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true"></a>        BMI08_REG_ACCEL_CHIP_ID <span class="op">=</span> <span class="bn">0x00</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true"></a>        accel_dummy_byte_len <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true"></a>    </span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true"></a>        BOARD.set_shuttleboard_vdd_vddio_config(vdd_val<span class="op">=</span><span class="dv">0</span>, vddio_val<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true"></a>    </span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true"></a>        <span class="co"># Config CS pin</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true"></a>        BOARD.set_pin_config(</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true"></a>            BMI085_ACCEL_CS_PIN, cpy.PinDirection.OUTPUT, cpy.PinValue.HIGH)</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true"></a>        BOARD.set_pin_config(</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true"></a>            BMI085_GYRO_CS_PIN, cpy.PinDirection.OUTPUT, cpy.PinValue.HIGH)</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true"></a>        <span class="co"># Set PS pin of gyro to LOW for proper protocol selection</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true"></a>        BOARD.set_pin_config(</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true"></a>            cpy.MultiIOPin.SHUTTLE_PIN_9, cpy.PinDirection.OUTPUT, cpy.PinValue.LOW)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true"></a>    </span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true"></a>        <span class="co">#  SPI config</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true"></a>        BOARD.config_spi_bus(cpy.SPIBus.BUS_SPI_0, BMI085_ACCEL_CS_PIN,</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true"></a>                             cpy.SPISpeed.SPI_1_MHZ, cpy.SPIMode.MODE0)</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true"></a>    </span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true"></a>        BOARD.set_shuttleboard_vdd_vddio_config(vdd_val<span class="op">=</span><span class="fl">3.3</span>, vddio_val<span class="op">=</span><span class="fl">3.3</span>)</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true"></a>        time.sleep(<span class="fl">0.2</span>)</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true"></a>    </span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true"></a>        <span class="co"># Initialize SPI by dummy read</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true"></a>        reg_data <span class="op">=</span> BOARD.read_spi(cpy.SPIBus.BUS_SPI_0, BMI08_REG_ACCEL_CHIP_ID, <span class="dv">1</span>)</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true"></a>    </span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true"></a>        <span class="co"># SPI read</span></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true"></a>        accel_chip_id <span class="op">=</span> BOARD.read_spi(</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true"></a>            cpy.SPIBus.BUS_SPI_0, BMI08_REG_ACCEL_CHIP_ID, <span class="dv">1</span> <span class="op">+</span> accel_dummy_byte_len, BMI085_ACCEL_CS_PIN)</span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true"></a>        gyro_chip_id <span class="op">=</span> BOARD.read_spi(</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true"></a>            cpy.SPIBus.BUS_SPI_0, BMI08_REG_ACCEL_CHIP_ID, <span class="dv">1</span>, BMI085_GYRO_CS_PIN)</span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true"></a>    </span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true"></a>        <span class="bu">print</span>(<span class="ss">f&quot;Accel chip id: </span><span class="sc">{</span><span class="bu">hex</span>(accel_chip_id[accel_dummy_byte_len])<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true"></a>        <span class="bu">print</span>(<span class="ss">f&quot;Gyro chip id: </span><span class="sc">{</span><span class="bu">hex</span>(gyro_chip_id[<span class="dv">0</span>])<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true"></a>    </span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true"></a>        <span class="co"># Deinit board</span></span>
+<span id="cb17-52"><a href="#cb17-52" aria-hidden="true"></a>        BOARD.set_shuttleboard_vdd_vddio_config(vdd_val<span class="op">=</span><span class="dv">0</span>, vddio_val<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb17-53"><a href="#cb17-53" aria-hidden="true"></a>        BOARD.soft_reset()</span>
+<span id="cb17-54"><a href="#cb17-54" aria-hidden="true"></a>    </span>
+<span id="cb17-55"><a href="#cb17-55" aria-hidden="true"></a>        BOARD.close_comm_interface()</span></code></pre></div>
+<p>The user shall pass GPIO pin numbers, read register address and SPI CS pins for sensors based on the selected sensor shuttle board. SPI communication require the proper setting of VDD and VDDIO using <code>set_shuttleboard_vdd_vddio_config</code>.</p>
+<h1 id="debugging-via-vs-code">Debugging via VS code</h1>
+<p>Here are the steps to follow to debug programs via VS code:</p>
+<ul>
+<li><p>Download Segger software from from <a href="https://www.segger.com/downloads/jlink/">https://www.segger.com/downloads/jlink/</a>.</p></li>
+<li><p>Refer to <a href="https://wiki.segger.com/J-Link_Visual_Studio_Code">https://wiki.segger.com/J-Link_Visual_Studio_Code</a> for using J-link with VS code.</p></li>
+<li><p>Download the NRF5 .svd file from Nordic Semiconductor github.</p></li>
+<li><p>Connect J-link to SWD debugger connector.</p>
+<figure>
+<img src="coinesAPI_images/App31_jlink_connection.png" style="width:25.0%" alt="" /><figcaption>APP3.1 Debugger connector</figcaption>
+</figure></li>
+<li><p>Below is the sample launch.json config for VS code debug.</p>
+<figure>
+<img src="coinesAPI_images/Debug_launch_json.png" style="width:80.0%" alt="" /><figcaption>VS code debug launch.json</figcaption>
+</figure></li>
+</ul>
+<h1 id="media-transfer-protocol-mtp-firmware-for-app3.x">Media Transfer Protocol (MTP) firmware for APP3.x</h1>
+<p>The external memory chip W25M02/W25N02 on APP3.x is based on NAND flash.</p>
+<p>FAT filesystem on NAND flash memory results in a complicated solution which uses of lot of RAM. Moreover use of FAT without Flash Translation Layer (to save RAM) wears out NAND flash with frequent usage. Hence the choice of <a href="https://github.com/conservify/FLogFS">FlogFS</a>, a filesystem optimized for use with NAND flash.</p>
+<p>But the use of ‘FlogFS‘, presents a new problem ’Filesystem access from PC via USB’. Use of ‘FlogFS‘ with USB Mass Storage protocol is not possible because operating system can’t recognize ‘FlogFS‘ as a valid filesystem.</p>
+<p>Use of custom protocol to do filesystem operations would mean re-inventing the wheel and a lot of effort. User also would not have the same experience as with USB Mass Storage.</p>
+<p>Solution was to go with the "Media Transfer Protocol" developed initially by Microsoft for Portable Devices like MP3 players. Starting from Android Kitkat (v4.4), MTP is the only way to access files on an Android device since the whole flash memory (included user storage space) uses filesystems like ext4, YAFFS, F2FS, etc.,</p>
+<p>Files in APP3.x’s NAND flash memory can be viewed using the USB MTP firmware.</p>
+<p>Supported on Windows, Linux, macOS and Android (via USB OTG).</p>
+<figure>
+<img src="coinesAPI_images/MTP_windows.png" style="width:70.0%" alt="" /><figcaption>APP3.x in MTP mode on Windows</figcaption>
+</figure>
+<figure>
+<img src="coinesAPI_images/MTP_Ubuntu_Nautilus.png" style="width:70.0%" alt="" /><figcaption>APP3.x in MTP mode on Linux</figcaption>
+</figure>
+<figure>
+<img src="coinesAPI_images/MTP_Android_2.png" style="width:50.0%" alt="" /><figcaption>APP3.x in MTP mode on Andriod</figcaption>
+</figure>
+<figure>
+<img src="coinesAPI_images/MTP_Android_3.png" style="width:70.0%" alt="" /><figcaption>Files in external memory listed on Andriod device</figcaption>
+</figure>
+<h2 id="copying-the-files-using-mtp">Copying the files using MTP</h2>
+<p>The following procedure demonstrates how to copy files using MTP:</p>
+<ul>
+<li><p>APP3.x comes with the preloaded MTP firmware update package.</p></li>
+<li><p>Refer to section <a href="#SwitchModes" data-reference-type="ref" data-reference="SwitchModes">12</a> to switch to MTP mode</p></li>
+<li><p>The device will enumerate as an MTP device with name "Application Board 3.x". Click on it and select the "W25M02 External Memory"</p></li>
+<li><p>The device will list all the available files and all required files can be copied.</p></li>
+</ul>
+<figure>
+<img src="coinesAPI_images/MTP_windows.png" style="width:70.0%" alt="" /><figcaption>Copy data log files to the PC over USB MTP</figcaption>
+</figure>
+<h1 id="usbble-dfu-bootloader">USB/BLE DFU bootloader</h1>
+<p>A USB/BLE Bootloader for APP3.x/nRF52840 and Nicla Sense ME/nRF52832 chip comply with below items:</p>
+<ul>
+<li><p><a href="https://www.usb.org/sites/default/files/DFU_1.1.pdf">https://www.usb.org/sites/default/files/DFU_1.1.pdf</a></p></li>
+<li><p><a href="https://infocenter.nordicsemi.com/index.jsp?topic=%2Fcom.nordic.infocenter.sdk5.v15.2.0%2Fble_sdk_app_dfu_bootloader.html&amp;cp=9_5_3_4_1_3">nRF5 SDK v15.2.0 - BLE Secure DFU Bootloader</a></p></li>
+</ul>
+<h2 id="key-features">Key Features</h2>
+<h3 id="usb-dfu">USB DFU</h3>
+<p>The key features of USB DFU are as follows:</p>
+<ul>
+<li><p>Code download to RAM or FLASH</p></li>
+<li><p>Code read back (upload) from RAM or FLASH (Useful for taking firmware backups)</p></li>
+<li><p>Works with Windows, Linux, macOS and Android.</p></li>
+</ul>
+<h3 id="ble-dfu">BLE DFU</h3>
+<p>The key features of BLE DFU are as follows:</p>
+<ul>
+<li><p>Code download to FLASH.</p></li>
+<li><p>Works with PC and mobile devices with iOS/Android.</p></li>
+</ul>
+<p>Bootloader was written taking into account the following aspects:</p>
+<ul>
+<li><p>Usability.</p>
+<ol>
+<li><p>No special driver installation or admin rights should be required.</p></li>
+<li><p>The update process should be straight forward.</p></li>
+</ol></li>
+<li><p>Maintainability</p>
+<ol>
+<li><p>Open source community takes care of PC side tools. For eg: dfu-util is a cross platform tool.</p></li>
+<li><p>Use Google Chrome’s WebUSB to update firmware. Sample implementation <a href="https://devanlai.github.io/webdfu/dfu-util/">https://devanlai.github.io/webdfu/dfu-util/</a></p></li>
+</ol></li>
+<li><p>Size</p></li>
+<li><p>COINES on MCU.</p></li>
+</ul>
+<h2 id="invoking-the-bootloader">Invoking the Bootloader</h2>
+<ol>
+<li><p>To invoke Bootloader from Hardware, switch the board to bootloader mode (refer to section <a href="#SwitchModes" data-reference-type="ref" data-reference="SwitchModes">12</a>).</p></li>
+<li><p>To invoke Bootloader from Software, use the below snippets in your program based on the board selected.</p></li>
+</ol>
+<ul>
+<li><p>APP3.x</p>
+<ol>
+<li><p>Write 0x4E494F43 (’N’,’I’,’O’,’C’) to MAGIC_LOCATION (0x2003FFF4)</p></li>
+<li><p>Write 0x0 or 0xF0000 to APP_START_ADDR (0x2003FFF8)</p></li>
+<li><p>Call NVIC_SystemReset()</p>
+<div class="sourceCode" id="cb18" data-language="C"><pre class="sourceCode objectivec"><code class="sourceCode objectivec"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a>        </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a>        #define  MAGIC_LOCATION (<span class="bn">0x2003FFF4</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a>        #define  APP_START_ADDR (*(uint32_t *)(MAGIC_LOCATION+<span class="dv">4</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a>         </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true"></a>        *((uint32_t *)MAGIC_LOCATION) == <span class="bn">0x4E494F43</span>;</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true"></a>        APP_START_ADDR = <span class="bn">0xF0000</span>;</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true"></a>        <span class="co">//APP_START_ADDR = 0x0;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true"></a>        NVIC_SystemReset();</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true"></a>        </span></code></pre></div></li>
+</ol></li>
+</ul>
+<ul>
+<li><p>Nicla Sense ME Board</p>
+<ol>
+<li><p>Write 0x544F4F42 (’T’,’O’,’O’,’B’) to MAGIC_LOCATION (0x2000F804)</p></li>
+<li><p>Call NVIC_SystemReset()</p>
+<div class="sourceCode" id="cb19" data-language="C"><pre class="sourceCode objectivec"><code class="sourceCode objectivec"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a>        </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a>        #define  MAGIC_LOCATION (<span class="bn">0x2000F804</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true"></a>        #define  APP_START_ADDR (*(uint32_t *)(MAGIC_LOCATION+<span class="dv">4</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true"></a>         </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true"></a>        *((uint32_t *)MAGIC_LOCATION) == <span class="bn">0x544F4F42</span>;</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true"></a>        NVIC_SystemReset();</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true"></a>        </span></code></pre></div></li>
+</ol></li>
+</ul>
+<p>It is to be noted that the same feature can also be used to perform application switch ( 2 or more applications can reside in the same flash memory at different address locations ). Just write the application start address to APP_START_ADDR instead of bootloader address</p>
+<h2 id="using-the-bootloader-via-usb">Using the Bootloader via USB</h2>
+<p>The commands below demonstrate how to use dfu-util for different scenarios:</p>
+<ul>
+<li><p>Path to dfu-util:</p></li>
+</ul>
+<p>Write firmware to Flash memory using following command</p>
+<ul>
+<li><p>dfu-util -a FLASH -D &lt;firmware&gt;.bin -R</p></li>
+</ul>
+<p>Write firmware to RAM memory using following command</p>
+<ul>
+<li><p>dfu-util -a RAM -D &lt;firmware&gt;.bin -R</p></li>
+</ul>
+<p>Read firmware from Flash memory using following command</p>
+<ul>
+<li><p>dfu-util -a FLASH -U &lt;firmware&gt;.bin</p></li>
+</ul>
+<p>Read firmware from RAM memory using following command</p>
+<ul>
+<li><p>dfu-util -a RAM -U &lt;firmware&gt;.bin</p></li>
+</ul>
+<p>Read device serial number/ BLE MAC address</p>
+<ul>
+<li><p>dfu-util -l</p>
+<p>Note: Not applicable for Nicla Sense ME board</p></li>
+</ul>
+<h2 id="using-the-bootloader-via-ble">Using the Bootloader via BLE</h2>
+<p>To update the bootloader firmware via BLE, proceed as follows:</p>
+<ul>
+<li><p>PC (Windows, Linux or macOS) Python script present in following path can use the binary file directly.</p>
+<ol>
+<li><p>Refer to section <a href="#SwitchModes" data-reference-type="ref" data-reference="SwitchModes">12</a> to switch to Bootloader mode</p></li>
+<li><p>Run the command:</p>
+<ul>
+<li><p><code>pip install -r requirements.txt</code></p></li>
+</ul></li>
+<li><p>Scan for devices to find BLE MAC address using below command</p>
+<ul>
+<li><p><code>python app30-ble-dfu.py -l</code></p></li>
+</ul></li>
+<li><p>Update firmware by using MAC address obtained in the previous step and firmware BIN file</p>
+<ul>
+<li><p><code>python app30-ble-dfu.py -d D7:A3:CE:8E:36:14 -f &lt;firmware&gt;.bin</code></p></li>
+</ul></li>
+</ol></li>
+<li><p>Android devices</p>
+<ol>
+<li><p>Generate ZIP package using <a href="https://pypi.org/project/adafruit-nrfutil/">https://pypi.org/project/adafruit-nrfutil/</a> before using nRF ToolBox for BLE or nRF connect for mobile.</p>
+<ul>
+<li><p><code>adafruit-nrfutil dfu genpkg –dev-type 0x0052 –application &lt;firmware&gt;.bin dfu-package.zip</code></p></li>
+</ul></li>
+</ol>
+<p>Note: Not applicable for Nicla Sense ME board</p></li>
+</ul>
+<h1 id="SwitchModes">Switching to Operating Modes</h1>
+<h2 id="app2.0-or-app3.x">APP2.0 (or) APP3.x</h2>
+<p>The process for switching modes for the Application board involves these steps:</p>
+<ul>
+<li><p>Bootloader mode - Turn OFF and ON the board with T2 pressed, blue LED glows indicating that the board switched to bootloader mode.</p></li>
+<li><p>MTP mode - Turn OFF and ON the board with T1 pressed, green LED glows indicating that the board switched to MTP mode.</p></li>
+</ul>
+<h2 id="nicla-sense-me-board">Nicla Sense ME board</h2>
+<p>The process for switching modes for the Nicla Sense ME board involves these steps:</p>
+<ul>
+<li><p>Bootloader mode - Press three times reset button, blue LED glows indicating that the board switched to bootloader mode.</p></li>
+<li><p>Application Mode - Press three times reset button to switch to application mode</p></li>
+</ul>
+<h1 id="firmwareUpdate">Updating Bootloader and MTP firmware using COINES </h1>
+<p>To update the firmware, follow these steps:</p>
+<h1 id="faqs">FAQs</h1>
+<ol>
+<li><p><strong>What to do in case of any communication or initialization failure while running examples?</strong> Resetting or rebooting the board will help solving such issues.</p></li>
+<li><p><strong>Why is there no output in my terminal application after cross-compiling and downloading an example on the MCU?</strong> The code example on the MCU waits until the serial port of the board is opened. However, opening the port is not enough, the user has to ensure that also the DTR signal is set (this is required due to have higher compatibiliy among different terminal applications).</p></li>
+<li><p><strong>How to fix libusb not found issue on macOS (arm64)?</strong></p>
+<p>Please try the below steps to fix the issue.</p>
+<ol>
+<li><p>Install libusb: Libusb will be automatically installed as part of the COINES installation. However, If it’s not installed automatically, you can use Homebrew to install it. <code>brew install libusb</code> After running above command, libusb should be installed on your system. On Intel Mac: On M1 Mac:</p></li>
+<li><p>Add the path in</p>
+<figure>
+<img src="coinesAPI_images/Mac_libusb_include.png" style="width:60.0%" alt="" /><figcaption>COINES file structure</figcaption>
+</figure></li>
+</ol></li>
+<li><p><strong>How do I recover the original program when bootloader was erased accidentally on Application Board 3.x?</strong> COINES SDK does not provide a way to restore the board to original state.</p></li>
+<li><p><strong>How to run multiple application boards using COINES in a single computer?</strong> When multiple USB devices are connected to a PC, by configuring Serial COM settings for a script, one can communicate with them separately. Please refer to <a href="#serialComConfig" data-reference-type="ref" data-reference="serialComConfig">8.1.10</a> for implementation.</p></li>
+</ol>
+<p>For more FAQs, visit <a href="https://community.bosch-sensortec.com/t5/MEMS-sensors-forum/bd-p/bst_community-mems-forum">Bosch Sensortec MEMS sensors forum</a>.</p>
+<h1 id="annexure">Annexure</h1>
+<h2 id="gpio-mapping">GPIO mapping</h2>
+<h3 id="gpio-mapping-of-app2.0-shuttle-board-pins">GPIO mapping of APP2.0 shuttle board pins</h3>
+<p>The APP2.0 shuttle board has total of 28 pins, of which some have a predefined functionality and some can be used as GPIO by the user.</p>
+<p>The shuttle board connector details are given in the table below.</p>
+<div id="tab:shtbrdpins">
+<table>
+<caption>Overview of shuttle board pins and their function</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>Pin number on</strong></td>
+<td style="text-align: center;"><strong>Name /</strong></td>
+<td style="text-align: center;"><strong>Pin number on</strong></td>
+<td style="text-align: center;"><strong>Name /</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>shuttle board</strong></td>
+<td style="text-align: center;"><strong>function</strong></td>
+<td style="text-align: center;"><strong>shuttle board</strong></td>
+<td style="text-align: center;"><strong>function</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">VDD (3.3V)</td>
+<td style="text-align: center;">28</td>
+<td style="text-align: center;">SHTLE_COD #4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">VDDIO (3.3V)</td>
+<td style="text-align: center;">27</td>
+<td style="text-align: center;">SHTLE_COD #3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">GND</td>
+<td style="text-align: center;">26</td>
+<td style="text-align: center;">SHTLE_COD #2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">SPI MISO</td>
+<td style="text-align: center;">25</td>
+<td style="text-align: center;">SHTLE_COD #1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">SPI: MOSI / I<sup>2</sup>C: SDA</td>
+<td style="text-align: center;">24</td>
+<td style="text-align: center;">SHTLE_COD #0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">SPI: SCK / I<sup>2</sup>C: SCL</td>
+<td style="text-align: center;">23</td>
+<td style="text-align: center;">SHTLE_COD_GND</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">SPI: CS</td>
+<td style="text-align: center;">22</td>
+<td style="text-align: center;">IO_4 ( GPIO #4 )</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">IO_5 ( GPIO #5 )</td>
+<td style="text-align: center;">21</td>
+<td style="text-align: center;">IO_7 ( GPIO #7 )</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">IO_0 ( GPIO #0 )</td>
+<td style="text-align: center;">20</td>
+<td style="text-align: center;">IO_6 ( GPIO #6 )</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">SHTLE_COD #5</td>
+<td style="text-align: center;">19</td>
+<td style="text-align: center;">IO_8 ( GPIO #8 )</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">11</td>
+<td style="text-align: center;">SHTLE_COD #6</td>
+<td style="text-align: center;">18</td>
+<td style="text-align: center;">SCL (see note)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">SHTLE_COD #7</td>
+<td style="text-align: center;">17</td>
+<td style="text-align: center;">SDA (see note)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">13</td>
+<td style="text-align: center;">SHTLE_COD #8</td>
+<td style="text-align: center;">16</td>
+<td style="text-align: center;">IO_3 ( GPIO #3 )</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">14</td>
+<td style="text-align: center;">IO_1 ( GPIO #1 )</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">IO_2 ( GPIO #2 )</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Note:</p>
+<ul>
+<li><p>In COINES functions, the pins are addressed using the same numbers as on the shuttle board. For example, the GPIO #5 has the pin number 8.</p></li>
+<li><p>In some cases (depending on the sensor), the I<sup>2</sup>C lines are shuttle board pin 6 for the clock signal SCL and shuttle board pin 5 for the data line SDA. In such cases pins 17 and 18 may not be connected. Please carefully read the shuttle board documentation.</p></li>
+</ul>
+<h3 id="gpio-mapping-of-app3.x-shuttle-board-pins">GPIO mapping of APP3.x shuttle board pins</h3>
+<p>The APP3.x shuttle board has a total of 16 pins, 7 on the left and 9 on the right. (with shuttle board pins facing downwards)</p>
+<p>Note:</p>
+<ul>
+<li><p>In COINES functions, the pins are addressed as on the APP3.x shuttle board. For example, the GPIO #5 is addressed as <code>COINES_MINI_SHUTTLE_PIN_2_6</code>.</p></li>
+<li><p>Supported VDD voltages on APP3.x are 0, 1.8V and 2.8V.</p></li>
+<li><p>Supported VDDIO voltage on APP3.x is 1.8V.</p></li>
+</ul>
+<div id="tab:shtbrdpins">
+<table>
+<caption>Overview of APP3.x shuttle board pins and their function</caption>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>Pin number on</strong></td>
+<td style="text-align: center;"><strong>Name /</strong></td>
+<td style="text-align: center;"><strong>Pin number on</strong></td>
+<td style="text-align: center;"><strong>Name /</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>shuttle board</strong></td>
+<td style="text-align: center;"><strong>function</strong></td>
+<td style="text-align: center;"><strong>shuttle board</strong></td>
+<td style="text-align: center;"><strong>function</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1_1</td>
+<td style="text-align: center;">VDD (1.8/2.8V)</td>
+<td style="text-align: center;">2_1</td>
+<td style="text-align: center;">SPI_CS</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1_2</td>
+<td style="text-align: center;">VDDIO (1.8)</td>
+<td style="text-align: center;">2_2</td>
+<td style="text-align: center;">SPI: SCK / I<sup>2</sup>C: SCL</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1_3</td>
+<td style="text-align: center;">GND</td>
+<td style="text-align: center;">2_3</td>
+<td style="text-align: center;">SPI: MISO</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1_4</td>
+<td style="text-align: center;">GPIO0</td>
+<td style="text-align: center;">2_4</td>
+<td style="text-align: center;">SPI: MOSI / I<sup>2</sup>C: SDA</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1_5</td>
+<td style="text-align: center;">GPIO1</td>
+<td style="text-align: center;">2_5</td>
+<td style="text-align: center;">GPIO4<sup>*</sup></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1_6</td>
+<td style="text-align: center;">GPIO2</td>
+<td style="text-align: center;">2_6</td>
+<td style="text-align: center;">GPIO5<sup>*</sup></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1_7</td>
+<td style="text-align: center;">GPIO3</td>
+<td style="text-align: center;">2_7</td>
+<td style="text-align: center;">IOXP_INT<sup>*</sup></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">2_8</td>
+<td style="text-align: center;">PlugDet<sup>*</sup></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">2_9</td>
+<td style="text-align: center;">EEPROM_RW</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><sup>*</sup>SPI pins for secondary interface - CS:GPIO4, SCK:GPIO5, MISO:IOXP_INT, MOSI:PlugDet</p>
+<h2 id="CoinesCFunctions">COINES C functions</h2>
+<h3 id="coinesapi-calls-interface-and-board-information">coinesAPI calls: Interface and board information</h3>
+<h4 id="coines_open_comm_intf">coines_open_comm_intf</h4>
+<p>Opens the communication interface.</p>
+<pre><code>int16_t coines_open_comm_intf(enum coines_comm_intf intf_type,void *arg); </code></pre>
+<p>In case of MCU Target, API waits indefinitely for serial port or BLE connection (<code>MCU_APP30</code> target and <code>MCU_APP31</code> target).</p>
+<p>In case of PC Target, one can configure communication settings either by passing the address of <code>coines_serial_com_config</code> or <code>ble_peripheral_info</code> to <code>*arg</code>.</p>
+<p>Serial com configuration: If <code>*arg</code> is NULL for <code>COINES_COMM_INTF_USB</code>, first com port enumerated will be used for communication. The serial com configuration structure contains the following items. Refer to <a href="#serialComConfig" data-reference-type="ref" data-reference="serialComConfig">8.1.10</a> for its implementation.</p>
+<pre><code>struct coines_serial_com_config
+{
+	uint32_t baud_rate; /*&lt; Baud rate */
+	uint16_t vendor_id; /*&lt; vendor Id */
+	uint16_t product_id; /*&lt; Product Id */
+	char* com_port_name; /*&lt; serial com port name */
+	uint16_t rx_buffer_size; /*&lt; RX response buffer size */
+};</code></pre>
+<p>BLE com configuration: If <code>*arg</code> is NULL for <code>COINES_COMM_INTF_BLE</code>, the nearest Application board for the host BLE will be used for communication. The ble com configuration structure contains the following items. Refer to <a href="#bleComConfig" data-reference-type="ref" data-reference="bleComConfig">8.1.9</a> for its implementation.</p>
+<pre><code>struct ble_peripheral_info
+{
+	char ble_address[COINES_CHAR_MAX_LEN]; /*&lt; BLE device address */
+	char ble_identifier[COINES_CHAR_MAX_LEN]; /*&lt; BLE device identifier */
+};</code></pre>
+<h4 id="coines_close_comm_intf">coines_close_comm_intf</h4>
+<p>Closes the communication interface.</p>
+<pre><code>int16_t coines_close_comm_intf(enum coines_comm_intf intf_type,void *arg); </code></pre>
+<h4 id="coines_get_board_info">coines_get_board_info</h4>
+<p>Gets the board information.</p>
+<pre><code>int16_t coines_get_board_info(struct coines_board_info *data);</code></pre>
+<p>The data structure contains the following items</p>
+<pre><code>struct coines_board_info {
+	/*!Board hardware ID */
+	uint16_t hardware_id;
+	/*!Board software ID */
+	uint16_t software_id;
+	/*!Type of the board like APP2.0, Arduino Due*/
+	uint8_t board;
+	/*!Shuttle ID of the sensor connected*/
+	uint16_t shuttle_id;
+};</code></pre>
+<h3 id="coinesapi-calls-gpio-oriented-calls">coinesAPI calls: GPIO oriented calls</h3>
+<h4 id="coines_set_pin_config">coines_set_pin_config</h4>
+<p>Sets the pin direction and the state.</p>
+<pre><code>int16_t coines_set_pin_config(enum coines_multi_io_pin pin_number, enum coines_pin_direction direction, enum coines_pin_value pin_value);  </code></pre>
+<h4 id="coines_get_pin_config">coines_get_pin_config</h4>
+<p>Gets the pin configuration.</p>
+<pre><code>int16_t coines_get_pin_config(enum coines_multi_io_pin pin_number, enum coines_pin_direction *pin_direction, enum coines_pin_value *pin_value);</code></pre>
+<h4 id="coines_set_shuttleboard_vdd_vddio_config">coines_set_shuttleboard_vdd_vddio_config</h4>
+<p>Configures the VDD and VDDIO of the sensor. For APP2.0, a voltage level of 0 or 3300 mV is supported. Any values above 0 will default to 3300 mV.</p>
+<pre><code>int16_t coines_set_shuttleboard_vdd_vddio_config(uint16_t vdd_millivolt, uint16_t vddio_millivolt);</code></pre>
+<h3 id="coinesapi-calls-sensor-communication">coinesAPI calls: Sensor communication</h3>
+<h4 id="coines_config_i2c_bus">coines_config_i2c_bus</h4>
+<p>Configures the I<sup>2</sup>C bus.</p>
+<pre><code>int16_t coines_config_i2c_bus(enum coines_i2c_bus bus, enum coines_i2c_mode i2c_mode);</code></pre>
+<p>The first argument refers to the bus on the board. Currently, on APP2.0, there is only one bus available, so the argument is always COINES_I2C_BUS_0.</p>
+<p>The following I<sup>2</sup>C modes are available:</p>
+<pre><code>COINES_I2C_STANDARD_MODE
+COINES_I2C_FAST_MODE
+COINES_I2C_SPEED_3_4_MHZ
+COINES_I2C_SPEED_1_7_MHZ</code></pre>
+<h4 id="coines_config_spi_bus">coines_config_spi_bus</h4>
+<p>Configures the SPI bus of the board. The argument coines_spi_bus refers to the bus on the board. On APP2.0, there is only one bus available, so the user should only use COINES_SPI_BUS_0. The SPI speed can be chosen in various discrete steps, as defined in enum coines_spi_speed in coines.h. (For example, COINES_SPI_SPEED_2_MHZ sets the SPI speed to 2 MHz.)</p>
+<pre><code>int16_t coines_config_spi_bus(enum coines_spi_bus bus, uint32_t spi_speed, enum coines_spi_mode spi_mode);</code></pre>
+<h4 id="coines_config_i2s_bus">coines_config_i2s_bus</h4>
+<p>This API is used to configure the I<sup>2</sup>S bus to match the TDM configuration</p>
+<pre><code>int16_t coines_config_i2s_bus(uint16_t data_words, coines_tdm_callback callback);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>data_words</code>: number of words to use in the buffer. Max is set at COINES_TDM_BUFFER_SIZE_WORDS.</p></li>
+<li><p><code>callback</code>: register a callback to be called to process and copy the data.</p></li>
+</ul>
+<h4 id="coines_deconfig_spi_bus">coines_deconfig_spi_bus</h4>
+<p>This API is used to de-configure the SPI bus</p>
+<pre><code>int16_t coines_deconfig_spi_bus(enum coines_spi_bus bus);</code></pre>
+<h4 id="coines_deconfig_i2c_bus">coines_deconfig_i2c_bus</h4>
+<p>This API is used to de-configure the I<sup>2</sup>C bus</p>
+<pre><code>int16_t coines_deconfig_i2c_bus(enum coines_i2c_bus bus);</code></pre>
+<h4 id="coines_deconfig_i2s_bus">coines_deconfig_i2s_bus</h4>
+<p>This API is used to stop the I<sup>2</sup>S/TDM interface from reading data from the sensor</p>
+<pre><code>void coines_deconfig_i2s_bus(void);</code></pre>
+<h4 id="CoinesWriteI2c">coines_write_i2c</h4>
+<p>Writes 8-bit register data to the I<sup>2</sup>C device at <code>COINES_I2C_BUS_0</code>.</p>
+<pre><code>int8_t coines_write_i2c(enum coines_i2c_bus bus,uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: I<sup>2</sup>C bus to be used</p></li>
+<li><p><code>dev_addr</code>: I<sup>2</sup>C device address.</p></li>
+<li><p><code>reg_addr</code>: Starting address for writing the data.</p></li>
+<li><p><code>reg_data</code>: Data to be written.</p></li>
+<li><p><code>count</code>: Number of bytes to write.</p></li>
+</ul>
+<h4 id="CoinesReadI2c">coines_read_i2c</h4>
+<p>Reads 8-bit register data from the I<sup>2</sup>C device at <code>COINES_I2C_BUS_0</code>.</p>
+<pre><code>int8_t coines_read_i2c(enum coines_i2c_bus bus,uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: I<sup>2</sup>C bus to be used</p></li>
+<li><p><code>dev_addr</code>: I<sup>2</sup>C device address.</p></li>
+<li><p><code>reg_addr</code>: Starting address for reading the data.</p></li>
+<li><p><code>reg_data</code>: Buffer to take up the read data.</p></li>
+<li><p><code>count</code>: Number of bytes to read.</p></li>
+</ul>
+<h4 id="coines_i2c_set">coines_i2c_set</h4>
+<p>This API is used to write the data in I2C communication.</p>
+<pre><code>int8_t coines_i2c_set(enum coines_i2c_bus bus, uint8_t dev_addr, uint8_t *data, uint8_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: I<sup>2</sup>C bus to be used</p></li>
+<li><p><code>dev_addr</code>: I<sup>2</sup>C device address.</p></li>
+<li><p><code>data</code>: Data to be written.</p></li>
+<li><p><code>count</code>: Number of bytes to write.</p></li>
+</ul>
+<h4 id="coines_i2c_get">coines_i2c_get</h4>
+<p>This API is used to read the data in I2C communication.</p>
+<pre><code>int8_t coines_i2c_get(enum coines_i2c_bus bus, uint8_t dev_addr, uint8_t *data, uint8_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: I<sup>2</sup>C bus to be used</p></li>
+<li><p><code>dev_addr</code>: I<sup>2</sup>C device address.</p></li>
+<li><p><code>data</code>: Data read from the sensor.</p></li>
+<li><p><code>count</code>: Number of bytes to read.</p></li>
+</ul>
+<h4 id="CoinesWriteSpi">coines_write_spi</h4>
+<p>Writes 8-bit register data to the SPI device at <code>COINES_SPI_BUS_0</code>.</p>
+<pre><code>int8_t coines_write_spi(enum coines_spi_bus bus,uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: SPI bus to be used.</p></li>
+<li><p><code>dev_addr</code>: Chip select pin number.</p></li>
+<li><p><code>reg_addr</code>: Starting address for writing the data.</p></li>
+<li><p><code>reg_data</code>: Data to be written.</p></li>
+<li><p><code>count</code>: Number of bytes to write.</p></li>
+</ul>
+<h4 id="CoinesReadSpi">coines_read_spi</h4>
+<p>Reads 8-bit register data from the SPI device at <code>COINES_SPI_BUS_0</code>.</p>
+<pre><code>int8_t coines_read_spi(enum coines_spi_bus bus,uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: SPI bus to be used.</p></li>
+<li><p><code>dev_addr</code>: Chip select pin number.</p></li>
+<li><p><code>reg_addr</code>: Starting address for reading the data.</p></li>
+<li><p><code>reg_data</code>: Buffer to take up the read data.</p></li>
+<li><p><code>count</code>: Number of bytes to read.</p></li>
+</ul>
+<h4 id="coines_delay_msec">coines_delay_msec</h4>
+<p>Introduces delay in millisecond.</p>
+<pre><code>void coines_delay_msec(uint32_t delay_ms);</code></pre>
+<h4 id="coines_delay_usec">coines_delay_usec</h4>
+<p>Introduces delay in microsecond.</p>
+<pre><code>void coines_delay_usec(uint32_t delay_us);</code></pre>
+<h4 id="coines_uart_init">coines_uart_init</h4>
+<p>This API is used to initialize the UART communication</p>
+<pre><code>int8_t coines_uart_init(enum coines_uart_instance uart_instance, enum coines_uart_parity parity, enum coines_uart_flow_control flow_control, uint32_t baud_rate);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>uart_instance</code>: Specifies the UART instance</p></li>
+<li><p><code>parity</code>: UART parity</p></li>
+<li><p><code>flow_control</code>: UART flow control mode</p></li>
+<li><p><code>baud_rate</code>: UART baud rate</p></li>
+</ul>
+<h4 id="coines_uart_read">coines_uart_read</h4>
+<p>This API is used to read the data in UART communication</p>
+<pre><code>uint16_t coines_uart_read(enum coines_uart_instance uart_instance, uint8_t *buffer, uint16_t length);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>uart_instance</code>: Specifies the UART instance</p></li>
+<li><p><code>buffer</code>: Pointer to the buffer to store the data</p></li>
+<li><p><code>length</code>: Length of the buffer</p></li>
+</ul>
+<h4 id="coines_uart_write">coines_uart_write</h4>
+<p>This API is used to write the data in UART communication</p>
+<pre><code>int8_t coines_uart_write(enum coines_uart_instance uart_instance, uint8_t *buffer, uint16_t length);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>uart_instance</code>: Specifies the UART instance</p></li>
+<li><p><code>buffer</code>: Pointer to the data buffer which need to be written</p></li>
+<li><p><code>length</code>: Length of the buffer</p></li>
+</ul>
+<h3 id="coinesapi-calls-streaming-feature">coinesAPI calls: Streaming feature</h3>
+<p>Note :</p>
+<ol>
+<li><p>The below APIs are supported only on PC Target.</p></li>
+<li><p>A simpler approach of using <code>coines_attach_interrupt()</code> API for is available for MCU.</p></li>
+</ol>
+<h4 id="coines_config_streaming">coines_config_streaming</h4>
+<p>Sets the configuration for streaming sensor data.</p>
+<pre><code>int16_t coines_config_streaming(uint8_t channel_id, struct coines_streaming_config *stream_config, struct coines_streaming_blocks *data_blocks); </code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>channel_id</code>: An integer number that can be used as identifier/index to the sensor data that will be streamed for this setting</p></li>
+<li><p><code>stream_config</code>: Contains information regarding interface settings and streaming configuration.</p></li>
+<li><p><code>coines_streaming_blocks</code>: Contains information regarding numbers of blocks to read, register address and size for each block.</p></li>
+</ul>
+<p>Note: The below parameters should always be set:</p>
+<ul>
+<li><p><code>data_block.no_of_blocks</code>: number of blocks to stream (must at least be one)</p></li>
+<li><p>For each block b:</p>
+<ul>
+<li><p><code>data_block.reg_start_addr[b]</code>: start address of the block in the register map</p></li>
+<li><p><code>stream_block.no_of_data_bytes[b]</code>: number of bytes to read, starting from the start address</p></li>
+</ul></li>
+</ul>
+<p>For reading data from I<sup>2</sup>C bus,then set the below parameters:</p>
+<ul>
+<li><p><code>stream_config.intf = COINES_SENSOR_INTF_I2C;</code></p></li>
+<li><p><code>stream_config.i2c_bus</code>: I<sup>2</sup>C bus (in case of APP2.0, this is always <code>COINES_I2C_BUS_0</code>)</p></li>
+<li><p><code>stream_config.dev_addr</code>: I<sup>2</sup>C address of the sensor</p></li>
+</ul>
+<p>For reading data from SPI bus, then set the below parameters:</p>
+<ul>
+<li><p><code>stream_config.intf = COINES_SENSOR_INTF_SPI;</code></p></li>
+<li><p><code>stream_config.spi_bus</code>: SPI bus (in case of APP2.0, this is always <code>COINES_SPI_BUS_0</code>)</p></li>
+<li><p><code>stream_config.cs_pin</code>: CS pin of the sensor, information can be obtained from the shuttle board documentation for the sensor.</p></li>
+</ul>
+<p>When polling mode is requested, set the below parameters:</p>
+<ul>
+<li><p><code>stream_config.sampling_units</code>:<br />
+either milliseconds (<code>COINES_SAMPLING_TIME_IN_MILLI_SEC</code>)<br />
+or microseconds (<code>COINES_SAMPLING_TIME_IN_MICRO_SEC</code>)</p></li>
+<li><p><code>stream_config.sampling_time</code>: sampling period in the unit as defined in<br />
+<code>stream_config.sampling_units</code></p></li>
+</ul>
+<p>When interrupt mode is requested, set the below parameters:</p>
+<ul>
+<li><p><code>stream_config.int_pin</code>: pin of the interrupt which shall trigger the sensor read-out. If the interrupt output of the sensor is used, the required information about the pin number can be obtained from the shuttle board documentation for the sensor.</p></li>
+<li><p><code>stream_config.int_timestamp</code>: it can be configured if the sensor data is tagged with a timestamp (<code>COINES_TIMESTAMP_ENABLE</code>) or not (<code>COINES_TIMESTAMP_DISABLE</code>).</p></li>
+</ul>
+<h4 id="coines_start_stop_streaming">coines_start_stop_streaming</h4>
+<p>Starts or stops sensor data streaming.</p>
+<pre><code>int16_t coines_start_stop_streaming(enum coines_streaming_mode stream_mode, uint8_t start_stop);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>stream_mode</code>: streaming mode (either <code>COINES_STREAMING_MODE_POLLING</code> or<br />
+<code>COINES_STREAMING_MODE_INTERRUPT</code>)</p></li>
+<li><p><code>start_stop</code>: flag to either start (<code>COINES_STREAMING_START</code>) or stop (<code>COINES_STREAMING_STOP</code>) the streaming</p></li>
+</ul>
+<h4 id="coinesReadStreamSensorData">coines_read_stream_sensor_data</h4>
+<p>Reads the data streamed from the sensor.</p>
+<pre><code>int16_t coines_read_stream_sensor_data(uint8_t sensor_id, uint32_t number_of_samples, uint8_t *data, uint32_t *valid_samples_count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>sensor_id</code>: id of the sensor</p></li>
+<li><p><code>number_of_samples</code>: number of samples the user wishes to read (not implemented)</p></li>
+<li><p><code>data</code>: data buffer</p>
+<ul>
+<li><p>Interrupt streaming - Packet counter + Register data + Timestamp</p></li>
+<li><p>Polling streaming - Register data</p></li>
+</ul></li>
+<li><p><code>valid_samples_count</code>: number of samples the user has actually received (may be less than <code>number_of_samples</code>)</p></li>
+</ul>
+<p>Example of a packet:</p>
+<figure>
+<img src="coinesAPI_images/COINES_streamingSample.png" alt="" /><figcaption>Format of streaming packages</figcaption>
+</figure>
+<p>In the above figure, the following meaning apply to the mentioned abreviations:</p>
+<ul>
+<li><p>r<sub>p</sub>: Value at register address p</p></li>
+<li><p>a: Size of register block–0</p></li>
+<li><p>r<sub>p+a</sub>: Value at register address p</p></li>
+</ul>
+<p>Similarly is the case for r<sub>q</sub>, j and r<sub>q+j</sub>. See the <code>coines_streaming_blocks</code> structure for information regarding register blocks.</p>
+<p>The packet counter and the timestamp can be obtained as follows:</p>
+<ul>
+<li><p><code>packet_counter = (byte3_c &lt;&lt; 24) | (byte2_c &lt;&lt; 16) | (byte1_c &lt;&lt; 8) | (byte0_c)</code></p></li>
+<li><p><code>timestamp = (byte5_t &lt;&lt; 40) | (byte4_t &lt;&lt; 32) | (byte3_t &lt;&lt; 24) | (byte2_t &lt;&lt; 16) | (byte1_t &lt;&lt; 8) | (byte0_t)</code></p></li>
+</ul>
+<p>The 48-bit timestamp is enabled by using<br />
+<code>coines_trigger_timer(COINES_TIMER_START, COINES_TIMESTAMP_ENABLE);</code></p>
+<p>Timestamp in microseconds can be obtained using below formula:</p>
+<ul>
+<li><p><span class="math inline">$\displaystyle Timestamp\ (\mu s) = \frac{48bit\_timestamp}{30}$</span></p></li>
+</ul>
+<h4 id="coines_trigger_timer">coines_trigger_timer</h4>
+<p>Triggers the timer in firmware and also enables or disables the time stamp feature.</p>
+<pre><code>int16_t coines_trigger_timer(enum coines_timer_config tmr_cfg,enum coines_time_stamp_config ts_cfg);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>tmr_cfg</code>: start, stop or reset the timer (<code>COINES_TIMER_START</code>, <code>COINES_TIMER_STOP</code> or<br />
+<code>COINES_TIMER_RESET</code>)</p></li>
+<li><p><code>ts_cfg</code>: Enables/disables microcontroller timestamp (<code>COINES_TIMESTAMP_ENABLE</code> or<br />
+<code>COINES_TIMESTAMP_DISABLE</code>)</p></li>
+</ul>
+<h3 id="coinesapi-calls-other-useful-apis">coinesAPI calls: Other useful APIs</h3>
+<h4 id="coines_get_millis">coines_get_millis</h4>
+<p>Returns the number of milliseconds passed since the program started</p>
+<pre><code>uint32_t coines_get_millis();</code></pre>
+<h4 id="coines_get_micro_sec">coines_get_micro_sec</h4>
+<p>Returns the number of microseconds passed since the program started</p>
+<pre><code>uint64_t coines_get_micro_sec();</code></pre>
+<h4 id="coines_attach_interrupt">coines_attach_interrupt</h4>
+<p>Attaches an interrupt to a Multi-IO pin.Works only on MCU.</p>
+<pre><code>void coines_attach_interrupt(enum coines_multi_io_pin pin_number,void (*callback)(uint32_t, uint32_t),enum coines_pin_interrupt_mode int_mode);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>pin_number</code>: Multi-IO pin</p></li>
+<li><p><code>callback</code>: Name of the function to be called on detection of interrupt</p></li>
+<li><p><code>int_mode</code>: Trigger modes - change (<code>COINES_PIN_INTERRUPT_CHANGE</code>),<br />
+rising edge (<code>COINES_PIN_INTERRUPT_RISING_EDGE</code>),<br />
+falling edge (<code>COINES_PIN_INTERRUPT_FALLING_EDGE</code>)</p></li>
+</ul>
+<h4 id="coines_detach_interrupt">coines_detach_interrupt</h4>
+<p>Detaches interrupt from a Multi-IO pin.Works only on MCU.</p>
+<pre><code>void coines_detach_interrupt(enum coines_multi_io_pin pin_number);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>pin_number</code>: Multi-IO pin.</p></li>
+</ul>
+<h4 id="coines_intf_available">coines_intf_available</h4>
+<p>Return the number of bytes available in the read buffer of the interface.Works only on APP3.x MCU target.</p>
+<pre><code>uint16_t coines_intf_available(enum coines_comm_intf intf);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>intf</code>: Type of interface (USB, COM, or BLE)</p></li>
+</ul>
+<h4 id="coines_intf_connected">coines_intf_connected</h4>
+<p>Check if the interface is connected.Works only on APP3.x MCU target.</p>
+<pre><code>bool coines_intf_connected(enum coines_comm_intf intf);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>intf</code>: Type of interface (USB, COM, or BLE)</p></li>
+</ul>
+<h4 id="coines_flush_intf">coines_flush_intf</h4>
+<p>Flush the write buffer.Works only on APP3.x MCU target.</p>
+<pre><code>void coines_flush_intf(enum coines_comm_intf intf);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>intf</code>: Type of interface (USB, COM, or BLE)</p></li>
+</ul>
+<h4 id="coines_read_intf">coines_read_intf</h4>
+<p>Read data over the specified interface.Works only on APP3.x MCU target.</p>
+<pre><code>uint16_t coines_read_intf(enum coines_comm_intf intf, void *buffer, uint16_t len);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>intf</code>: Type of interface (USB, COM, or BLE)</p></li>
+<li><p><code>buffer</code>: Pointer to the buffer to store the data</p></li>
+<li><p><code>len</code>: Length of the buffer</p></li>
+</ul>
+<h4 id="coines_write_intf">coines_write_intf</h4>
+<p>Write data over the specified interface.Works only on APP3.x MCU target.</p>
+<pre><code>uint16_t coines_write_intf(enum coines_comm_intf intf, void *buffer, uint16_t len);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>intf</code>: Type of interface (USB, COM, or BLE)</p></li>
+<li><p><code>buffer</code>: Pointer to the buffer storing the data</p></li>
+<li><p><code>len</code>: Length of the buffer</p></li>
+</ul>
+<h4 id="coines_get_version">coines_get_version</h4>
+<p>Returns pointer to COINES version string</p>
+<pre><code>char* coines_get_version(void);</code></pre>
+<h4 id="coines_soft_reset">coines_soft_reset</h4>
+<p>Resets the device. After reset device jumps to the address specified in makefile(APP_START_ADDRESS).</p>
+<pre><code>void coines_soft_reset(void);</code></pre>
+<h4 id="coines_read_temp_data">coines_read_temp_data</h4>
+<p>This API is used to read the temperature sensor data.</p>
+<pre><code>int16_t coines_read_temp_data(float *temp_data);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>temp_conv_data</code>: Buffer to retrieve the sensor data in degree Celsius.</p></li>
+</ul>
+<h4 id="coines_read_bat_status">coines_read_bat_status</h4>
+<p>This API is used to read the battery status.</p>
+<pre><code>int16_t coines_read_bat_status(uint16_t *bat_status_mv, uint8_t *bat_status_percent);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bat_status_mv</code>: Buffer to retrieve the battery status in millivolt</p></li>
+<li><p><code>bat_status_percent</code>: Buffer to retrieve the battery status in percentage</p></li>
+</ul>
+<h4 id="coines_ble_config">coines_ble_config</h4>
+<p>This API is used to configure BLE name and power. It should be called before calling coines_open_comm_intf API.</p>
+<pre><code>int16_t coines_ble_config(struct coines_ble_config *ble_config);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>ble_config</code>: structure holding ble name and power details</p></li>
+</ul>
+<h4 id="coines_set_led">coines_set_led</h4>
+<p>This API is used to set led state(on or off).</p>
+<pre><code>int16_t coines_set_led(enum coines_led led,enum coines_led_state led_state);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>led</code>: led to which the state has to be set.</p></li>
+<li><p><code>led_state</code>: state to be set to the given led.</p></li>
+</ul>
+<h4 id="coines_timer_config">coines_timer_config</h4>
+<p>This API is used to configure the hardware timer.</p>
+<pre><code>int16_t coines_timer_config(enum coines_timer_instance instance, void* handler);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>instance</code>: timer instance.</p></li>
+<li><p><code>handler</code>: callback to be called when timer expires.</p></li>
+</ul>
+<h4 id="coines_timer_deconfig">coines_timer_deconfig</h4>
+<p>This API is used to de-configure the hardware timer.</p>
+<pre><code>int16_t coines_timer_deconfig(enum coines_timer_instance instance);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>instance</code>: timer instance.</p></li>
+</ul>
+<h4 id="coines_timer_start">coines_timer_start</h4>
+<p>This API is used to start the configured hardware timer.</p>
+<pre><code>int16_t coines_timer_start(enum coines_timer_instance instance, uint32_t timeout);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>instance</code>: timer instance.</p></li>
+<li><p><code>timeout</code>: timeout in microseconds.</p></li>
+</ul>
+<h4 id="coines_timer_stop">coines_timer_stop</h4>
+<p>This API is used to stop the hardware timer.</p>
+<pre><code>int16_t coines_timer_stop(enum coines_timer_instance instance);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>instance</code>: timer instance.</p></li>
+</ul>
+<h4 id="coines_get_realtime_usec">coines_get_realtime_usec</h4>
+<p>This API is used to get the current counter(RTC) reference time in usec</p>
+<pre><code>uint32_t coines_get_realtime_usec(void);</code></pre>
+<h4 id="coines_delay_realtime_usec">coines_delay_realtime_usec</h4>
+<p>This API is used to introduce delay based on high precision RTC(LFCLK crystal) with the resolution of 30.517 usec.</p>
+<pre><code>void coines_delay_realtime_usec(uint32_t period);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>period</code>: required delay in microseconds</p></li>
+</ul>
+<h4 id="coines_attach_timed_interrupt">coines_attach_timed_interrupt</h4>
+<p>Attaches a timed interrupt to a Multi-IO pin.</p>
+<pre><code>int16_t coines_attach_timed_interrupt(enum coines_multi_io_pin pin_number, void (*timed_interrupt_cb)(uint64_t,uint32_t,uint32_t), enum coines_pin_interrupt_mode int_mode);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>pin_number</code>: Multi-IO pin.</p></li>
+<li><p><code>timed_interrupt_cb</code>: Name of the function to be called on detection of interrupt.</p></li>
+<li><p><code>int_mode</code>: Trigger modes - change,rising edge,falling edge.</p></li>
+</ul>
+<h4 id="coines_detach_timed_interrupt">coines_detach_timed_interrupt</h4>
+<p>Detaches a timed interrupt from a Multi-IO pin.</p>
+<pre><code>int16_t coines_detach_timed_interrupt(enum coines_multi_io_pin pin_number);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>pin_number</code>: Multi-IO pin.</p></li>
+</ul>
+<h4 id="coines_echo_test">coines_echo_test</h4>
+<p>This API is used to test the communication.</p>
+<pre><code>int16_t coines_echo_test(uint8_t *data, uint16_t length);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>data</code>: Data to be sent for testing.</p></li>
+<li><p><code>length</code>: Length of the data.</p></li>
+</ul>
+<h4 id="coines_shuttle_eeprom_write">coines_shuttle_eeprom_write</h4>
+<p>This API is used to write the content into shuttle eeprom.</p>
+<pre><code>int16_t coines_shuttle_eeprom_write(uint16_t start_addr, uint8_t *buffer, uint16_t length);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>start_addr</code>: EEPROM write address.</p></li>
+<li><p><code>buffer</code>: Pointer to the buffer.</p></li>
+<li><p><code>length</code>: Length of the buffer.</p></li>
+</ul>
+<h4 id="coines_shuttle_eeprom_read">coines_shuttle_eeprom_read</h4>
+<p>This API is used to read the content from shuttle eeprom.</p>
+<pre><code>int16_t coines_shuttle_eeprom_read(uint16_t start_addr, uint8_t *buffer, uint16_t length);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>start_addr</code>: EEPROM read address.</p></li>
+<li><p><code>buffer</code>: Pointer to the buffer.</p></li>
+<li><p><code>length</code>: Length of the buffer.</p></li>
+</ul>
+<h4 id="coines_yield">coines_yield</h4>
+<p>This API can be defined to perform a task when yielded from an ongoing blocking call.</p>
+<pre><code>void coines_yield(void);</code></pre>
+<h4 id="coines_execute_critical_region">coines_execute_critical_region</h4>
+<p>This API is used to execute the function inside critical region.</p>
+<pre><code>void coines_execute_critical_region(coines_critical_callback callback);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>callback</code>: function to execute.</p></li>
+</ul>
+<h4 id="coinesScanBleDevices">coines_scan_ble_devices</h4>
+<p>This API is used to connect to BLE Adapter and return list of BLE peripherals found during BLE scan.</p>
+<pre><code>	int8_t coines_scan_ble_devices(struct ble_peripheral_info *ble_info, uint8_t *peripheral_count, size_t scan_timeout_ms)</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>ble_info</code>: array of struct containing found BLE peripheral information</p></li>
+<li><p><code>peripheral_count</code>: number of BLE peripherals found</p></li>
+<li><p><code>scan_timeout_ms</code>: timeout for BLE scan</p></li>
+</ul>
+<h2 id="coines-python-functions">COINES Python functions</h2>
+<p>As coinespy is only a wrapper on top of coinesAPI, the following API documentation is limited to the wrapper only. Details about meaning of variables and functionality can be found in the corresponding coinesAPI documentation in the chapter above. The following function calls are defined within the class <code>CoinesBoard</code>. Thus in order to access the functions, the user has to create an object of that class first.</p>
+<div class="sourceCode" id="cb80" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true"></a><span class="im">import</span> coinespy <span class="im">as</span> cpy</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true"></a>	coinesboard <span class="op">=</span> cpy.CoinesBoard()</span></code></pre></div>
+<h3 id="coinespy-api-calls-interface-and-board-information">coinespy API calls: Interface and board information</h3>
+<h4 id="open_comm_interface">open_comm_interface</h4>
+<p>Sets the communication interface between board and PC to USB, Serial or BLE.</p>
+<div class="sourceCode" id="cb81" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true"></a>coinesboard.open_comm_interface(interface<span class="op">=</span>CommInterface.USB, serial_com_config: SerialComConfig <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true"></a>ble_com_config: BleComConfig <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> ErrorCodes</span></code></pre></div>
+<p>For the definition of <code>CommInterface</code>, refer to <a href="#CommInterface" data-reference-type="ref" data-reference="CommInterface">15.3.6.3</a>.</p>
+<h4 id="close_comm_interface">close_comm_interface</h4>
+<p>Disposes the resources used by the USB/serial/BLE communication.</p>
+<div class="sourceCode" id="cb82" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true"></a>coinesboard.close_comm_interface(arg<span class="op">=</span><span class="va">None</span>) <span class="op">-&gt;</span> ErrorCodes</span></code></pre></div>
+<h4 id="get_board_info">get_board_info</h4>
+<p>Obtains board specific information.</p>
+<div class="sourceCode" id="cb83" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true"></a>BoardInfo <span class="op">=</span> coinesboard.get_board_info()</span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true"></a></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true"></a><span class="co"># Return:</span></span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true"></a>BoardInfo.HardwareId    <span class="co"># Hardware ID</span></span>
+<span id="cb83-5"><a href="#cb83-5" aria-hidden="true"></a>BoardInfo.SoftwareId    <span class="co"># Firmware version information</span></span>
+<span id="cb83-6"><a href="#cb83-6" aria-hidden="true"></a>BoardInfo.Board         <span class="co"># Board type</span></span>
+<span id="cb83-7"><a href="#cb83-7" aria-hidden="true"></a>BoardInfo.ShuttleID     <span class="co"># ID of shuttle, in case a shuttle is detected</span></span></code></pre></div>
+<h4 id="scan_ble_devices">scan_ble_devices</h4>
+<p>This API is used to connect to BLE Adapter and return list of BLE peripherals found during BLE scan.</p>
+<pre><code>ble_info, peripheral_count  = coinesboard.scan_ble_devices(scan_timeout_ms=0) -&gt; Tuple[list, int]</code></pre>
+<p>For the definition of parameters, refer to <a href="#coinesScanBleDevices" data-reference-type="ref" data-reference="coinesScanBleDevices">15.2.5.29</a>.</p>
+<h4 id="echo_test">echo_test</h4>
+<p>This API is used to test the communication.</p>
+<pre><code>coinesboard.echo_test(data: List[int]) -&gt; ErrorCodes</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>data</code>: Data to be sent for testing.</p></li>
+</ul>
+<h3 id="coinespy-api-calls-gpio-oriented-calls">coinespy API calls: GPIO oriented calls</h3>
+<h4 id="set_pin_config">set_pin_config</h4>
+<p>Configures the state, level and direction of a GPIO pin</p>
+<div class="sourceCode" id="cb86" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true"></a>coinesboard.set_pin_config(pin_number: MultiIOPin, direction: PinDirection, output_state: PinValue) <span class="op">-&gt;</span> ErrorCodes</span></code></pre></div>
+<p>For the definition of <code>MultiIOPin</code>, refer to <a href="#MultiIOPin" data-reference-type="ref" data-reference="MultiIOPin">15.3.6.8</a>. For the definition of <code>PinDirection</code>, refer to <a href="#PinDirection" data-reference-type="ref" data-reference="PinDirection">15.3.6.1</a>. For <code>PinValue</code>, refer to <a href="#PinValue" data-reference-type="ref" data-reference="PinValue">15.3.6.2</a>.</p>
+<h4 id="get_pin_config">get_pin_config</h4>
+<p>Obtains information regarding the Pin’s state, level and direction.</p>
+<div class="sourceCode" id="cb87" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true"></a>PinConfigInfo <span class="op">=</span> coinesboard.get_pin_config(pin_number: MultiIOPin)</span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true"></a></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true"></a><span class="co"># Return:</span></span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true"></a>PinConfigInfo.direction         <span class="co"># 0: INPUT, 1: OUTPUT</span></span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true"></a>PinConfigInfo.switch_state       <span class="co"># 0: OFF, 1: ON</span></span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true"></a>PinConfigInfo.level             <span class="co"># 1: HIGH, 0: LOW</span></span></code></pre></div>
+<h4 id="set_shuttleboard_vdd_vddio_config">set_shuttleboard_vdd_vddio_config</h4>
+<p>Set the VDD and VDDIO voltage level.</p>
+<pre><code>coinesboard.set_shuttleboard_vdd_vddio_config(vdd_val: float = None, vddio_val: float = None) -&gt; ErrorCodes
+
+# Example: coinesboard.set_shuttleboard_vdd_vddio_config(3.3, 3.3)</code></pre>
+<h4 id="set_vdd">set_vdd</h4>
+<p>Set the VDD voltage level.</p>
+<pre><code>coinesboard.set_vdd(vdd_val: float = None) -&gt; ErrorCodes
+
+# Example: coinesboard.set_vdd(3.3)</code></pre>
+<h4 id="set_vddio">set_vddio</h4>
+<p>Set the VDDIO voltage level.</p>
+<pre><code>coinesboard.set_vddio(vdd_val: float = None) -&gt; ErrorCodes
+
+# Example: coinesboard.set_vddio(3.3)</code></pre>
+<h3 id="coinespy-api-calls-sensor-communication">coinespy API calls: Sensor communication</h3>
+<p>For the definition of <code>SPIBus</code>, refer to <a href="#SPIBus" data-reference-type="ref" data-reference="SPIBus">15.3.6.11</a>. For the definition of <code>I2CBus</code>, refer to <a href="#I2CBus" data-reference-type="ref" data-reference="I2CBus">15.3.6.10</a>.</p>
+<h4 id="config_i2c_bus">config_i2c_bus</h4>
+<p>Configures the I<sup>2</sup>C bus.</p>
+<pre><code>coinesboard.config_i2c_bus(bus: I2CBus, i2c_address: int, i2c_mode: I2CMode) -&gt; ErrorCodes</code></pre>
+<p>For the definition of <code>I2CMode</code>, refer to <a href="#I2CMode" data-reference-type="ref" data-reference="I2CMode">15.3.6.4</a>.</p>
+<h4 id="config_spi_bus">config_spi_bus</h4>
+<p>Configures the SPI bus of the board.</p>
+<pre><code>coinesboard.config_spi_bus(bus: SPIBus, cs_pin: MultiIOPin, spi_speed=SPISpeed, spi_mode=SPIMode) -&gt; ErrorCodes</code></pre>
+<p>For the definition of <code>MultiIOPin</code>, refer to <a href="#MultiIOPin" data-reference-type="ref" data-reference="MultiIOPin">15.3.6.8</a>. For the definition of <code>SPISpeed</code>, refer to <a href="#SPISpeed" data-reference-type="ref" data-reference="SPISpeed">15.3.6.5</a>. For the definition of <code>SPIMode</code>, refer to <a href="#SPIMode" data-reference-type="ref" data-reference="SPIMode">15.3.6.7</a>.</p>
+<h4 id="deconfig_i2c_bus">deconfig_i2c_bus</h4>
+<p>This API is used to de-configure the I<sup>2</sup>C bus</p>
+<pre><code>coinesboard.deconfig_i2c_bus(bus: I2CBus) -&gt; ErrorCodes</code></pre>
+<h4 id="deconfig_spi_bus">deconfig_spi_bus</h4>
+<p>This API is used to de-configure the SPI bus</p>
+<pre><code>coinesboard.deconfig_spi_bus(bus: SPIBus) -&gt; ErrorCodes</code></pre>
+<h4 id="write_i2c">write_i2c</h4>
+<p>Writes 8-bit register data to the I<sup>2</sup>C</p>
+<pre><code>coinesboard.write_i2c(bus: I2CBus, register_address: int, register_value: int, sensor_interface_detail: int = None) -&gt; ErrorCodes</code></pre>
+<p>For the definition of parameters, refer to <a href="#CoinesWriteI2c" data-reference-type="ref" data-reference="CoinesWriteI2c">15.2.3.7</a>.</p>
+<h4 id="read_i2c">read_i2c</h4>
+<p>Reads 8-bit register data from the I<sup>2</sup>C</p>
+<pre><code>register_data = coinesboard.read_i2c(bus: I2CBus, register_address: int, number_of_reads=1, sensor_interface_detail: int = None)</code></pre>
+<p>For the definition of parameters, refer to <a href="#CoinesReadI2c" data-reference-type="ref" data-reference="CoinesReadI2c">15.2.3.8</a>.</p>
+<h4 id="write_spi">write_spi</h4>
+<p>Writes 8-bit register data to the SPI device</p>
+<pre><code>coinesboard.write_spi(bus: SPIBus, register_address: int, register_value: int, sensor_interface_detail: int = None) -&gt; ErrorCodes</code></pre>
+<p>For the definition of parameters, refer to <a href="#CoinesWriteSpi" data-reference-type="ref" data-reference="CoinesWriteSpi">15.2.3.11</a>.</p>
+<h4 id="read_spi">read_spi</h4>
+<p>Reads 8-bit register data from the SPI device.</p>
+<pre><code>register_data = coinesboard.read_spi(bus: SPIBus, register_address: int, number_of_reads=1, sensor_interface_detail: int = None)</code></pre>
+<p>For the definition of parameters, refer to <a href="#CoinesReadSpi" data-reference-type="ref" data-reference="CoinesReadSpi">15.2.3.12</a>.</p>
+<h4 id="delay_milli_sec">delay_milli_sec</h4>
+<p>Introduces delay in millisecond.</p>
+<pre><code>coinesboard.delay_milli_sec(time_in_milli_sec=100)</code></pre>
+<h4 id="delay_micro_sec">delay_micro_sec</h4>
+<p>Introduces delay in microsecond.</p>
+<pre><code>coinesboard.delay_micro_sec(time_in_micro_sec=1)</code></pre>
+<h3 id="coinespy-api-calls-streaming-feature">coinespy API calls: Streaming feature</h3>
+<h4 id="config_streaming">config_streaming</h4>
+<p>Sets the configuration for streaming sensor data.</p>
+<div class="sourceCode" id="cb101" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true"></a>coinesboard.config_streaming(sensor_id: <span class="bu">int</span>,</span>
+<span id="cb101-2"><a href="#cb101-2" aria-hidden="true"></a>	stream_config: StreamingConfig, data_blocks: StreamingBlocks) <span class="op">-&gt;</span> ErrorCodes</span></code></pre></div>
+<p>Arguments:</p>
+<ul>
+<li><p><code>sensor_id</code>: An integer number that can be used as identifier/index to the sensor data that will be streamed for this setting</p></li>
+<li><p><code>stream_config</code>: Contains information regarding interface settings and streaming configuration.</p></li>
+<li><p><code>data_blocks</code>: Contains information regarding numbers of blocks to read, register address and size for each block.</p></li>
+</ul>
+<p>Note: The below parameters should always be set:</p>
+<ul>
+<li><p><code>data_blocks.NoOfBlocks</code>: number of blocks to stream (must at least be one)</p></li>
+<li><p>For each block b:</p>
+<ul>
+<li><p><code>data_blocks.RegStartAddr[b]</code>: start address of the block in the register map</p></li>
+<li><p><code>data_blocks.NoOfDataBytes[b]</code>: number of bytes to read, starting from the start address</p></li>
+</ul></li>
+</ul>
+<p>For reading data from I<sup>2</sup>C bus,then set the below parameters:</p>
+<ul>
+<li><p><code>stream_config.Intf = cpy.SensorInterface.I2C.value</code></p></li>
+<li><p><code>stream_config.I2CBus</code>: I<sup>2</sup>C bus (in case of APP2.0 and APP3.x, this is always<br />
+<code>cpy.I2CBus.BUS_I2C_0.value</code>)</p></li>
+<li><p><code>stream_config.DevAddr</code>: I<sup>2</sup>C address of the sensor</p></li>
+</ul>
+<p>For reading data from SPI bus, then set the below parameters:</p>
+<ul>
+<li><p><code>stream_config.Intf = cpy.SensorInterface.SPI.value;</code></p></li>
+<li><p><code>stream_config.SPIBus</code>: SPI bus (in case of APP2.0 and APP3.x, this is always<br />
+<code>cpy.SPIBus.BUS_SPI_0.value</code>)</p></li>
+<li><p><code>stream_config.CSPin</code>: CS pin of the sensor, information can be obtained from the shuttle board documentation for the sensor.</p></li>
+<li><p><code>stream_config.SPIType</code>: 0 : 8-bit SPI; 1 : 16-bit SPI</p></li>
+</ul>
+<p>When polling mode is requested, set the below parameters:</p>
+<ul>
+<li><p><code>stream_config.SamplingUnits</code>: either milliseconds or microseconds. Refer to <a href="#SamplingUnits" data-reference-type="ref" data-reference="SamplingUnits">15.3.6.15</a>.</p></li>
+<li><p><code>stream_config.SamplingTime</code>: sampling period in the unit as defined in<br />
+<code>stream_config.SamplingUnits</code></p></li>
+</ul>
+<p>When interrupt mode is requested, set the below parameters:</p>
+<ul>
+<li><p><code>stream_config.IntPin</code>: pin of the interrupt which shall trigger the sensor read-out. If the interrupt output of the sensor is used, the required information about the pin number can be obtained from the shuttle board documentation for the sensor.</p></li>
+<li><p><code>stream_config.IntTimeStamp</code>: it can be configured if the sensor data is tagged with a timestamp - 1 or not - 0.</p></li>
+<li><p><code>stream_config.HwPinState</code>: State of the hardware pin connected to the interrupt line - 0/1 : Low/high</p></li>
+</ul>
+<p>Below parameters are common for both streaming types:</p>
+<ul>
+<li><p><code>stream_config.IntlineCount</code>: Number of interrupt lines to be used for monitoring interrupts.</p></li>
+<li><p><code>stream_config.IntlineInfo</code>: List of pin numbers that correspond to interrupt lines being used for interrupt monitoring.</p></li>
+<li><p><code>stream_config.ClearOnWrite</code>: 0/1 : Disable/enable "clear on write" feature</p></li>
+</ul>
+<p>The below parameters should be set only when stream_config.ClearOnWrite = 1:</p>
+<ul>
+<li><p><code>stream_config.ClearOnWriteConfig.StartAddress</code>: Address of the sensor register at which the process of clearOnWrite should initiate.</p></li>
+<li><p><code>stream_config.ClearOnWriteConfig.DummyByte</code>: Number of padding bytes that must be added before clearing the bytes starting from the designated address.</p></li>
+<li><p><code>stream_config.ClearOnWriteConfig.NumBytesToClear</code>: Number of bytes that need to be cleared.</p></li>
+</ul>
+<p>Below is the Python code snippet for interrupt streaming</p>
+<div class="sourceCode" id="cb102" data-language="Python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true"></a><span class="co"># Store streaming settings in local variables</span></span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true"></a>accel_stream_settings <span class="op">=</span> <span class="bu">dict</span>(</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true"></a>	I2C_ADDR_PRIMARY<span class="op">=</span><span class="bn">0x18</span>,</span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true"></a>	NO_OF_BLOCKS <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true"></a>	REG_X_LSB<span class="op">=</span> [<span class="bn">0x12</span>, <span class="bn">0x00</span>],</span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true"></a>	NO_OF_DATA_BYTES<span class="op">=</span> [<span class="dv">6</span>, <span class="dv">1</span>],</span>
+<span id="cb102-7"><a href="#cb102-7" aria-hidden="true"></a>	CHANNEL_ID<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb102-8"><a href="#cb102-8" aria-hidden="true"></a>	CS_PIN<span class="op">=</span>cpy.MultiIOPin.SHUTTLE_PIN_8.value,</span>
+<span id="cb102-9"><a href="#cb102-9" aria-hidden="true"></a>	INT_PIN<span class="op">=</span>cpy.MultiIOPin.SHUTTLE_PIN_21.value,</span>
+<span id="cb102-10"><a href="#cb102-10" aria-hidden="true"></a>	INT_TIME_STAMP<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb102-11"><a href="#cb102-11" aria-hidden="true"></a>)</span>
+<span id="cb102-12"><a href="#cb102-12" aria-hidden="true"></a>gyro_stream_settings <span class="op">=</span> <span class="bu">dict</span>(</span>
+<span id="cb102-13"><a href="#cb102-13" aria-hidden="true"></a>	I2C_ADDR_PRIMARY<span class="op">=</span><span class="bn">0x68</span>,</span>
+<span id="cb102-14"><a href="#cb102-14" aria-hidden="true"></a>	NO_OF_BLOCKS <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb102-15"><a href="#cb102-15" aria-hidden="true"></a>	REG_X_LSB<span class="op">=</span> [<span class="bn">0x02</span>,<span class="bn">0x00</span>],</span>
+<span id="cb102-16"><a href="#cb102-16" aria-hidden="true"></a>	NO_OF_DATA_BYTES <span class="op">=</span> [<span class="dv">6</span>, <span class="dv">1</span>],</span>
+<span id="cb102-17"><a href="#cb102-17" aria-hidden="true"></a>	CHANNEL_ID<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb102-18"><a href="#cb102-18" aria-hidden="true"></a>	CS_PIN<span class="op">=</span>cpy.MultiIOPin.SHUTTLE_PIN_14.value,</span>
+<span id="cb102-19"><a href="#cb102-19" aria-hidden="true"></a>	INT_PIN<span class="op">=</span>cpy.MultiIOPin.SHUTTLE_PIN_22.value,</span>
+<span id="cb102-20"><a href="#cb102-20" aria-hidden="true"></a>	INT_TIME_STAMP<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb102-21"><a href="#cb102-21" aria-hidden="true"></a>)</span>
+<span id="cb102-22"><a href="#cb102-22" aria-hidden="true"></a></span>
+<span id="cb102-23"><a href="#cb102-23" aria-hidden="true"></a></span>
+<span id="cb102-24"><a href="#cb102-24" aria-hidden="true"></a><span class="co"># set the config_streaming parameters</span></span>
+<span id="cb102-25"><a href="#cb102-25" aria-hidden="true"></a>stream_config <span class="op">=</span> cpy.StreamingConfig()</span>
+<span id="cb102-26"><a href="#cb102-26" aria-hidden="true"></a>data_blocks <span class="op">=</span> cpy.StreamingBlocks()</span>
+<span id="cb102-27"><a href="#cb102-27" aria-hidden="true"></a><span class="cf">if</span> <span class="va">self</span>.interface <span class="op">==</span> cpy.SensorInterface.I2C:</span>
+<span id="cb102-28"><a href="#cb102-28" aria-hidden="true"></a>	stream_config.Intf <span class="op">=</span> cpy.SensorInterface.I2C.value</span>
+<span id="cb102-29"><a href="#cb102-29" aria-hidden="true"></a>	stream_config.I2CBus <span class="op">=</span> cpy.I2CBus.BUS_I2C_0.value</span>
+<span id="cb102-30"><a href="#cb102-30" aria-hidden="true"></a>	stream_config.DevAddr <span class="op">=</span> sensor[<span class="st">&quot;I2C_ADDR_PRIMARY&quot;</span>]</span>
+<span id="cb102-31"><a href="#cb102-31" aria-hidden="true"></a></span>
+<span id="cb102-32"><a href="#cb102-32" aria-hidden="true"></a><span class="cf">elif</span> <span class="va">self</span>.interface <span class="op">==</span> cpy.SensorInterface.SPI:</span>
+<span id="cb102-33"><a href="#cb102-33" aria-hidden="true"></a>	stream_config.Intf <span class="op">=</span> cpy.SensorInterface.SPI.value</span>
+<span id="cb102-34"><a href="#cb102-34" aria-hidden="true"></a>	stream_config.SPIBus <span class="op">=</span> cpy.SPIBus.BUS_SPI_0.value</span>
+<span id="cb102-35"><a href="#cb102-35" aria-hidden="true"></a>	stream_config.CSPin <span class="op">=</span> sensor[<span class="st">&quot;CS_PIN&quot;</span>]</span>
+<span id="cb102-36"><a href="#cb102-36" aria-hidden="true"></a></span>
+<span id="cb102-37"><a href="#cb102-37" aria-hidden="true"></a><span class="cf">if</span> sensor_type <span class="op">==</span> bmi08x.SensorType.ACCEL <span class="kw">and</span> <span class="va">self</span>.interface <span class="op">==</span> cpy.SensorInterface.SPI:</span>
+<span id="cb102-38"><a href="#cb102-38" aria-hidden="true"></a>	<span class="co"># extra dummy byte for SPI</span></span>
+<span id="cb102-39"><a href="#cb102-39" aria-hidden="true"></a>	dummy_byte_offset <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb102-40"><a href="#cb102-40" aria-hidden="true"></a><span class="cf">else</span>:</span>
+<span id="cb102-41"><a href="#cb102-41" aria-hidden="true"></a>	dummy_byte_offset <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb102-42"><a href="#cb102-42" aria-hidden="true"></a></span>
+<span id="cb102-43"><a href="#cb102-43" aria-hidden="true"></a>data_blocks.NoOfBlocks <span class="op">=</span> sensor[<span class="st">&quot;NO_OF_BLOCKS&quot;</span>]</span>
+<span id="cb102-44"><a href="#cb102-44" aria-hidden="true"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, data_blocks.NoOfBlocks):</span>
+<span id="cb102-45"><a href="#cb102-45" aria-hidden="true"></a>	data_blocks.RegStartAddr[i] <span class="op">=</span> sensor[<span class="st">&quot;REG_X_LSB&quot;</span>][i]</span>
+<span id="cb102-46"><a href="#cb102-46" aria-hidden="true"></a>	data_blocks.NoOfDataBytes[i] <span class="op">=</span> sensor[<span class="st">&quot;NO_OF_DATA_BYTES&quot;</span>][i] <span class="op">+</span> dummy_byte_offset</span>
+<span id="cb102-47"><a href="#cb102-47" aria-hidden="true"></a></span>
+<span id="cb102-48"><a href="#cb102-48" aria-hidden="true"></a>stream_config.IntTimeStamp <span class="op">=</span> sensor[<span class="st">&quot;INT_TIME_STAMP&quot;</span>]</span>
+<span id="cb102-49"><a href="#cb102-49" aria-hidden="true"></a>stream_config.IntPin <span class="op">=</span> sensor[<span class="st">&quot;INT_PIN&quot;</span>]</span>
+<span id="cb102-50"><a href="#cb102-50" aria-hidden="true"></a></span>
+<span id="cb102-51"><a href="#cb102-51" aria-hidden="true"></a><span class="co"># call config_streaming API for each sensor to configure the streaming settings</span></span>
+<span id="cb102-52"><a href="#cb102-52" aria-hidden="true"></a>ret <span class="op">=</span> coinesboard.config_streaming(</span>
+<span id="cb102-53"><a href="#cb102-53" aria-hidden="true"></a>	accel_sensor_id, <span class="va">self</span>.accel_stream_config, <span class="va">self</span>.accel_data_blocks)</span>
+<span id="cb102-54"><a href="#cb102-54" aria-hidden="true"></a>ret <span class="op">=</span> coinesboard.config_streaming(</span>
+<span id="cb102-55"><a href="#cb102-55" aria-hidden="true"></a>	gyro_sensor_id, <span class="va">self</span>.accel_stream_config, <span class="va">self</span>.accel_data_blocks)</span></code></pre></div>
+<h4 id="start_stop_streaming">start_stop_streaming</h4>
+<p>Starts or stops sensor data streaming.</p>
+<div class="sourceCode" id="cb103" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true"></a>coinesboard.start_stop_streaming(stream_mode: StreamingMode, start_stop: StreamingState) <span class="op">-&gt;</span> ErrorCodes</span></code></pre></div>
+<p>For the definition of <code>StreamingMode</code>, refer to <a href="#StreamingMode" data-reference-type="ref" data-reference="StreamingMode">15.3.6.13</a>. For the definition of <code>StreamingState</code>, refer to <a href="#StreamingState" data-reference-type="ref" data-reference="StreamingState">15.3.6.14</a>.</p>
+<h4 id="read_stream_sensor_data">read_stream_sensor_data</h4>
+<p>Reads the data streamed from the sensor.</p>
+<div class="sourceCode" id="cb104" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true"></a>coinesboard.read_stream_sensor_data(sensor_id: <span class="bu">int</span>, number_of_samples: <span class="bu">int</span>,</span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true"></a>	buffer_size<span class="op">=</span>STREAM_RSP_BUF_SIZE) <span class="op">-&gt;</span> Tuple[ErrorCodes, <span class="bu">list</span>, <span class="bu">int</span>]</span></code></pre></div>
+<p>Return:<br />
+Tuple of ErrorCodes, data and valid_samples_count For the detailed definition of parameters, refer to <a href="#coinesReadStreamSensorData" data-reference-type="ref" data-reference="coinesReadStreamSensorData">15.2.4.3</a>.</p>
+<h3 id="coinespy-api-calls-other-useful-apis">coinespy API calls: Other useful APIs</h3>
+<h4 id="flush_interface">flush_interface</h4>
+<p>Flush the write buffer.</p>
+<pre><code>coinesboard.flush_interface()</code></pre>
+<h4 id="soft_reset">soft_reset</h4>
+<p>Resets the device.</p>
+<pre><code>coinesboard.soft_reset()</code></pre>
+<h3 id="definition-of-constants">Definition of constants</h3>
+<h4 id="PinDirection">PinDirection</h4>
+<p>Pin mode definitions</p>
+<pre><code>class PinDirection:
+    INPUT = 0  # COINES_PIN_DIRECTION_IN = 0
+    OUTPUT = 1</code></pre>
+<h4 id="PinValue">PinValue</h4>
+<p>Pin level definitions</p>
+<pre><code>class PinValue:
+    LOW = 0  # COINES_PIN_VALUE_LOW = 0
+    HIGH = 1</code></pre>
+<h4 id="CommInterface">CommInterface</h4>
+<p>Definition of Communication interface</p>
+<pre><code>class CommInterface:
+    USB = 0
+    SERIAL = 1
+    BLE = 2</code></pre>
+<h4 id="I2CMode">I2CMode</h4>
+<p>Definition of the speed of I2C bus.</p>
+<pre><code>class I2CMode:
+	STANDARD_MODE = 0 # Standard mode - 100kHz
+	FAST_MODE = 1 # Fast mode - 400kHz
+	SPEED_3_4_MHZ = 2 # High Speed mode - 3.4 MHz
+	SPEED_1_7_MHZ = 3 # High Speed mode 2 - 1.7 MHz</code></pre>
+<h4 id="SPISpeed">SPISpeed</h4>
+<p>Definition of the speed of SPI bus.</p>
+<pre><code>class SPISpeed:
+	SPI_10_MHZ = 6
+	SPI_7_5_MHZ = 8
+	SPI_6_MHZ = 10
+	SPI_5_MHZ = 12
+	SPI_3_75_MHZ = 16
+	SPI_3_MHZ = 20
+	SPI_2_5_MHZ = 24
+	SPI_2_MHZ = 30
+	SPI_1_5_MHZ = 40
+	SPI_1_25_MHZ = 48
+	SPI_1_2_MHZ = 50
+	SPI_1_MHZ = 60
+	SPI_750_KHZ = 80
+	SPI_600_KHZ = 100
+	SPI_500_KHZ = 120
+	SPI_400_KHZ = 150
+	SPI_300_KHZ = 200
+	SPI_250_KHZ = 240</code></pre>
+<h4 id="SPITransferBits">SPITransferBits</h4>
+<p>Definition of the SPI bits.</p>
+<pre><code>class SPITransferBits:
+	SPI8BIT = 8 # 8 bit register read/write
+	SPI16BIT = 16 # 16 bit register read/write</code></pre>
+<h4 id="SPIMode">SPIMode</h4>
+<p>Definition of the SPI mode.</p>
+<pre><code>class SPIMode:
+	MODE0 = 0x00 # SPI Mode 0: CPOL=0; CPHA=0
+	MODE1 = 0x01 # SPI Mode 1: CPOL=0; CPHA=1
+	MODE2 = 0x02 # SPI Mode 2: CPOL=1; CPHA=0
+	MODE3 = 0x03 # SPI Mode 3: CPOL=1; CPHA=1</code></pre>
+<h4 id="MultiIOPin">MultiIOPin</h4>
+<p>Definition of the shuttle board pin(s)</p>
+<pre><code>class MultiIOPin(Enum):
+	SHUTTLE_PIN_7 = 0x09 # CS pin
+	SHUTTLE_PIN_8 = 0x05 # Multi-IO 5
+	SHUTTLE_PIN_9 = 0x00 # Multi-IO 0
+	SHUTTLE_PIN_14 = 0x01 # Multi-IO 1
+	SHUTTLE_PIN_15 = 0x02 # Multi-IO 2
+	SHUTTLE_PIN_16 = 0x03 # Multi-IO 3
+	SHUTTLE_PIN_19 = 0x08 # Multi-IO 8
+	SHUTTLE_PIN_20 = 0x06 # Multi-IO 6
+	SHUTTLE_PIN_21 = 0x07 # Multi-IO 7
+	SHUTTLE_PIN_22 = 0x04 # Multi-IO 4
+	SHUTTLE_PIN_SDO = 0x1F
+
+	# APP3.x pins
+	MINI_SHUTTLE_PIN_1_4 = 0x10  # GPIO0
+	MINI_SHUTTLE_PIN_1_5 = 0x11  # GPIO1
+	MINI_SHUTTLE_PIN_1_6 = 0x12  # GPIO2/INT1
+	MINI_SHUTTLE_PIN_1_7 = 0x13  # GPIO3/INT2
+	MINI_SHUTTLE_PIN_2_5 = 0x14  # GPIO4
+	MINI_SHUTTLE_PIN_2_6 = 0x15  # GPIO5
+	MINI_SHUTTLE_PIN_2_1 = 0x16  # CS
+	MINI_SHUTTLE_PIN_2_3 = 0x17  # SDO
+	MINI_SHUTTLE_PIN_2_7 = 0x1D  # GPIO6
+	MINI_SHUTTLE_PIN_2_8 = 0x1E  # GPIO7</code></pre>
+<h4 id="SensorInterface">SensorInterface</h4>
+<p>To define Sensor interface.</p>
+<pre><code>class SensorInterface(Enum):
+	SPI = 0
+	I2C = 1</code></pre>
+<h4 id="I2CBus">I2CBus</h4>
+<p>Used to define the I2C type.</p>
+<pre><code>	class I2CBus(Enum):
+	BUS_I2C_0 = 0
+	BUS_I2C_1 = 1
+	BUS_I2C_MAX = 2</code></pre>
+<h4 id="SPIBus">SPIBus</h4>
+<p>Used to define the SPI type.</p>
+<pre><code>	class SPIBus(Enum):
+	BUS_SPI_0 = 0
+	BUS_SPI_1 = 1
+	BUS_SPI_MAX = 2</code></pre>
+<h4 id="PinInterruptMode">PinInterruptMode</h4>
+<p>Defines Pin interrupt modes.</p>
+<pre><code>class PinInterruptMode(Enum):
+	# Trigger interrupt on pin state change
+	PIN_INTERRUPT_CHANGE = 0
+	# Trigger interrupt when pin changes from low to high
+	PIN_INTERRUPT_RISING_EDGE = 1
+	# Trigger interrupt when pin changes from high to low
+	PIN_INTERRUPT_FALLING_EDGE = 2
+	PIN_INTERRUPT_MODE_MAXIMUM = 4</code></pre>
+<h4 id="StreamingMode">StreamingMode</h4>
+<p>Streaming mode definitions</p>
+<pre><code>class StreamingMode:
+    STREAMING_MODE_POLLING = 0    # Polling mode streaming
+    STREAMING_MODE_INTERRUPT = 1  # Interrupt mode streaming</code></pre>
+<h4 id="StreamingState">StreamingState</h4>
+<p>Streaming state definitions</p>
+<pre><code>class StreamingState:
+	STREAMING_START = 1
+	STREAMING_STOP = 0</code></pre>
+<h4 id="SamplingUnits">SamplingUnits</h4>
+<p>Sampling Unit definitions</p>
+<pre><code>class SamplingUnits:
+    SAMPLING_TIME_IN_MICRO_SEC = 0x01  # sampling unit in micro second
+    SAMPLING_TIME_IN_MILLI_SEC = 0x02  # sampling unit in milli second</code></pre>
+<h2 id="error-codes">Error Codes</h2>
+<p>Error codes are not (always) returned by the different function calls. Internally, a <code>error_code</code> variable is maintained which is updated after the function call. It can be read out and checked by the user afterwards.</p>
+<p>C Example</p>
+<div class="sourceCode" id="cb122" data-language="c"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span></span>
+<span id="cb122-3"><a href="#cb122-3" aria-hidden="true"></a></span>
+<span id="cb122-4"><a href="#cb122-4" aria-hidden="true"></a><span class="pp">#include </span><span class="im">&quot;coines.h&quot;</span></span>
+<span id="cb122-5"><a href="#cb122-5" aria-hidden="true"></a></span>
+<span id="cb122-6"><a href="#cb122-6" aria-hidden="true"></a><span class="dt">int</span> main(<span class="dt">void</span>)</span>
+<span id="cb122-7"><a href="#cb122-7" aria-hidden="true"></a>{</span>
+<span id="cb122-8"><a href="#cb122-8" aria-hidden="true"></a>    <span class="dt">int16_t</span> error_code = coines_open_comm_intf(COINES_COMM_INTF_USB, NULL);</span>
+<span id="cb122-9"><a href="#cb122-9" aria-hidden="true"></a>    <span class="cf">if</span> (error_code != COINES_SUCCESS)</span>
+<span id="cb122-10"><a href="#cb122-10" aria-hidden="true"></a>    {</span>
+<span id="cb122-11"><a href="#cb122-11" aria-hidden="true"></a>        <span class="dt">const</span> <span class="dt">char</span> *err_str = get_coines_error_str(error_code);</span>
+<span id="cb122-12"><a href="#cb122-12" aria-hidden="true"></a>        printf(<span class="st">&quot;</span><span class="sc">\n</span><span class="st">%s&quot;</span>, err_str);</span>
+<span id="cb122-13"><a href="#cb122-13" aria-hidden="true"></a>        exit(error_code);</span>
+<span id="cb122-14"><a href="#cb122-14" aria-hidden="true"></a>    }</span>
+<span id="cb122-15"><a href="#cb122-15" aria-hidden="true"></a></span>
+<span id="cb122-16"><a href="#cb122-16" aria-hidden="true"></a>    coines_close_comm_intf(COINES_COMM_INTF_USB, NULL);</span>
+<span id="cb122-17"><a href="#cb122-17" aria-hidden="true"></a>    <span class="cf">return</span> <span class="dv">0</span>;</span>
+<span id="cb122-18"><a href="#cb122-18" aria-hidden="true"></a>}</span></code></pre></div>
+<p>Python Example</p>
+<div class="sourceCode" id="cb123" data-language="python"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb123-1"><a href="#cb123-1" aria-hidden="true"></a><span class="im">import</span> coinespy <span class="im">as</span> cpy</span>
+<span id="cb123-2"><a href="#cb123-2" aria-hidden="true"></a>board <span class="op">=</span> cpy.CoinesBoard()</span>
+<span id="cb123-3"><a href="#cb123-3" aria-hidden="true"></a><span class="cf">try</span>:</span>
+<span id="cb123-4"><a href="#cb123-4" aria-hidden="true"></a>    board.open_comm_interface(cpy.CommInterface.USB)</span>
+<span id="cb123-5"><a href="#cb123-5" aria-hidden="true"></a>    board.close_comm_interface()</span>
+<span id="cb123-6"><a href="#cb123-6" aria-hidden="true"></a><span class="cf">except</span>:</span>
+<span id="cb123-7"><a href="#cb123-7" aria-hidden="true"></a>    <span class="bu">print</span>(<span class="ss">f&#39;Could not connect to board: </span><span class="sc">{</span>board<span class="sc">.</span>error_code<span class="sc">}</span><span class="ss">&#39;</span>)</span>
+<span id="cb123-8"><a href="#cb123-8" aria-hidden="true"></a>    exit(board.error_code)</span></code></pre></div>
+<p>Error code definitions</p>
+<pre><code>    COINES_SUCCESS = 0
+    COINES_E_FAILURE = -1
+    COINES_E_COMM_IO_ERROR = -2
+    COINES_E_COMM_INIT_FAILED = -3
+    COINES_E_UNABLE_OPEN_DEVICE = -4
+    COINES_E_DEVICE_NOT_FOUND = -5
+    COINES_E_UNABLE_CLAIM_INTERFACE = -6
+    COINES_E_MEMORY_ALLOCATION = -7
+    COINES_E_NOT_SUPPORTED = -8
+    COINES_E_NULL_PTR = -9
+    COINES_E_COMM_WRONG_RESPONSE = -10
+    COINES_E_SPI16BIT_NOT_CONFIGURED = -11
+    COINES_E_SPI_INVALID_BUS_INTERFACE = -12
+    COINES_E_SPI_CONFIG_EXIST = -13
+    COINES_E_SPI_BUS_NOT_ENABLED = -14
+    COINES_E_SPI_CONFIG_FAILED = -15
+    COINES_E_I2C_INVALID_BUS_INTERFACE = -16
+    COINES_E_I2C_BUS_NOT_ENABLED = -17
+    COINES_E_I2C_CONFIG_FAILED = -18
+    COINES_E_I2C_CONFIG_EXIST = -19
+    COINES_E_TIMER_INIT_FAILED = -20
+    COINES_E_TIMER_INVALID_INSTANCE = -21
+    COINES_E_TIMER_CC_CHANNEL_NOT_AVAILABLE = -22
+    COINES_E_EEPROM_RESET_FAILED = -23
+    COINES_E_EEPROM_READ_FAILED = -24
+    COINES_E_INIT_FAILED = -25
+    COINES_E_STREAM_NOT_CONFIGURED = -26
+    COINES_E_STREAM_INVALID_BLOCK_SIZE = -27
+    COINES_E_STREAM_SENSOR_ALREADY_CONFIGURED = -28
+    COINES_E_STREAM_CONFIG_MEMORY_FULL = -29
+    COINES_E_INVALID_PAYLOAD_LEN = -30
+    COINES_E_CHANNEL_ALLOCATION_FAILED = -31
+    COINES_E_CHANNEL_DE_ALLOCATION_FAILED = -32
+    COINES_E_CHANNEL_ASSIGN_FAILED = -33
+    COINES_E_CHANNEL_ENABLE_FAILED = -34
+    COINES_E_CHANNEL_DISABLE_FAILED = -35
+    COINES_E_INVALID_PIN_NUMBER = -36
+    COINES_E_MAX_SENSOR_COUNT_REACHED = -37
+    COINES_E_EEPROM_WRITE_FAILED = -38
+    COINES_E_INVALID_EEPROM_RW_LENGTH = -39
+    COINES_E_INVALID_SCOM_CONFIG = -40
+    COINES_E_INVALID_BLE_CONFIG = -41
+    COINES_E_SCOM_PORT_IN_USE = -42
+    COINES_E_UART_INIT_FAILED = -43
+    COINES_E_UART_WRITE_FAILED = -44
+    COINES_E_UART_INSTANCE_NOT_SUPPORT = -45
+    COINES_E_BLE_ADAPTOR_NOT_FOUND = -46
+    COINES_E_ADAPTER_BLUETOOTH_NOT_ENABLED = -47
+    COINES_E_BLE_PERIPHERAL_NOT_FOUND = -48
+    COINES_E_BLE_LIBRARY_NOT_LOADED = -49
+    COINES_E_APP_BOARD_BLE_NOT_FOUND = -50
+    COINES_E_BLE_COMM_FAILED = -51
+    COINES_E_INCOMPATIBLE_FIRMWARE = -52
+    COINES_E_UNDEFINED_CODE = -100</code></pre>
+<h2 id="coines-sdk-structure">COINES SDK structure</h2>
+<ul>
+<li><p>coines-api - Contains source code for low-level interface to Bosch Sensortec’s Engineering boards</p></li>
+<li><p>doc - Contains COINES SDK user manual</p></li>
+<li><p>driver - Contains USB driver for Application boards</p></li>
+<li><p>examples - Contains C and python examples</p></li>
+<li><p>installer_scripts - Contains Windows batch files that are used internally for install and uninstall functionalities</p></li>
+<li><p>libraries and thirdparty - Contains libraries and SDKs used for communication APIs</p></li>
+<li><p>tools - Contains tools for Application switch, Firmware update and BLE connect</p></li>
+</ul>
+<figure>
+<img src="coinesAPI_images/COINES_file_structure.png" style="width:40.0%" alt="" /><figcaption>COINES SDK file structure</figcaption>
+</figure>
+<p>Bosch Sensortec GmbH<br />
+Gerhard-Kindler-Straße 9<br />
+72770 Reutlingen / Germany</p>
+<p>www.bosch-sensortec.com</p>
+<p>Modifications reserved | Printed in Germany<br />
+Preliminary - specifications subject to change without notice<br />
+Document number:<br />
+Revision</p>
+</body>
+</html>
