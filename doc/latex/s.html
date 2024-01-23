@@ -1,0 +1,597 @@
+<h2 id="CoinesCFunctions">COINES C functions</h2>
+<h3 id="coinesapi-calls-interface-and-board-information">coinesAPI
+calls: Interface and board information</h3>
+<h4 id="coines_open_comm_intf">coines_open_comm_intf</h4>
+<p>Opens the communication interface.</p>
+<pre><code>int16_t coines_open_comm_intf(enum coines_comm_intf intf_type,void *arg); </code></pre>
+<p>In case of MCU Target, API waits indefinitely for serial port or BLE
+connection (<code>MCU_APP30</code> target and <code>MCU_APP31</code>
+target).</p>
+<p>In case of PC Target, one can configure communication settings either
+by passing the address of <code>coines_serial_com_config</code> or
+<code>ble_peripheral_info</code> to <code>*arg</code>.</p>
+<p>Serial com configuration: If <code>*arg</code> is NULL for
+<code>COINES_COMM_INTF_USB</code>, first com port enumerated will be
+used for communication. The serial com configuration structure contains
+the following items. Refer to <a href="#serialComConfig"
+data-reference-type="ref"
+data-reference="serialComConfig">[serialComConfig]</a> for its
+implementation.</p>
+<pre><code>struct coines_serial_com_config
+{
+    uint32_t baud_rate; /*&lt; Baud rate */
+    uint16_t vendor_id; /*&lt; vendor Id */
+    uint16_t product_id; /*&lt; Product Id */
+    char* com_port_name; /*&lt; serial com port name */
+    uint16_t rx_buffer_size; /*&lt; RX response buffer size */
+};</code></pre>
+<p>BLE com configuration: If <code>*arg</code> is NULL for
+<code>COINES_COMM_INTF_BLE</code>, the nearest Application board for the
+host BLE will be used for communication. The ble com configuration
+structure contains the following items. Refer to <a href="#bleComConfig"
+data-reference-type="ref"
+data-reference="bleComConfig">[bleComConfig]</a> for its
+implementation.</p>
+<pre><code>struct ble_peripheral_info
+{
+    char ble_address[COINES_CHAR_MAX_LEN]; /*&lt; BLE device address */
+    char ble_identifier[COINES_CHAR_MAX_LEN]; /*&lt; BLE device identifier */
+};</code></pre>
+<h4 id="coines_close_comm_intf">coines_close_comm_intf</h4>
+<p>Closes the communication interface.</p>
+<pre><code>int16_t coines_close_comm_intf(enum coines_comm_intf intf_type,void *arg); </code></pre>
+<h4 id="coines_get_board_info">coines_get_board_info</h4>
+<p>Gets the board information.</p>
+<pre><code>int16_t coines_get_board_info(struct coines_board_info *data);</code></pre>
+<p>The data structure contains the following items</p>
+<pre><code>struct coines_board_info {
+    /*!Board hardware ID */
+    uint16_t hardware_id;
+    /*!Board software ID */
+    uint16_t software_id;
+    /*!Type of the board like APP2.0, Arduino Due*/
+    uint8_t board;
+    /*!Shuttle ID of the sensor connected*/
+    uint16_t shuttle_id;
+};</code></pre>
+<h3 id="coinesapi-calls-gpio-oriented-calls">coinesAPI calls: GPIO
+oriented calls</h3>
+<h4 id="coines_set_pin_config">coines_set_pin_config</h4>
+<p>Sets the pin direction and the state.</p>
+<pre><code>int16_t coines_set_pin_config(enum coines_multi_io_pin pin_number, enum coines_pin_direction direction, enum coines_pin_value pin_value);  </code></pre>
+<h4 id="coines_get_pin_config">coines_get_pin_config</h4>
+<p>Gets the pin configuration.</p>
+<pre><code>int16_t coines_get_pin_config(enum coines_multi_io_pin pin_number, enum coines_pin_direction *pin_direction, enum coines_pin_value *pin_value);</code></pre>
+<h4
+id="coines_set_shuttleboard_vdd_vddio_config">coines_set_shuttleboard_vdd_vddio_config</h4>
+<p>Configures the VDD and VDDIO of the sensor. For APP2.0, a voltage
+level of 0 or 3300 mV is supported. Any values above 0 will default to
+3300 mV.</p>
+<pre><code>int16_t coines_set_shuttleboard_vdd_vddio_config(uint16_t vdd_millivolt, uint16_t vddio_millivolt);</code></pre>
+<h3 id="coinesapi-calls-sensor-communication">coinesAPI calls: Sensor
+communication</h3>
+<h4 id="coines_config_i2c_bus">coines_config_i2c_bus</h4>
+<p>Configures the I<sup>2</sup>C bus.</p>
+<pre><code>int16_t coines_config_i2c_bus(enum coines_i2c_bus bus, enum coines_i2c_mode i2c_mode);</code></pre>
+<p>The first argument refers to the bus on the board. Currently, on
+APP2.0, there is only one bus available, so the argument is always
+COINES_I2C_BUS_0.</p>
+<p>The following I<sup>2</sup>C modes are available:</p>
+<pre><code>COINES_I2C_STANDARD_MODE
+COINES_I2C_FAST_MODE
+COINES_I2C_SPEED_3_4_MHZ
+COINES_I2C_SPEED_1_7_MHZ</code></pre>
+<h4 id="coines_config_spi_bus">coines_config_spi_bus</h4>
+<p>Configures the SPI bus of the board. The argument coines_spi_bus
+refers to the bus on the board. On APP2.0, there is only one bus
+available, so the user should only use COINES_SPI_BUS_0. The SPI speed
+can be chosen in various discrete steps, as defined in enum
+coines_spi_speed in coines.h. (For example, COINES_SPI_SPEED_2_MHZ sets
+the SPI speed to 2 MHz.)</p>
+<pre><code>int16_t coines_config_spi_bus(enum coines_spi_bus bus, uint32_t spi_speed, enum coines_spi_mode spi_mode);</code></pre>
+<h4 id="coines_config_i2s_bus">coines_config_i2s_bus</h4>
+<p>This API is used to configure the I<sup>2</sup>S bus to match the TDM
+configuration</p>
+<pre><code>int16_t coines_config_i2s_bus(uint16_t data_words, coines_tdm_callback callback);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>data_words</code>: number of words to use in the buffer.
+Max is set at COINES_TDM_BUFFER_SIZE_WORDS.</p></li>
+<li><p><code>callback</code>: register a callback to be called to
+process and copy the data.</p></li>
+</ul>
+<h4 id="coines_deconfig_spi_bus">coines_deconfig_spi_bus</h4>
+<p>This API is used to de-configure the SPI bus</p>
+<pre><code>int16_t coines_deconfig_spi_bus(enum coines_spi_bus bus);</code></pre>
+<h4 id="coines_deconfig_i2c_bus">coines_deconfig_i2c_bus</h4>
+<p>This API is used to de-configure the I<sup>2</sup>C bus</p>
+<pre><code>int16_t coines_deconfig_i2c_bus(enum coines_i2c_bus bus);</code></pre>
+<h4 id="coines_deconfig_i2s_bus">coines_deconfig_i2s_bus</h4>
+<p>This API is used to stop the I<sup>2</sup>S/TDM interface from
+reading data from the sensor</p>
+<pre><code>void coines_deconfig_i2s_bus(void);</code></pre>
+<h4 id="CoinesWriteI2c">coines_write_i2c</h4>
+<p>Writes 8-bit register data to the I<sup>2</sup>C device at
+<code>COINES_I2C_BUS_0</code>.</p>
+<pre><code>int8_t coines_write_i2c(enum coines_i2c_bus bus,uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: I<sup>2</sup>C bus to be used</p></li>
+<li><p><code>dev_addr</code>: I<sup>2</sup>C device address.</p></li>
+<li><p><code>reg_addr</code>: Starting address for writing the
+data.</p></li>
+<li><p><code>reg_data</code>: Data to be written.</p></li>
+<li><p><code>count</code>: Number of bytes to write.</p></li>
+</ul>
+<h4 id="CoinesReadI2c">coines_read_i2c</h4>
+<p>Reads 8-bit register data from the I<sup>2</sup>C device at
+<code>COINES_I2C_BUS_0</code>.</p>
+<pre><code>int8_t coines_read_i2c(enum coines_i2c_bus bus,uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: I<sup>2</sup>C bus to be used</p></li>
+<li><p><code>dev_addr</code>: I<sup>2</sup>C device address.</p></li>
+<li><p><code>reg_addr</code>: Starting address for reading the
+data.</p></li>
+<li><p><code>reg_data</code>: Buffer to take up the read data.</p></li>
+<li><p><code>count</code>: Number of bytes to read.</p></li>
+</ul>
+<h4 id="coines_i2c_set">coines_i2c_set</h4>
+<p>This API is used to write the data in I2C communication.</p>
+<pre><code>int8_t coines_i2c_set(enum coines_i2c_bus bus, uint8_t dev_addr, uint8_t *data, uint8_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: I<sup>2</sup>C bus to be used</p></li>
+<li><p><code>dev_addr</code>: I<sup>2</sup>C device address.</p></li>
+<li><p><code>data</code>: Data to be written.</p></li>
+<li><p><code>count</code>: Number of bytes to write.</p></li>
+</ul>
+<h4 id="coines_i2c_get">coines_i2c_get</h4>
+<p>This API is used to read the data in I2C communication.</p>
+<pre><code>int8_t coines_i2c_get(enum coines_i2c_bus bus, uint8_t dev_addr, uint8_t *data, uint8_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: I<sup>2</sup>C bus to be used</p></li>
+<li><p><code>dev_addr</code>: I<sup>2</sup>C device address.</p></li>
+<li><p><code>data</code>: Data read from the sensor.</p></li>
+<li><p><code>count</code>: Number of bytes to read.</p></li>
+</ul>
+<h4 id="CoinesWriteSpi">coines_write_spi</h4>
+<p>Writes 8-bit register data to the SPI device at
+<code>COINES_SPI_BUS_0</code>.</p>
+<pre><code>int8_t coines_write_spi(enum coines_spi_bus bus,uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: SPI bus to be used.</p></li>
+<li><p><code>dev_addr</code>: Chip select pin number.</p></li>
+<li><p><code>reg_addr</code>: Starting address for writing the
+data.</p></li>
+<li><p><code>reg_data</code>: Data to be written.</p></li>
+<li><p><code>count</code>: Number of bytes to write.</p></li>
+</ul>
+<h4 id="CoinesReadSpi">coines_read_spi</h4>
+<p>Reads 8-bit register data from the SPI device at
+<code>COINES_SPI_BUS_0</code>.</p>
+<pre><code>int8_t coines_read_spi(enum coines_spi_bus bus,uint8_t dev_addr, uint8_t reg_addr, uint8_t *reg_data, uint16_t count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bus</code>: SPI bus to be used.</p></li>
+<li><p><code>dev_addr</code>: Chip select pin number.</p></li>
+<li><p><code>reg_addr</code>: Starting address for reading the
+data.</p></li>
+<li><p><code>reg_data</code>: Buffer to take up the read data.</p></li>
+<li><p><code>count</code>: Number of bytes to read.</p></li>
+</ul>
+<h4 id="coines_delay_msec">coines_delay_msec</h4>
+<p>Introduces delay in millisecond.</p>
+<pre><code>void coines_delay_msec(uint32_t delay_ms);</code></pre>
+<h4 id="coines_delay_usec">coines_delay_usec</h4>
+<p>Introduces delay in microsecond.</p>
+<pre><code>void coines_delay_usec(uint32_t delay_us);</code></pre>
+<h4 id="coines_uart_init">coines_uart_init</h4>
+<p>This API is used to initialize the UART communication</p>
+<pre><code>int8_t coines_uart_init(enum coines_uart_instance uart_instance, enum coines_uart_parity parity, enum coines_uart_flow_control flow_control, uint32_t baud_rate);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>uart_instance</code>: Specifies the UART instance</p></li>
+<li><p><code>parity</code>: UART parity</p></li>
+<li><p><code>flow_control</code>: UART flow control mode</p></li>
+<li><p><code>baud_rate</code>: UART baud rate</p></li>
+</ul>
+<h4 id="coines_uart_read">coines_uart_read</h4>
+<p>This API is used to read the data in UART communication</p>
+<pre><code>uint16_t coines_uart_read(enum coines_uart_instance uart_instance, uint8_t *buffer, uint16_t length);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>uart_instance</code>: Specifies the UART instance</p></li>
+<li><p><code>buffer</code>: Pointer to the buffer to store the
+data</p></li>
+<li><p><code>length</code>: Length of the buffer</p></li>
+</ul>
+<h4 id="coines_uart_write">coines_uart_write</h4>
+<p>This API is used to write the data in UART communication</p>
+<pre><code>int8_t coines_uart_write(enum coines_uart_instance uart_instance, uint8_t *buffer, uint16_t length);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>uart_instance</code>: Specifies the UART instance</p></li>
+<li><p><code>buffer</code>: Pointer to the data buffer which need to be
+written</p></li>
+<li><p><code>length</code>: Length of the buffer</p></li>
+</ul>
+<h3 id="coinesapi-calls-streaming-feature">coinesAPI calls: Streaming
+feature</h3>
+<p>Note :</p>
+<ol>
+<li><p>The below APIs are supported only on PC Target.</p></li>
+<li><p>A simpler approach of using
+<code>coines_attach_interrupt()</code> API for is available for
+MCU.</p></li>
+</ol>
+<h4 id="coines_config_streaming">coines_config_streaming</h4>
+<p>Sets the configuration for streaming sensor data.</p>
+<pre><code>int16_t coines_config_streaming(uint8_t channel_id, struct coines_streaming_config *stream_config, struct coines_streaming_blocks *data_blocks); </code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>channel_id</code>: An integer number that can be used as
+identifier/index to the sensor data that will be streamed for this
+setting</p></li>
+<li><p><code>stream_config</code>: Contains information regarding
+interface settings and streaming configuration.</p></li>
+<li><p><code>coines_streaming_blocks</code>: Contains information
+regarding numbers of blocks to read, register address and size for each
+block.</p></li>
+</ul>
+<p>Note: The below parameters should always be set:</p>
+<ul>
+<li><p><code>data_block.no_of_blocks</code>: number of blocks to stream
+(must at least be one)</p></li>
+<li><p>For each block b:</p>
+<ul>
+<li><p><code>data_block.reg_start_addr[b]</code>: start address of the
+block in the register map</p></li>
+<li><p><code>stream_block.no_of_data_bytes[b]</code>: number of bytes to
+read, starting from the start address</p></li>
+</ul></li>
+</ul>
+<p>For reading data from I<sup>2</sup>C bus,then set the below
+parameters:</p>
+<ul>
+<li><p><code>stream_config.intf = COINES_SENSOR_INTF_I2C;</code></p></li>
+<li><p><code>stream_config.i2c_bus</code>: I<sup>2</sup>C bus (in case
+of APP2.0, this is always <code>COINES_I2C_BUS_0</code>)</p></li>
+<li><p><code>stream_config.dev_addr</code>: I<sup>2</sup>C address of
+the sensor</p></li>
+</ul>
+<p>For reading data from SPI bus, then set the below parameters:</p>
+<ul>
+<li><p><code>stream_config.intf = COINES_SENSOR_INTF_SPI;</code></p></li>
+<li><p><code>stream_config.spi_bus</code>: SPI bus (in case of APP2.0,
+this is always <code>COINES_SPI_BUS_0</code>)</p></li>
+<li><p><code>stream_config.cs_pin</code>: CS pin of the sensor,
+information can be obtained from the shuttle board documentation for the
+sensor.</p></li>
+</ul>
+<p>When polling mode is requested, set the below parameters:</p>
+<ul>
+<li><p><code>stream_config.sampling_units</code>:<br />
+either milliseconds
+(<code>COINES_SAMPLING_TIME_IN_MILLI_SEC</code>)<br />
+or microseconds
+(<code>COINES_SAMPLING_TIME_IN_MICRO_SEC</code>)</p></li>
+<li><p><code>stream_config.sampling_time</code>: sampling period in the
+unit as defined in<br />
+<code>stream_config.sampling_units</code></p></li>
+</ul>
+<p>When interrupt mode is requested, set the below parameters:</p>
+<ul>
+<li><p><code>stream_config.int_pin</code>: pin of the interrupt which
+shall trigger the sensor read-out. If the interrupt output of the sensor
+is used, the required information about the pin number can be obtained
+from the shuttle board documentation for the sensor.</p></li>
+<li><p><code>stream_config.int_timestamp</code>: it can be configured if
+the sensor data is tagged with a timestamp
+(<code>COINES_TIMESTAMP_ENABLE</code>) or not
+(<code>COINES_TIMESTAMP_DISABLE</code>).</p></li>
+</ul>
+<h4 id="coines_start_stop_streaming">coines_start_stop_streaming</h4>
+<p>Starts or stops sensor data streaming.</p>
+<pre><code>int16_t coines_start_stop_streaming(enum coines_streaming_mode stream_mode, uint8_t start_stop);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>stream_mode</code>: streaming mode (either
+<code>COINES_STREAMING_MODE_POLLING</code> or<br />
+<code>COINES_STREAMING_MODE_INTERRUPT</code>)</p></li>
+<li><p><code>start_stop</code>: flag to either start
+(<code>COINES_STREAMING_START</code>) or stop
+(<code>COINES_STREAMING_STOP</code>) the streaming</p></li>
+</ul>
+<h4 id="coinesReadStreamSensorData">coines_read_stream_sensor_data</h4>
+<p>Reads the data streamed from the sensor.</p>
+<pre><code>int16_t coines_read_stream_sensor_data(uint8_t sensor_id, uint32_t number_of_samples, uint8_t *data, uint32_t *valid_samples_count);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>sensor_id</code>: id of the sensor</p></li>
+<li><p><code>number_of_samples</code>: number of samples the user wishes
+to read (not implemented)</p></li>
+<li><p><code>data</code>: data buffer</p>
+<ul>
+<li><p>Interrupt streaming - Packet counter + Register data +
+Timestamp</p></li>
+<li><p>Polling streaming - Register data</p></li>
+</ul></li>
+<li><p><code>valid_samples_count</code>: number of samples the user has
+actually received (may be less than
+<code>number_of_samples</code>)</p></li>
+</ul>
+<p>Example of a packet:</p>
+<figure>
+<img src="coinesAPI_images/COINES_streamingSample" />
+<figcaption>Format of streaming packages</figcaption>
+</figure>
+<p>In the above figure, the following meaning apply to the mentioned
+abreviations:</p>
+<ul>
+<li><p>r<sub>p</sub>: Value at register address p</p></li>
+<li><p>a: Size of register block–0</p></li>
+<li><p>r<sub>p+a</sub>: Value at register address p</p></li>
+</ul>
+<p>Similarly is the case for r<sub>q</sub>, j and r<sub>q+j</sub>. See
+the <code>coines_streaming_blocks</code> structure for information
+regarding register blocks.</p>
+<p>The packet counter and the timestamp can be obtained as follows:</p>
+<ul>
+<li><p><code>packet_counter = (byte3_c &lt;&lt; 24) | (byte2_c &lt;&lt; 16) | (byte1_c &lt;&lt; 8) | (byte0_c)</code></p></li>
+<li><p><code>timestamp = (byte5_t &lt;&lt; 40) | (byte4_t &lt;&lt; 32) | (byte3_t &lt;&lt; 24) | (byte2_t &lt;&lt; 16) | (byte1_t &lt;&lt; 8) | (byte0_t)</code></p></li>
+</ul>
+<p>The 48-bit timestamp is enabled by using<br />
+<code>coines_trigger_timer(COINES_TIMER_START, COINES_TIMESTAMP_ENABLE);</code></p>
+<p>Timestamp in microseconds can be obtained using below formula:</p>
+<ul>
+<li><p><span class="math inline">$\displaystyle Timestamp\ (\mu s) =
+\frac{48bit\_timestamp}{30}$</span></p></li>
+</ul>
+<h4 id="coines_trigger_timer">coines_trigger_timer</h4>
+<p>Triggers the timer in firmware and also enables or disables the time
+stamp feature.</p>
+<pre><code>int16_t coines_trigger_timer(enum coines_timer_config tmr_cfg,enum coines_time_stamp_config ts_cfg);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>tmr_cfg</code>: start, stop or reset the timer
+(<code>COINES_TIMER_START</code>, <code>COINES_TIMER_STOP</code>
+or<br />
+<code>COINES_TIMER_RESET</code>)</p></li>
+<li><p><code>ts_cfg</code>: Enables/disables microcontroller timestamp
+(<code>COINES_TIMESTAMP_ENABLE</code> or<br />
+<code>COINES_TIMESTAMP_DISABLE</code>)</p></li>
+</ul>
+<h3 id="coinesapi-calls-other-useful-apis">coinesAPI calls: Other useful
+APIs</h3>
+<h4 id="coines_get_millis">coines_get_millis</h4>
+<p>Returns the number of milliseconds passed since the program
+started</p>
+<pre><code>uint32_t coines_get_millis();</code></pre>
+<h4 id="coines_get_micro_sec">coines_get_micro_sec</h4>
+<p>Returns the number of microseconds passed since the program
+started</p>
+<pre><code>uint64_t coines_get_micro_sec();</code></pre>
+<h4 id="coines_attach_interrupt">coines_attach_interrupt</h4>
+<p>Attaches an interrupt to a Multi-IO pin.Works only on MCU.</p>
+<pre><code>void coines_attach_interrupt(enum coines_multi_io_pin pin_number,void (*callback)(uint32_t, uint32_t),enum coines_pin_interrupt_mode int_mode);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>pin_number</code>: Multi-IO pin</p></li>
+<li><p><code>callback</code>: Name of the function to be called on
+detection of interrupt</p></li>
+<li><p><code>int_mode</code>: Trigger modes - change
+(<code>COINES_PIN_INTERRUPT_CHANGE</code>),<br />
+rising edge (<code>COINES_PIN_INTERRUPT_RISING_EDGE</code>),<br />
+falling edge (<code>COINES_PIN_INTERRUPT_FALLING_EDGE</code>)</p></li>
+</ul>
+<h4 id="coines_detach_interrupt">coines_detach_interrupt</h4>
+<p>Detaches interrupt from a Multi-IO pin.Works only on MCU.</p>
+<pre><code>void coines_detach_interrupt(enum coines_multi_io_pin pin_number);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>pin_number</code>: Multi-IO pin.</p></li>
+</ul>
+<h4 id="coines_intf_available">coines_intf_available</h4>
+<p>Return the number of bytes available in the read buffer of the
+interface.Works only on APP3.x MCU target.</p>
+<pre><code>uint16_t coines_intf_available(enum coines_comm_intf intf);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>intf</code>: Type of interface (USB, COM, or BLE)</p></li>
+</ul>
+<h4 id="coines_intf_connected">coines_intf_connected</h4>
+<p>Check if the interface is connected.Works only on APP3.x MCU
+target.</p>
+<pre><code>bool coines_intf_connected(enum coines_comm_intf intf);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>intf</code>: Type of interface (USB, COM, or BLE)</p></li>
+</ul>
+<h4 id="coines_flush_intf">coines_flush_intf</h4>
+<p>Flush the write buffer.Works only on APP3.x MCU target.</p>
+<pre><code>void coines_flush_intf(enum coines_comm_intf intf);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>intf</code>: Type of interface (USB, COM, or BLE)</p></li>
+</ul>
+<h4 id="coines_read_intf">coines_read_intf</h4>
+<p>Read data over the specified interface.Works only on APP3.x MCU
+target.</p>
+<pre><code>uint16_t coines_read_intf(enum coines_comm_intf intf, void *buffer, uint16_t len);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>intf</code>: Type of interface (USB, COM, or BLE)</p></li>
+<li><p><code>buffer</code>: Pointer to the buffer to store the
+data</p></li>
+<li><p><code>len</code>: Length of the buffer</p></li>
+</ul>
+<h4 id="coines_write_intf">coines_write_intf</h4>
+<p>Write data over the specified interface.Works only on APP3.x MCU
+target.</p>
+<pre><code>uint16_t coines_write_intf(enum coines_comm_intf intf, void *buffer, uint16_t len);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>intf</code>: Type of interface (USB, COM, or BLE)</p></li>
+<li><p><code>buffer</code>: Pointer to the buffer storing the
+data</p></li>
+<li><p><code>len</code>: Length of the buffer</p></li>
+</ul>
+<h4 id="coines_get_version">coines_get_version</h4>
+<p>Returns pointer to COINES version string</p>
+<pre><code>char* coines_get_version(void);</code></pre>
+<h4 id="coines_soft_reset">coines_soft_reset</h4>
+<p>Resets the device. After reset device jumps to the address specified
+in makefile(APP_START_ADDRESS).</p>
+<pre><code>void coines_soft_reset(void);</code></pre>
+<h4 id="coines_read_temp_data">coines_read_temp_data</h4>
+<p>This API is used to read the temperature sensor data.</p>
+<pre><code>int16_t coines_read_temp_data(float *temp_data);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>temp_conv_data</code>: Buffer to retrieve the sensor data
+in degree Celsius.</p></li>
+</ul>
+<h4 id="coines_read_bat_status">coines_read_bat_status</h4>
+<p>This API is used to read the battery status.</p>
+<pre><code>int16_t coines_read_bat_status(uint16_t *bat_status_mv, uint8_t *bat_status_percent);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>bat_status_mv</code>: Buffer to retrieve the battery status
+in millivolt</p></li>
+<li><p><code>bat_status_percent</code>: Buffer to retrieve the battery
+status in percentage</p></li>
+</ul>
+<h4 id="coines_ble_config">coines_ble_config</h4>
+<p>This API is used to configure BLE name and power. It should be called
+before calling coines_open_comm_intf API.</p>
+<pre><code>int16_t coines_ble_config(struct coines_ble_config *ble_config);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>ble_config</code>: structure holding ble name and power
+details</p></li>
+</ul>
+<h4 id="coines_set_led">coines_set_led</h4>
+<p>This API is used to set led state(on or off).</p>
+<pre><code>int16_t coines_set_led(enum coines_led led,enum coines_led_state led_state);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>led</code>: led to which the state has to be set.</p></li>
+<li><p><code>led_state</code>: state to be set to the given
+led.</p></li>
+</ul>
+<h4 id="coines_timer_config">coines_timer_config</h4>
+<p>This API is used to configure the hardware timer.</p>
+<pre><code>int16_t coines_timer_config(enum coines_timer_instance instance, void* handler);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>instance</code>: timer instance.</p></li>
+<li><p><code>handler</code>: callback to be called when timer
+expires.</p></li>
+</ul>
+<h4 id="coines_timer_deconfig">coines_timer_deconfig</h4>
+<p>This API is used to de-configure the hardware timer.</p>
+<pre><code>int16_t coines_timer_deconfig(enum coines_timer_instance instance);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>instance</code>: timer instance.</p></li>
+</ul>
+<h4 id="coines_timer_start">coines_timer_start</h4>
+<p>This API is used to start the configured hardware timer.</p>
+<pre><code>int16_t coines_timer_start(enum coines_timer_instance instance, uint32_t timeout);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>instance</code>: timer instance.</p></li>
+<li><p><code>timeout</code>: timeout in microseconds.</p></li>
+</ul>
+<h4 id="coines_timer_stop">coines_timer_stop</h4>
+<p>This API is used to stop the hardware timer.</p>
+<pre><code>int16_t coines_timer_stop(enum coines_timer_instance instance);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>instance</code>: timer instance.</p></li>
+</ul>
+<h4 id="coines_get_realtime_usec">coines_get_realtime_usec</h4>
+<p>This API is used to get the current counter(RTC) reference time in
+usec</p>
+<pre><code>uint32_t coines_get_realtime_usec(void);</code></pre>
+<h4 id="coines_delay_realtime_usec">coines_delay_realtime_usec</h4>
+<p>This API is used to introduce delay based on high precision RTC(LFCLK
+crystal) with the resolution of 30.517 usec.</p>
+<pre><code>void coines_delay_realtime_usec(uint32_t period);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>period</code>: required delay in microseconds</p></li>
+</ul>
+<h4
+id="coines_attach_timed_interrupt">coines_attach_timed_interrupt</h4>
+<p>Attaches a timed interrupt to a Multi-IO pin.</p>
+<pre><code>int16_t coines_attach_timed_interrupt(enum coines_multi_io_pin pin_number, void (*timed_interrupt_cb)(uint64_t,uint32_t,uint32_t), enum coines_pin_interrupt_mode int_mode);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>pin_number</code>: Multi-IO pin.</p></li>
+<li><p><code>timed_interrupt_cb</code>: Name of the function to be
+called on detection of interrupt.</p></li>
+<li><p><code>int_mode</code>: Trigger modes - change,rising edge,falling
+edge.</p></li>
+</ul>
+<h4
+id="coines_detach_timed_interrupt">coines_detach_timed_interrupt</h4>
+<p>Detaches a timed interrupt from a Multi-IO pin.</p>
+<pre><code>int16_t coines_detach_timed_interrupt(enum coines_multi_io_pin pin_number);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>pin_number</code>: Multi-IO pin.</p></li>
+</ul>
+<h4 id="coines_echo_test">coines_echo_test</h4>
+<p>This API is used to test the communication.</p>
+<pre><code>int16_t coines_echo_test(uint8_t *data, uint16_t length);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>data</code>: Data to be sent for testing.</p></li>
+<li><p><code>length</code>: Length of the data.</p></li>
+</ul>
+<h4 id="coines_shuttle_eeprom_write">coines_shuttle_eeprom_write</h4>
+<p>This API is used to write the content into shuttle eeprom.</p>
+<pre><code>int16_t coines_shuttle_eeprom_write(uint16_t start_addr, uint8_t *buffer, uint16_t length);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>start_addr</code>: EEPROM write address.</p></li>
+<li><p><code>buffer</code>: Pointer to the buffer.</p></li>
+<li><p><code>length</code>: Length of the buffer.</p></li>
+</ul>
+<h4 id="coines_shuttle_eeprom_read">coines_shuttle_eeprom_read</h4>
+<p>This API is used to read the content from shuttle eeprom.</p>
+<pre><code>int16_t coines_shuttle_eeprom_read(uint16_t start_addr, uint8_t *buffer, uint16_t length);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>start_addr</code>: EEPROM read address.</p></li>
+<li><p><code>buffer</code>: Pointer to the buffer.</p></li>
+<li><p><code>length</code>: Length of the buffer.</p></li>
+</ul>
+<h4 id="coines_yield">coines_yield</h4>
+<p>This API can be defined to perform a task when yielded from an
+ongoing blocking call.</p>
+<pre><code>void coines_yield(void);</code></pre>
+<h4
+id="coines_execute_critical_region">coines_execute_critical_region</h4>
+<p>This API is used to execute the function inside critical region.</p>
+<pre><code>void coines_execute_critical_region(coines_critical_callback callback);</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>callback</code>: function to execute.</p></li>
+</ul>
+<h4 id="coinesScanBleDevices">coines_scan_ble_devices</h4>
+<p>This API is used to connect to BLE Adapter and return list of BLE
+peripherals found during BLE scan.</p>
+<pre><code>    int8_t coines_scan_ble_devices(struct ble_peripheral_info *ble_info, uint8_t *peripheral_count, size_t scan_timeout_ms)</code></pre>
+<p>Arguments:</p>
+<ul>
+<li><p><code>ble_info</code>: array of struct containing found BLE
+peripheral information</p></li>
+<li><p><code>peripheral_count</code>: number of BLE peripherals
+found</p></li>
+<li><p><code>scan_timeout_ms</code>: timeout for BLE scan</p></li>
+</ul>
